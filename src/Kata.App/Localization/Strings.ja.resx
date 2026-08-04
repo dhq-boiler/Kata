@@ -251,6 +251,24 @@ Kata Pro なら AI 相談を無制限に使え、Team Collab や優先サポー�
   <data name="Preferences_Pro_ExpiresPerpetual" xml:space="preserve">
     <value>無期限 (buyout)</value>
   </data>
+  <data name="Preferences_Pro_Deactivate" xml:space="preserve">
+    <value>ライセンスを解除</value>
+  </data>
+  <data name="Preferences_Pro_Deactivating" xml:space="preserve">
+    <value>解除中…</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_ConfirmTitle" xml:space="preserve">
+    <value>このライセンスを解除しますか？</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_ConfirmBody" xml:space="preserve">
+    <value>Lemon Squeezy 側の activation を解除します。別のマシンでこのキーを再アクティベートできるようになります。このマシンで再度使う場合はキーの再入力と Kata の再起動が必要です。</value>
+  </data>
+  <data name="Preferences_Pro_Deactivated_Restart" xml:space="preserve">
+    <value>ライセンスを解除しました。反映には Kata の再起動が必要です。</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_Failed" xml:space="preserve">
+    <value>解除に失敗しました。</value>
+  </data>
 
   <data name="Toolbar_Search" xml:space="preserve">
     <value>検索</value>

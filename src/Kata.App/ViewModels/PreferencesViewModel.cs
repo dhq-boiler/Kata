@@ -45,6 +45,9 @@ public sealed partial class PreferencesViewModel : ObservableObject
     public string ProRestartHint => Strings.Preferences_Pro_RestartHint;
     public string ProEmailLabel => Strings.Preferences_Pro_EmailLabel;
     public string ProExpiresLabel => Strings.Preferences_Pro_ExpiresLabel;
+    public string ProDeactivateLabel => IsDeactivating
+        ? Strings.Preferences_Pro_Deactivating
+        : Strings.Preferences_Pro_Deactivate;
     public string OkLabel => Strings.Common_Ok;
     public string CancelLabel => Strings.Common_Cancel;
 
@@ -63,12 +66,28 @@ public sealed partial class PreferencesViewModel : ObservableObject
         ? exp.ToLocalTime().ToString("yyyy-MM-dd")
         : Strings.Preferences_Pro_ExpiresPerpetual;
     public bool ProShowExpires => _proFeatures.License.IsPro;
-    public string? ProDiagnosticMessage => _proFeatures.License.DisplayMessage;
-    public bool ProHasDiagnostic => !string.IsNullOrWhiteSpace(_proFeatures.License.DisplayMessage);
+    // ProDiagnosticMessage は起動時 (ProLoader / LicenseValidator が返した) 診断を出すが、
+    // Deactivate 後は最新の deactivate 結果メッセージで上書きしたい。
+    public string? ProDiagnosticMessage => _deactivateMessage ?? _proFeatures.License.DisplayMessage;
+    public bool ProHasDiagnostic => !string.IsNullOrWhiteSpace(ProDiagnosticMessage);
     public bool ProShowRestartHint => !string.Equals(
         (_initialLicenseKey ?? string.Empty).Trim(),
         (LicenseKey ?? string.Empty).Trim(),
         StringComparison.Ordinal);
+
+    // Deactivate ボタン: 保存済みキーがあれば表示 (Active/Expired/Invalid 全部で押させる)。
+    // Community ("キーなし") や、既に deactivate 済みの状態では隠す。
+    public bool ProCanDeactivate => !string.IsNullOrWhiteSpace(_initialLicenseKey) && !_hasDeactivated;
+
+    [ObservableProperty] private bool _isDeactivating;
+    partial void OnIsDeactivatingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ProDeactivateLabel));
+        DeactivateCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool _hasDeactivated;
+    private string? _deactivateMessage;
 
     [ObservableProperty] private string _licenseKey = string.Empty;
 
@@ -153,6 +172,47 @@ public sealed partial class PreferencesViewModel : ObservableObject
 
     [RelayCommand]
     private void Cancel() => Cancelled?.Invoke(this, EventArgs.Empty);
+
+    // Deactivate: LS 側の instance を解除 → pro-state.json クリア →
+    // license.json も消して、UI に「再起動して反映」を表示。
+    // confirmation MessageBox は View が持つ (VM は Window を知らない)。
+    // View から Func を set しておく形の pull コールバック。
+    public Func<bool>? DeactivateAsking { get; set; }
+
+    private bool CanDeactivate() => ProCanDeactivate && !IsDeactivating;
+
+    [RelayCommand(CanExecute = nameof(CanDeactivate))]
+    private async Task DeactivateAsync()
+    {
+        if (DeactivateAsking is { } ask && !ask()) return;
+
+        IsDeactivating = true;
+        try
+        {
+            var result = await Task.Run(_proFeatures.Deactivate);
+            if (result.Success)
+            {
+                _licenseStorage.SaveKey(null);
+                _hasDeactivated = true;
+                LicenseKey = string.Empty;
+                _deactivateMessage = result.Message ?? Strings.Preferences_Pro_Deactivated_Restart;
+                OnPropertyChanged(nameof(ProCanDeactivate));
+                OnPropertyChanged(nameof(ProDiagnosticMessage));
+                OnPropertyChanged(nameof(ProHasDiagnostic));
+                DeactivateCommand.NotifyCanExecuteChanged();
+            }
+            else
+            {
+                _deactivateMessage = result.Message ?? Strings.Preferences_Pro_Deactivate_Failed;
+                OnPropertyChanged(nameof(ProDiagnosticMessage));
+                OnPropertyChanged(nameof(ProHasDiagnostic));
+            }
+        }
+        finally
+        {
+            IsDeactivating = false;
+        }
+    }
 }
 
 /// <summary>

@@ -10,7 +10,7 @@ namespace Kata.App.PluginApi;
 public static class PluginApiVersion
 {
     public const int Major = 1;
-    public const int Minor = 0;
+    public const int Minor = 1; // +Deactivate() on IProFeatures
 
     public static string Display => $"{Major}.{Minor}";
 }

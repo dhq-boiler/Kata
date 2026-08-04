@@ -260,6 +260,24 @@ Kata Pro gives you unlimited AI consultations, Team Collab features, and priorit
   <data name="Preferences_Pro_ExpiresPerpetual" xml:space="preserve">
     <value>Perpetual (buyout)</value>
   </data>
+  <data name="Preferences_Pro_Deactivate" xml:space="preserve">
+    <value>Deactivate license</value>
+  </data>
+  <data name="Preferences_Pro_Deactivating" xml:space="preserve">
+    <value>Deactivating…</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_ConfirmTitle" xml:space="preserve">
+    <value>Deactivate this license?</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_ConfirmBody" xml:space="preserve">
+    <value>This will release the current activation on the Lemon Squeezy server so you can activate the key on another machine. You'll need to re-enter the key and restart Kata to activate again on this machine.</value>
+  </data>
+  <data name="Preferences_Pro_Deactivated_Restart" xml:space="preserve">
+    <value>License deactivated. Restart Kata to apply.</value>
+  </data>
+  <data name="Preferences_Pro_Deactivate_Failed" xml:space="preserve">
+    <value>Deactivation failed.</value>
+  </data>
 
   <!-- Toolbar -->
   <data name="Toolbar_Search" xml:space="preserve">

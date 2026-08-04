@@ -641,6 +641,24 @@ public static class Strings
     /// <summary>Follow OS setting</summary>
     public static string Preferences_Language_System => Get("Preferences_Language_System");
 
+    /// <summary>Deactivate license</summary>
+    public static string Preferences_Pro_Deactivate => Get("Preferences_Pro_Deactivate");
+
+    /// <summary>This will release the current activation on the Lemon Squeezy server so you can activate the key on another machine. You'll need to re-enter the key and restart Kata to activate again on this machine.</summary>
+    public static string Preferences_Pro_Deactivate_ConfirmBody => Get("Preferences_Pro_Deactivate_ConfirmBody");
+
+    /// <summary>Deactivate this license?</summary>
+    public static string Preferences_Pro_Deactivate_ConfirmTitle => Get("Preferences_Pro_Deactivate_ConfirmTitle");
+
+    /// <summary>Deactivation failed.</summary>
+    public static string Preferences_Pro_Deactivate_Failed => Get("Preferences_Pro_Deactivate_Failed");
+
+    /// <summary>License deactivated. Restart Kata to apply.</summary>
+    public static string Preferences_Pro_Deactivated_Restart => Get("Preferences_Pro_Deactivated_Restart");
+
+    /// <summary>Deactivating…</summary>
+    public static string Preferences_Pro_Deactivating => Get("Preferences_Pro_Deactivating");
+
     /// <summary>Email:</summary>
     public static string Preferences_Pro_EmailLabel => Get("Preferences_Pro_EmailLabel");
 
