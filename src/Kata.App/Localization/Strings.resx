@@ -298,6 +298,18 @@ Kata Pro gives you unlimited AI consultations, Team Collab features, and priorit
   <data name="Toolbar_DiffOverlay_Clear" xml:space="preserve">
     <value>Clear diff</value>
   </data>
+  <data name="Toolbar_DiffMode_Label" xml:space="preserve">
+    <value>View:</value>
+  </data>
+  <data name="Toolbar_DiffMode_Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="Toolbar_DiffMode_Overlay" xml:space="preserve">
+    <value>Overlay</value>
+  </data>
+  <data name="Toolbar_DiffMode_After" xml:space="preserve">
+    <value>After</value>
+  </data>
 
   <!-- Code viewer -->
   <data name="CodeViewer_FindRefs" xml:space="preserve">

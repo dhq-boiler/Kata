@@ -1220,6 +1220,18 @@ public static class Strings
     /// <summary>Clear</summary>
     public static string Toolbar_Clear => Get("Toolbar_Clear");
 
+    /// <summary>After</summary>
+    public static string Toolbar_DiffMode_After => Get("Toolbar_DiffMode_After");
+
+    /// <summary>Before</summary>
+    public static string Toolbar_DiffMode_Before => Get("Toolbar_DiffMode_Before");
+
+    /// <summary>View:</summary>
+    public static string Toolbar_DiffMode_Label => Get("Toolbar_DiffMode_Label");
+
+    /// <summary>Overlay</summary>
+    public static string Toolbar_DiffMode_Overlay => Get("Toolbar_DiffMode_Overlay");
+
     /// <summary>Clear diff</summary>
     public static string Toolbar_DiffOverlay_Clear => Get("Toolbar_DiffOverlay_Clear");
 

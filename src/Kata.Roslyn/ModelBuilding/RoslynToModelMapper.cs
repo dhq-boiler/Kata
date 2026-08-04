@@ -202,11 +202,18 @@ internal static class RoslynToModelMapper
 
         if (member is IFieldSymbol field)
         {
-            if (HasAttribute(field, "ObservablePropertyAttribute"))
-            {
-                return false;
-            }
+            // [ObservableProperty] backing field は source-authored な "member" として扱う。
+            // 元は「property と backing field で重複表示を避ける」目的で filter していたが、
+            // 生成 property 側は HasAnyHandWrittenSource (obj/ 配下は generated 扱い) で
+            // 既に消えているので、重複は起きない。Extract Class で移動する原子単位は
+            // backing field 側 (attribute が field に付いているので、field を移動すれば
+            // 生成 property は移動先で再生成される)。よってここで backing field を消す
+            // と、ObservableProperty が Extract Class から見えず操作できなくなる。
+            // TODO: 表示名を underscore なしの PascalCase (ImpactFocusStatus) に整形すると
+            //       もっと UX が良い。今は backing 名 (_impactFocusStatus) で表示。
 
+            // auto-property の compiler-generated backing field
+            // (<Foo>k__BackingField) は AssociatedSymbol を持つので引き続き除外する。
             if (field.AssociatedSymbol is IPropertySymbol or IEventSymbol)
             {
                 return false;

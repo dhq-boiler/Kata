@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -66,6 +68,38 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
     [ObservableProperty] private int _impactFocusHops = 1;
     [ObservableProperty] private string _diffOverlayStatus = string.Empty;
     [ObservableProperty] private bool _isDiffOverlayActive;
+    [ObservableProperty] private DiffRenderMode _diffRenderMode = DiffRenderMode.Overlay;
+
+    partial void OnDiffRenderModeChanged(DiffRenderMode value)
+    {
+        // Mode 切替は node/edge visibility に効くので再 filter
+        if (_fullGraph is not null) ApplyFilter();
+    }
+
+    // Toolbar toggle 用の 3-state (View 側は IsChecked binding で使う)。
+    // どの button が active かは Mode の値と照合。
+    public bool IsDiffModeOverlay
+    {
+        get => DiffRenderMode == DiffRenderMode.Overlay;
+        set { if (value) DiffRenderMode = DiffRenderMode.Overlay; }
+    }
+    public bool IsDiffModeBeforeOnly
+    {
+        get => DiffRenderMode == DiffRenderMode.BeforeOnly;
+        set { if (value) DiffRenderMode = DiffRenderMode.BeforeOnly; }
+    }
+    public bool IsDiffModeAfterOnly
+    {
+        get => DiffRenderMode == DiffRenderMode.AfterOnly;
+        set { if (value) DiffRenderMode = DiffRenderMode.AfterOnly; }
+    }
+    partial void OnDiffRenderModeChanging(DiffRenderMode value)
+    {
+        // Notify all 3 toggle wrappers so radio-style binding syncs across buttons.
+        OnPropertyChanged(nameof(IsDiffModeOverlay));
+        OnPropertyChanged(nameof(IsDiffModeBeforeOnly));
+        OnPropertyChanged(nameof(IsDiffModeAfterOnly));
+    }
     [ObservableProperty] private MemberSourceViewModel? _currentMemberSource;
     [ObservableProperty] private bool _isCodeViewerVisible;
     [ObservableProperty] private bool _isReferencesPanelVisible;
@@ -1566,9 +1600,112 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
             _fullGraph = new BuiltGraph(newNodes, newConnections);
         }
 
+        // === Move edge の合成 ===
+        // diff.Moves から node 位置確定後に直接 2 点 polyline を書いて overlay する。
+        // MSAGL の router に食わせない (annotation 用途、他 node を回避させる意味がない)。
+        if (_fullGraph is not null && diff.Moves.Count > 0)
+        {
+            var byRefForMove = _fullGraph.Nodes.ToDictionary(
+                n => n.Ref.FullyQualifiedName, n => n, StringComparer.Ordinal);
+
+            // 同一 (FromType, ToType) pair の複数 Move を 1 本の edge に集約する。
+            // 束の重心を指すために FromIndex / ToIndex の中央値 (median) を anchor に使う。
+            // ラベルは 1 件なら member 名、複数なら「N members」、tooltip に個別名を全部並べる。
+            var moveEdges = new List<ConnectionViewModel>();
+            var pairGroups = diff.Moves
+                .GroupBy(m => (m.FromType.FullyQualifiedName, m.ToType.FullyQualifiedName));
+            foreach (var group in pairGroups)
+            {
+                var first = group.First();
+                if (!byRefForMove.TryGetValue(first.FromType.FullyQualifiedName, out var src)) continue;
+                if (!byRefForMove.TryGetValue(first.ToType.FullyQualifiedName, out var tgt)) continue;
+
+                var fromIndices = group.Select(m => m.FromIndex).OrderBy(i => i).ToList();
+                var toIndices   = group.Select(m => m.ToIndex).OrderBy(i => i).ToList();
+                var fromMedian  = fromIndices[fromIndices.Count / 2];
+                var toMedian    = toIndices[toIndices.Count / 2];
+
+                var m = BuildMoveGeometry(src, fromMedian, tgt, toMedian);
+
+                string label;
+                if (group.Count() == 1)
+                {
+                    label = $"«moved» {first.DisplayName}";
+                }
+                else
+                {
+                    label = $"«moved» {group.Count()} members";
+                }
+
+                var edge = new ConnectionViewModel(src, tgt, ConnectionKind.Move)
+                {
+                    SourceMemberIndex = fromMedian,
+                    TargetMemberIndex = toMedian,
+                    MoveLabel = label,
+                    MoveMemberNames = group.Count() > 1
+                        ? group.Select(mv => mv.DisplayName).ToList()
+                        : null,
+                    Geometry = m.Geometry,
+                    EndPoint = m.EndPoint,
+                    EndAngle = m.EndAngle,
+                    LabelPosition = m.LabelPosition,
+                };
+                moveEdges.Add(edge);
+            }
+            if (moveEdges.Count > 0)
+            {
+                var mergedConnections = _fullGraph.Connections.Concat(moveEdges).ToList();
+                _fullGraph = new BuiltGraph(_fullGraph.Nodes, mergedConnections);
+            }
+            DiagLog.Line($"[overlay] Move edges: {moveEdges.Count} aggregated from {diff.Moves.Count} MemberMove entries");
+        }
+
         DiffOverlayStatus = string.Format(Strings.DiffOverlay_Summary, diff.AddedCount, diff.RemovedCount, diff.ModifiedCount);
         IsDiffOverlayActive = true;
         ApplyFilter();
+    }
+
+    // TypeNode template の header (badge + name) と member 行の実測平均。ずれが目立ったら
+    // TypeNodeViewModel から LayoutUpdated 実測値を貰う形に格上げする (Phase 2 課題)。
+    private const double MoveEdge_HeaderH = 42.0;
+    private const double MoveEdge_RowH    = 16.0;
+
+    private readonly record struct MoveEdgeGeo(PathGeometry Geometry, Point EndPoint, double EndAngle, Point LabelPosition);
+
+    private static MoveEdgeGeo BuildMoveGeometry(TypeNodeViewModel src, int srcIdx, TypeNodeViewModel tgt, int tgtIdx)
+    {
+        var srcAnchorY = src.Location.Y + MoveEdge_HeaderH + (srcIdx + 0.5) * MoveEdge_RowH;
+        var tgtAnchorY = tgt.Location.Y + MoveEdge_HeaderH + (tgtIdx + 0.5) * MoveEdge_RowH;
+        // 左右関係を見て、遠い側の x に応じて edge の張り側を選ぶ。
+        // src.Right vs tgt.Left / src.Left vs tgt.Right の距離で近い方を選ぶ簡易 heuristic。
+        var srcRight = src.Location.X + src.Size.Width;
+        var srcLeft  = src.Location.X;
+        var tgtRight = tgt.Location.X + tgt.Size.Width;
+        var tgtLeft  = tgt.Location.X;
+
+        // src が tgt より左寄りなら src.Right → tgt.Left、そうでなければ src.Left → tgt.Right。
+        Point sp, tp;
+        if (srcRight <= tgtLeft || srcRight - tgtLeft < tgtRight - srcLeft)
+        {
+            sp = new Point(srcRight, srcAnchorY);
+            tp = new Point(tgtLeft,  tgtAnchorY);
+        }
+        else
+        {
+            sp = new Point(srcLeft,  srcAnchorY);
+            tp = new Point(tgtRight, tgtAnchorY);
+        }
+
+        var geo = new PathGeometry();
+        var fig = new PathFigure { StartPoint = sp };
+        fig.Segments.Add(new LineSegment(tp, isStroked: true));
+        geo.Figures.Add(fig);
+
+        var dx = tp.X - sp.X;
+        var dy = tp.Y - sp.Y;
+        var angleDeg = Math.Atan2(dy, dx) * 180.0 / Math.PI;
+        var labelPos = new Point((sp.X + tp.X) / 2, (sp.Y + tp.Y) / 2);
+        return new MoveEdgeGeo(geo, tp, angleDeg, labelPos);
     }
 
     private void ClearDiffOverlay()
@@ -1640,6 +1777,9 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
             // Uses edges only appear while Impact Focus is active — they'd otherwise
             // overwhelm the diagram.
             if (edge.Kind == ConnectionKind.Uses && !IsImpactFocusActive) continue;
+
+            // Move edges only make sense in Overlay mode (Before/After は移動概念を持たない)。
+            if (edge.Kind == ConnectionKind.Move && (!IsDiffOverlayActive || DiffRenderMode != DiffRenderMode.Overlay)) continue;
 
             var sourceVisible = visibleUserNodes.Contains(edge.SourceNode);
             if (!sourceVisible) continue;
@@ -1774,6 +1914,21 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
 
     private bool MatchesFilter(TypeNodeViewModel node)
     {
+        // Diff overlay の描画モード。Before/After モードでは新規/削除型を隠す。
+        // Impact/Search/Namespace filter より優先度は同格 (AND 合成)。
+        if (IsDiffOverlayActive)
+        {
+            switch (DiffRenderMode)
+            {
+                case DiffRenderMode.BeforeOnly:
+                    if (node.DiffState == Kata.Core.Diff.DiffState.Added) return false;
+                    break;
+                case DiffRenderMode.AfterOnly:
+                    if (node.DiffState == Kata.Core.Diff.DiffState.Removed) return false;
+                    break;
+            }
+        }
+
         // Impact Focus takes precedence: showing the reach is the whole point,
         // so we bypass Namespace/Search filters. They resume once focus is cleared.
         if (_impactSet is not null)
@@ -1900,4 +2055,14 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
         _watcher?.Dispose();
         _adapter.Dispose();
     }
+}
+
+// Diff overlay の表示モード。Overlay = union (default)、BeforeOnly = 変更前だけ、
+// AfterOnly = 変更後だけ。Move edge は Overlay モードでしか描かれない (Before/After は
+// 「移動」概念を示せないので)。
+public enum DiffRenderMode
+{
+    Overlay,
+    BeforeOnly,
+    AfterOnly,
 }

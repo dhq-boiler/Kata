@@ -455,6 +455,12 @@
                                                         <Setter Property="Foreground" Value="{StaticResource DiffRemovedText}" />
                                                         <Setter Property="TextDecorations" Value="Strikethrough" />
                                                     </DataTrigger>
+                                                    <!-- 「移動」は added でも removed でもない: 破線 edge が別型を指すので、
+                                                         member 本人はオレンジで区別する (斜体で「動いた」感を出す)。 -->
+                                                    <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Moved}">
+                                                        <Setter Property="Foreground" Value="#ff8c42" />
+                                                        <Setter Property="FontStyle" Value="Italic" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
@@ -522,6 +528,7 @@
                             <Run Text=" → " />
                             <Run Text="{Binding TargetNode.Name, Mode=OneWay}" />
                             <Run Text=" (" /><Run Text="{Binding Label, Mode=OneWay}" /><Run Text=")" />
+                            <Run Text="{Binding MoveMemberDetail, Mode=OneWay}" />
                         </TextBlock>
                     </Path.ToolTip>
                 </Path>
@@ -544,6 +551,12 @@
                                     <Setter Property="StrokeThickness" Value="0.8" />
                                     <Setter Property="StrokeDashArray" Value="2,3" />
                                     <Setter Property="Opacity" Value="0.55" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Kind}" Value="Move">
+                                    <Setter Property="Stroke" Value="#ff8c42" />
+                                    <Setter Property="StrokeThickness" Value="1.4" />
+                                    <Setter Property="StrokeDashArray" Value="6,3" />
+                                    <Setter Property="Opacity" Value="0.95" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
                                     <Setter Property="Stroke" Value="#ffd166" />
@@ -570,6 +583,11 @@
                                     <Setter Property="Stroke" Value="#5a6a80" />
                                     <Setter Property="StrokeThickness" Value="0.8" />
                                     <Setter Property="Opacity" Value="0.55" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Kind}" Value="Move">
+                                    <Setter Property="Stroke" Value="#ff8c42" />
+                                    <Setter Property="StrokeThickness" Value="1.4" />
+                                    <Setter Property="Opacity" Value="0.95" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
                                     <Setter Property="Stroke" Value="#ffd166" />
@@ -603,6 +621,9 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Kind}" Value="Interface">
                                         <Setter Property="Foreground" Value="#9ecf9e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Kind}" Value="Move">
+                                        <Setter Property="Foreground" Value="#ff8c42" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
                                         <Setter Property="Foreground" Value="#ffd166" />
@@ -687,6 +708,21 @@
                         Padding="8,2"
                         FontSize="11"
                         Margin="12,0,0,0" />
+
+                <!-- Before / Overlay / After 3-state toggle。 IsChecked = 該当モード時 True。
+                     radio 的挙動は VM 側で 3 個の Is* プロパティが排他制御している。 -->
+                <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
+                    <TextBlock Text="{x:Static loc:Strings.Toolbar_DiffMode_Label}" Foreground="#c0c0c0" FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ToggleButton Content="{x:Static loc:Strings.Toolbar_DiffMode_Before}"
+                                  IsChecked="{Binding IsDiffModeBeforeOnly, Mode=TwoWay}"
+                                  Padding="6,2" FontSize="11" MinWidth="60" />
+                    <ToggleButton Content="{x:Static loc:Strings.Toolbar_DiffMode_Overlay}"
+                                  IsChecked="{Binding IsDiffModeOverlay, Mode=TwoWay}"
+                                  Padding="6,2" FontSize="11" MinWidth="60" Margin="2,0,0,0" />
+                    <ToggleButton Content="{x:Static loc:Strings.Toolbar_DiffMode_After}"
+                                  IsChecked="{Binding IsDiffModeAfterOnly, Mode=TwoWay}"
+                                  Padding="6,2" FontSize="11" MinWidth="60" Margin="2,0,0,0" />
+                </StackPanel>
             </StackPanel>
         </Border>
 

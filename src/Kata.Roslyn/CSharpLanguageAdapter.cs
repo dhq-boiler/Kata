@@ -3238,6 +3238,30 @@ public sealed class CSharpLanguageAdapter : ILanguageAdapter, IDisposable
             }
         }
 
+        // 移動先クラスが元クラスの (移動しない) member を参照している場合、抽出後 compile 不能に
+        // なる (元クラスの member にアクセスできない)。事前検出して分かりやすい error を返す。
+        // 現状の Extract Class は「延ばし棒 (back-reference param)」までは自動生成しないので、
+        // ユーザーには依存 member を追加選択するか、参照している moved member を除外するよう促す。
+        var movedSymbolSet = new HashSet<ISymbol>(memberSymbols, SymbolEqualityComparer.Default);
+        var crossRefs = await DetectCrossReferencesToStayingMembersAsync(
+            classDocument, typeSymbol, memberSyntaxNodes, movedSymbolSet, cancellationToken).ConfigureAwait(false);
+        if (crossRefs.Count > 0)
+        {
+            var lines = crossRefs
+                .GroupBy(r => r.MovedMember.Name)
+                .OrderBy(g => g.Key, StringComparer.Ordinal)
+                .Select(g =>
+                {
+                    var names = string.Join(", ", g.Select(r => r.ReferencedMember.Name).Distinct().OrderBy(n => n));
+                    return $"  {g.Key} 内で参照: {names}";
+                });
+            throw new InvalidOperationException(
+                $"Cannot extract these members: they reference {crossRefs.Select(r => r.ReferencedMember.Name).Distinct().Count()} " +
+                $"member(s) of {typeSymbol.Name} that would remain in the source class. " +
+                $"Either add those members to the extraction, or unselect the referencing members.\n" +
+                string.Join("\n", lines));
+        }
+
         var newClassText = BuildExtractedClassSource(namespaceName, intent.ProposedClassName, memberSymbols, memberSyntaxNodes);
         var newClassFilePath = Path.Combine(
             Path.GetDirectoryName(classFilePath)!,
@@ -3274,6 +3298,167 @@ public sealed class CSharpLanguageAdapter : ILanguageAdapter, IDisposable
             NewText: newClassText));
 
         return (finalSolution, changes);
+    }
+
+    private readonly record struct CrossRef(ISymbol MovedMember, ISymbol ReferencedMember);
+
+    // 元クラス側で「移動 member を裸で呼んでる identifier」を "delegateName.MovedMember" に rewrite する。
+    // 削除される member 自身の内部 (自己参照) は対象外 (削除されるので rewrite しても無意味 + noise)。
+    // nameof(...) の中は semantic-preserving で無視 (rewrite すると nameof の値が変わる)。
+    private sealed class DelegatePrefixRewriter : CSharpSyntaxRewriter
+    {
+        private readonly SemanticModel _sm;
+        private readonly HashSet<ISymbol> _movedSymbols;
+        private readonly string _delegateName;
+        private readonly HashSet<SyntaxNode> _skipInsideThese;
+
+        public DelegatePrefixRewriter(SemanticModel sm, HashSet<ISymbol> movedSymbols, string delegateName, HashSet<SyntaxNode> skipInside)
+        {
+            _sm = sm;
+            _movedSymbols = movedSymbols;
+            _delegateName = delegateName;
+            _skipInsideThese = skipInside;
+        }
+
+        private bool IsInsideSkipRegion(SyntaxNode node)
+        {
+            foreach (var skip in _skipInsideThese)
+            {
+                if (skip.Contains(node)) return true;
+            }
+            return false;
+        }
+
+        private bool IsInsideNameOf(SyntaxNode node)
+        {
+            for (var p = node.Parent; p is not null; p = p.Parent)
+            {
+                if (p is InvocationExpressionSyntax inv
+                    && inv.Expression is IdentifierNameSyntax id
+                    && id.Identifier.ValueText == "nameof")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override SyntaxNode? VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
+        {
+            // "this.MovedMethod(...)" → "_delegate.MovedMethod(...)"
+            if (node.Expression is ThisExpressionSyntax
+                && !IsInsideSkipRegion(node)
+                && !IsInsideNameOf(node))
+            {
+                var info = _sm.GetSymbolInfo(node.Name);
+                var symbol = info.Symbol ?? info.CandidateSymbols.FirstOrDefault();
+                if (symbol is not null && _movedSymbols.Contains(symbol))
+                {
+                    return node.WithExpression(SyntaxFactory.IdentifierName(_delegateName));
+                }
+            }
+            return base.VisitMemberAccessExpression(node);
+        }
+
+        public override SyntaxNode? VisitIdentifierName(IdentifierNameSyntax node)
+        {
+            // 裸の identifier "MovedMethod(...)" → "_delegate.MovedMethod(...)"
+            // ただし MemberAccessExpression の右辺 (foo.MovedMethod) は VisitMemberAccessExpression 側で
+            // 処理 (this の場合のみ rewrite) するので、ここでは自分が親の左辺・トップレベル identifier のみ扱う。
+            if (node.Parent is MemberAccessExpressionSyntax mae && mae.Name == node) return base.VisitIdentifierName(node);
+            if (node.Parent is NameEqualsSyntax) return base.VisitIdentifierName(node);   // property init in obj initializer
+            if (node.Parent is QualifiedNameSyntax) return base.VisitIdentifierName(node);
+            if (IsInsideSkipRegion(node)) return base.VisitIdentifierName(node);
+            if (IsInsideNameOf(node)) return base.VisitIdentifierName(node);
+
+            var info = _sm.GetSymbolInfo(node);
+            var symbol = info.Symbol ?? info.CandidateSymbols.FirstOrDefault();
+            if (symbol is null || !_movedSymbols.Contains(symbol)) return base.VisitIdentifierName(node);
+
+            // static member への裸参照は _delegate. で呼ぶと意味が変わる (static context を失う)。今回は
+            // Extract Class の対象がだいたい instance member なので skip 判定は緩めに instance のみ rewrite。
+            if (symbol.IsStatic) return base.VisitIdentifierName(node);
+
+            return SyntaxFactory.MemberAccessExpression(
+                SyntaxKind.SimpleMemberAccessExpression,
+                SyntaxFactory.IdentifierName(_delegateName),
+                node.WithoutTrivia())
+                .WithTriviaFrom(node);
+        }
+    }
+
+    // 元 class の member SyntaxNode を rewrite 後の tree で見つける。
+    // MemberDeclarationSyntax の Identifier + Kind + Parameter count で一致判定 (span 変わってる可能性ある)。
+    private static SyntaxNode? FindEquivalentMember(ClassDeclarationSyntax rewrittenClass, SyntaxNode oldMember)
+    {
+        var oldName = MemberIdentifier(oldMember);
+        var oldKind = oldMember.Kind();
+        var oldParamCount = MemberParamCount(oldMember);
+        foreach (var m in rewrittenClass.Members)
+        {
+            if (m.Kind() != oldKind) continue;
+            if (MemberIdentifier(m) != oldName) continue;
+            if (MemberParamCount(m) != oldParamCount) continue;
+            return m;
+        }
+        return null;
+
+        static string MemberIdentifier(SyntaxNode m) => m switch
+        {
+            MethodDeclarationSyntax md => md.Identifier.ValueText,
+            PropertyDeclarationSyntax pd => pd.Identifier.ValueText,
+            FieldDeclarationSyntax fd => fd.Declaration.Variables.FirstOrDefault()?.Identifier.ValueText ?? "",
+            EventFieldDeclarationSyntax ef => ef.Declaration.Variables.FirstOrDefault()?.Identifier.ValueText ?? "",
+            _ => m.ToString(),
+        };
+        static int MemberParamCount(SyntaxNode m) => m switch
+        {
+            MethodDeclarationSyntax md => md.ParameterList.Parameters.Count,
+            _ => -1,
+        };
+    }
+
+    // 移動対象 member (memberSyntaxNodes) の body / initializer を semantic 解析し、
+    // 「元 type の member を参照しているが、その参照先は移動対象に含まれていない」箇所を列挙。
+    // 移動後の compile error を事前検出するのに使う。
+    private static async Task<List<CrossRef>> DetectCrossReferencesToStayingMembersAsync(
+        Document classDocument,
+        INamedTypeSymbol sourceType,
+        IReadOnlyList<MemberDeclarationSyntax> movedNodes,
+        HashSet<ISymbol> movedSymbols,
+        CancellationToken cancellationToken)
+    {
+        var results = new List<CrossRef>();
+        var semanticModel = await classDocument.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        if (semanticModel is null) return results;
+
+        foreach (var movedNode in movedNodes)
+        {
+            var movingMemberSymbol = semanticModel.GetDeclaredSymbol(movedNode, cancellationToken);
+            if (movingMemberSymbol is null) continue;
+
+            // Constructor / accessor などの下層まで含めて全部の name reference を確認する。
+            foreach (var name in movedNode.DescendantNodes().OfType<SimpleNameSyntax>())
+            {
+                // IdentifierNameSyntax や GenericNameSyntax 全部。
+                // MemberAccessExpression の右辺 (foo.Bar) は Bar が SimpleNameSyntax として拾える。
+                var info = semanticModel.GetSymbolInfo(name, cancellationToken);
+                var symbol = info.Symbol ?? info.CandidateSymbols.FirstOrDefault();
+                if (symbol is null) continue;
+
+                // ContainingType が元 type と同じなら「元 type の member 参照」。
+                var containing = symbol.ContainingType;
+                if (containing is null || !SymbolEqualityComparer.Default.Equals(containing, sourceType)) continue;
+
+                // 移動対象 (自分自身 or 他の moved member) への参照は問題ないので skip。
+                if (movedSymbols.Contains(symbol)) continue;
+
+                // static / const / nested type などは移動先でも直接呼べる (SourceType.Foo で書けば)。
+                // ただし現状の rewrite はしないので、簡易的には全部 cross-ref 扱いにする。
+                results.Add(new CrossRef(movingMemberSymbol, symbol));
+            }
+        }
+        return results;
     }
 
     private static string BuildExtractedClassSource(
@@ -3345,6 +3530,25 @@ public sealed class CSharpLanguageAdapter : ILanguageAdapter, IDisposable
                     memberNodesToRemove.Add(mds);
                 }
             }
+        }
+
+        // 移動される member への元クラス側からの参照 (call site) を "_delegate.MovedMember" に
+        // rewrite する (Bug B 対策)。member 削除の前にやらないと semantic 解析できない。
+        var movedSymbolSet = new HashSet<ISymbol>(memberSymbols, SymbolEqualityComparer.Default);
+        var semanticModel = await classDocument.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        if (semanticModel is not null)
+        {
+            var rewriter = new DelegatePrefixRewriter(semanticModel, movedSymbolSet, delegatePropertyName, memberNodesToRemove);
+            var rewrittenClassNode = (ClassDeclarationSyntax)rewriter.Visit(classNode);
+            // rewrite で node tree が copy されるので、削除対象の SyntaxNode 参照を新 tree のものに差し替える。
+            var newRemoveSet = new HashSet<SyntaxNode>();
+            foreach (var oldNode in memberNodesToRemove)
+            {
+                var replacement = FindEquivalentMember(rewrittenClassNode, oldNode);
+                if (replacement is not null) newRemoveSet.Add(replacement);
+            }
+            memberNodesToRemove = newRemoveSet;
+            classNode = rewrittenClassNode;
         }
 
         var newClassNode = classNode.RemoveNodes(

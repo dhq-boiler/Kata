@@ -10,6 +10,10 @@ public enum ConnectionKind
     Inheritance,
     Interface,
     Uses,
+    // Diff overlay 専用: member が Extract Class / Move Method 等で他型に
+    // 移動したことを示す破線 edge。Routing は MSAGL を通さず、SolutionGraphBuilder が
+    // node 位置確定後に直接 2 点 polyline で書く。
+    Move,
 }
 
 public sealed partial class ConnectionViewModel : ObservableObject
@@ -45,11 +49,25 @@ public sealed partial class ConnectionViewModel : ObservableObject
     // is usually taller, leaving the arrowhead embedded in the class body.
     public IReadOnlyList<Point>? RoutePoints { get; set; }
 
+    // Move edge 用の member 行 index (source 側 = 元 type 内での row 番号、
+    // target 側 = 移動先 type 内での row 番号)。null は Move edge 以外の場合。
+    public int? SourceMemberIndex { get; init; }
+    public int? TargetMemberIndex { get; init; }
+    // Move edge のラベル表示 (「«moved» MethodName」)。null は Move edge 以外の場合。
+    public string? MoveLabel { get; init; }
+    // Move edge が集約表示 (「«moved» 6 members」等) の場合、tooltip 用に個別 member 名を保持。
+    public IReadOnlyList<string>? MoveMemberNames { get; init; }
+    // tooltip 拡張用の改行込み詳細文字列。個別名なしなら空文字 (Run が何も表示しない)。
+    public string MoveMemberDetail => MoveMemberNames is { Count: > 0 }
+        ? "\n  • " + string.Join("\n  • ", MoveMemberNames)
+        : string.Empty;
+
     public string Label => Kind switch
     {
         ConnectionKind.Interface => "implements",
         ConnectionKind.Inheritance => "extends",
         ConnectionKind.Uses => "uses",
+        ConnectionKind.Move => MoveLabel ?? "moved",
         _ => string.Empty,
     };
 }

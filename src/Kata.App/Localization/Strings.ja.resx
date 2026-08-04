@@ -288,6 +288,18 @@ Kata Pro なら AI 相談を無制限に使え、Team Collab や優先サポー�
   <data name="Toolbar_DiffOverlay_Clear" xml:space="preserve">
     <value>差分をクリア</value>
   </data>
+  <data name="Toolbar_DiffMode_Label" xml:space="preserve">
+    <value>表示:</value>
+  </data>
+  <data name="Toolbar_DiffMode_Before" xml:space="preserve">
+    <value>変更前</value>
+  </data>
+  <data name="Toolbar_DiffMode_Overlay" xml:space="preserve">
+    <value>両方</value>
+  </data>
+  <data name="Toolbar_DiffMode_After" xml:space="preserve">
+    <value>変更後</value>
+  </data>
 
   <data name="CodeViewer_FindRefs" xml:space="preserve">
     <value>参照検索</value>
