@@ -1,0 +1,976 @@
+﻿<Window x:Class="Kata.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:nodify="https://miroiu.github.io/nodify"
+        xmlns:vm="clr-namespace:Kata.App.ViewModels"
+        xmlns:model="clr-namespace:Kata.Core.Model;assembly=Kata.Core"
+        xmlns:diff="clr-namespace:Kata.Core.Diff;assembly=Kata.Core"
+        xmlns:conv="clr-namespace:Kata.App.Converters"
+        xmlns:loc="clr-namespace:Kata.App.Localization"
+        xmlns:svc="clr-namespace:Kata.App.Services"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        x:Name="MainWindowInstance"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        Icon="pack://application:,,,/Assets/Icons/kata-transparent.ico"
+        Height="900" Width="1400"
+        Background="#1e1e1e"
+        Foreground="#e0e0e0"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource ChromedWindow}"
+        svc:WindowChromeHelper.IsAttached="True"
+        svc:WindowChromeHelper.LogoSource="pack://application:,,,/Assets/Icons/kata-32-transparent.png">
+
+    <!--  タイトルバー右端 (キャプションボタン左) に開いているソリューション名を出す。
+          Window の DataContext は Window.Tag の Menu と同じ理由で ElementName 経由で拾う。  -->
+    <svc:WindowChromeHelper.RightHeaderContent>
+        <TextBlock Text="{Binding DataContext.SolutionDisplayName, ElementName=MainWindowInstance}"
+                   Foreground="{DynamicResource ControlDefaultForeground}"
+                   Opacity="0.75"
+                   VerticalAlignment="Center"
+                   FontSize="12" />
+    </svc:WindowChromeHelper.RightHeaderContent>
+
+    <!--  タイトルバー右側に載せるメニュー。ChromedWindow テンプレートが
+          ContentTemplate 経由で Window.Tag を左詰めで描く。Menu 自身が
+          WindowChrome.IsHitTestVisibleInChrome=True を立てておく必要がある
+          (立てないと WindowChrome のドラッグ領域に食われてクリックが通らない)。  -->
+    <Window.Tag>
+        <Menu HorizontalAlignment="Left"
+              Background="Transparent"
+              DataContext="{Binding DataContext, ElementName=MainWindowInstance}"
+              WindowChrome.IsHitTestVisibleInChrome="True">
+            <MenuItem Header="{x:Static loc:Strings.Menu_File}">
+                <MenuItem Header="{x:Static loc:Strings.Menu_File_OpenSolution}"
+                          InputGestureText="Ctrl+O"
+                          Command="{Binding OpenSolutionCommand, ElementName=MainWindowInstance}" />
+                <Separator />
+                <MenuItem Header="{x:Static loc:Strings.Menu_File_Exit}"
+                          InputGestureText="Alt+F4"
+                          Command="{x:Static SystemCommands.CloseWindowCommand}" />
+            </MenuItem>
+            <MenuItem Header="{x:Static loc:Strings.Menu_Edit}">
+                <MenuItem Header="{x:Static loc:Strings.Menu_Edit_ClearFilter}"
+                          Command="{Binding ClearFilterCommand}" />
+                <MenuItem Header="{x:Static loc:Strings.Menu_Edit_ClearFocus}"
+                          InputGestureText="Esc"
+                          Command="{Binding ClearFocusCommand}" />
+            </MenuItem>
+            <MenuItem Header="{x:Static loc:Strings.Menu_View}">
+                <MenuItem Header="{x:Static loc:Strings.Menu_View_ClearDiffOverlay}"
+                          Command="{Binding ClearDiffOverlayCommand}" />
+                <Separator />
+                <MenuItem Header="{x:Static loc:Strings.Menu_View_ClearImpactFocus}"
+                          Command="{Binding ClearImpactFocusCommand}" />
+                <MenuItem Header="{x:Static loc:Strings.Menu_View_ExpandImpactFocus}"
+                          Command="{Binding ExpandImpactFocusCommand}" />
+            </MenuItem>
+            <MenuItem Header="{x:Static loc:Strings.Menu_Refactor}">
+                <MenuItem Header="{x:Static loc:Strings.Menu_Refactor_Rename}"
+                          InputGestureText="Ctrl+R"
+                          Command="{Binding RenameSelectedCommand, ElementName=MainWindowInstance}" />
+                <Separator />
+                <MenuItem Header="{x:Static loc:Strings.Menu_Refactor_ExtractInterface}"
+                          InputGestureText="Ctrl+E"
+                          Command="{Binding ExtractInterfaceSelectedCommand, ElementName=MainWindowInstance}" />
+                <MenuItem Header="{x:Static loc:Strings.Menu_Refactor_ExtractSuperclass}"
+                          InputGestureText="Ctrl+H"
+                          Command="{Binding ExtractSuperclassSelectedCommand, ElementName=MainWindowInstance}" />
+                <MenuItem Header="{x:Static loc:Strings.Menu_Refactor_ExtractClass}"
+                          InputGestureText="Ctrl+K"
+                          Command="{Binding ExtractClassSelectedCommand, ElementName=MainWindowInstance}" />
+                <Separator />
+                <MenuItem Header="{x:Static loc:Strings.Menu_Refactor_AddGhostType}"
+                          InputGestureText="Ctrl+N"
+                          Command="{Binding AddGhostTypeCommand, ElementName=MainWindowInstance}" />
+            </MenuItem>
+            <MenuItem Header="{x:Static loc:Strings.Menu_Tools}">
+                <MenuItem Header="{x:Static loc:Strings.Menu_File_Preferences}"
+                          Click="OnPreferencesMenuClick" />
+            </MenuItem>
+            <MenuItem Header="{x:Static loc:Strings.Menu_Help}" />
+        </Menu>
+    </Window.Tag>
+
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenSolutionCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="R" Modifiers="Control" Command="{Binding RenameSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="E" Modifiers="Control" Command="{Binding ExtractInterfaceSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="H" Modifiers="Control" Command="{Binding ExtractSuperclassSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="K" Modifiers="Control" Command="{Binding ExtractClassSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding AddGhostTypeCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="Escape" Command="{Binding ClearFocusCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <Style TargetType="{x:Type nodify:DecoratorsControl}">
+            <Setter Property="Panel.ZIndex" Value="-2" />
+        </Style>
+
+        <SolidColorBrush x:Key="NodeBackground" Color="#2b2b2b" />
+        <SolidColorBrush x:Key="NodeBorder" Color="#3f3f46" />
+        <SolidColorBrush x:Key="NodeHeader" Color="#3a3a5c" />
+        <SolidColorBrush x:Key="DiffAddedBrush" Color="#2b5c2b" />
+        <SolidColorBrush x:Key="DiffAddedBorder" Color="#4de24d" />
+        <SolidColorBrush x:Key="DiffRemovedBrush" Color="#5c2b2b" />
+        <SolidColorBrush x:Key="DiffRemovedBorder" Color="#e24d4d" />
+        <SolidColorBrush x:Key="DiffModifiedBorder" Color="#ffcc44" />
+        <SolidColorBrush x:Key="DiffAddedText" Color="#7ee87e" />
+        <SolidColorBrush x:Key="DiffRemovedText" Color="#e88989" />
+        <SolidColorBrush x:Key="InterfaceHeader" Color="#3a5c3a" />
+        <SolidColorBrush x:Key="EnumHeader" Color="#5c5c3a" />
+        <SolidColorBrush x:Key="RecordHeader" Color="#5c3a5c" />
+        <conv:EdgeAnchorConverter x:Key="EdgeAnchor" />
+        <SolidColorBrush x:Key="MemberText" Color="#d0d0d0" />
+        <SolidColorBrush x:Key="StaticMemberText" Color="#8ec7ff" />
+        <SolidColorBrush x:Key="GhostBrush" Color="#666677" />
+        <SolidColorBrush x:Key="ExternalBackground" Color="#1e1e1e" />
+        <SolidColorBrush x:Key="ExternalBorder" Color="#4a4a52" />
+        <SolidColorBrush x:Key="ExternalHeader" Color="#2a2a30" />
+
+        <DataTemplate x:Key="TypeNodeTemplate" DataType="{x:Type vm:TypeNodeViewModel}">
+            <Border BorderBrush="{StaticResource NodeBorder}"
+                    BorderThickness="1"
+                    Background="{StaticResource NodeBackground}"
+                    CornerRadius="4"
+                    Width="{Binding Size.Width}"
+                    MinHeight="80"
+                    Loaded="OnNodeBorderLoaded"
+                    SizeChanged="OnNodeBorderSizeChanged"
+                    PreviewMouseLeftButtonDown="OnNodePreviewLeftDown">
+                <Border.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_Rename}" Click="OnRenameMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RenameMember}" Click="OnRenameMemberMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ExtractInterface}" Click="OnExtractInterfaceMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ExtractSuperclass}" Click="OnExtractSuperclassMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ExtractClass}" Click="OnExtractClassMenuClick" Tag="{Binding}" />
+                        <Separator />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PullUpMethod}" Click="OnPullUpMethodMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PushDownMethod}" Click="OnPushDownMethodMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PullUpField}" Click="OnPullUpFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PushDownField}" Click="OnPushDownFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RemoveSettingMethod}" Click="OnRemoveSettingMethodMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RenameField}" Click="OnRenameFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PullUpConstructorBody}" Click="OnPullUpConstructorBodyMenuClick" Tag="{Binding}" />
+                        <Separator />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_EncapsulateField}" Click="OnEncapsulateFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_MoveMethod}" Click="OnMoveMethodMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_MoveField}" Click="OnMoveFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceConstructorWithFactory}" Click="OnReplaceConstructorWithFactoryMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceMagicNumber}" Click="OnReplaceMagicNumberMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_DropBackReference}" Click="OnDropBackReferenceMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_IntroduceParameterObject}" Click="OnIntroduceParameterObjectMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_AddParameter}" Click="OnAddParameterMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RemoveParameter}" Click="OnRemoveParameterMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RenameParameter}" Click="OnRenameParameterMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceDataValueWithObject}" Click="OnReplaceDataValueMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_SelfEncapsulateField}" Click="OnSelfEncapsulateFieldMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ChangeReferenceToValue}" Click="OnChangeReferenceToValueMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ChangeValueToReference}" Click="OnChangeValueToReferenceMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceTypeCodeWithClass}" Click="OnReplaceTypeCodeWithClassMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_PreserveWholeObject}" Click="OnPreserveWholeObjectMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceArrayWithObject}" Click="OnReplaceArrayWithObjectMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceTypeCodeWithSubclasses}" Click="OnReplaceTypeCodeWithSubclassesMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ExtractHierarchy}" Click="OnExtractHierarchyMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_IntroduceNullObject}" Click="OnIntroduceNullObjectMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_TeaseApartInheritance}" Click="OnTeaseApartInheritanceMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ConvertProceduralToObjects}" Click="OnConvertProceduralToObjectsMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_ReplaceSubclassWithFields}" Click="OnReplaceSubclassWithFieldsMenuClick" Tag="{Binding}" />
+                        <Separator />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_FocusImpactOneHop}" Click="OnFocusImpactMenuClick" Tag="{Binding}" />
+                        <Separator />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_RemoveSubclass}" Click="OnRemoveSubclassMenuClick" Tag="{Binding}" />
+                        <MenuItem Header="{x:Static loc:Strings.NodeMenu_CollapseIntoBase}" Click="OnCollapseHierarchyMenuClick" Tag="{Binding}" />
+                    </ContextMenu>
+                </Border.ContextMenu>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsGhost}" Value="True">
+                                <Setter Property="Opacity" Value="0.55" />
+                                <Setter Property="BorderBrush" Value="{StaticResource GhostBrush}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsExternal}" Value="True">
+                                <Setter Property="Opacity" Value="0.45" />
+                                <Setter Property="Background" Value="{StaticResource ExternalBackground}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource ExternalBorder}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Added}">
+                                <Setter Property="Background" Value="{StaticResource DiffAddedBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource DiffAddedBorder}" />
+                                <Setter Property="BorderThickness" Value="2" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Removed}">
+                                <Setter Property="Background" Value="{StaticResource DiffRemovedBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource DiffRemovedBorder}" />
+                                <Setter Property="BorderThickness" Value="2" />
+                                <Setter Property="Opacity" Value="0.7" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Modified}">
+                                <Setter Property="BorderBrush" Value="{StaticResource DiffModifiedBorder}" />
+                                <Setter Property="BorderThickness" Value="2" />
+                            </DataTrigger>
+                            <!-- 接続矢印 hover/click 時のハイライト。DiffState より優先度低くていいので末尾に配置 -->
+                            <DataTrigger Binding="{Binding IsEdgeHighlighted}" Value="True">
+                                <Setter Property="BorderBrush" Value="#ffd166" />
+                                <Setter Property="BorderThickness" Value="3" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <StackPanel>
+                    <Border Padding="8,4" CornerRadius="4,4,0,0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource NodeHeader}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static model:TypeKind.Interface}">
+                                        <Setter Property="Background" Value="{StaticResource InterfaceHeader}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static model:TypeKind.Enum}">
+                                        <Setter Property="Background" Value="{StaticResource EnumHeader}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static model:TypeKind.Record}">
+                                        <Setter Property="Background" Value="{StaticResource RecordHeader}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsExternal}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource ExternalHeader}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock FontStyle="Italic" FontSize="10" HorizontalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="" />
+                                            <Setter Property="Foreground" Value="Transparent" />
+                                            <Setter Property="Margin" Value="0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Added}">
+                                                    <Setter Property="Text" Value="«added»" />
+                                                    <Setter Property="Foreground" Value="{StaticResource DiffAddedText}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Removed}">
+                                                    <Setter Property="Text" Value="«removed»" />
+                                                    <Setter Property="Foreground" Value="{StaticResource DiffRemovedText}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Modified}">
+                                                    <Setter Property="Text" Value="«modified»" />
+                                                    <Setter Property="Foreground" Value="{StaticResource DiffModifiedBorder}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding KindLabel}"
+                                           FontStyle="Italic"
+                                           FontSize="11"
+                                           Foreground="#c0c0c0"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Name}"
+                                           FontWeight="Bold"
+                                           FontSize="14"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center" />
+                                <TextBlock Text="{Binding Namespace.FullName}"
+                                           FontSize="10"
+                                           Foreground="#888"
+                                           HorizontalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding Namespace.FullName}" />
+                            </StackPanel>
+                            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,-4,0">
+                                <TextBlock x:Name="TypeSmellIcon"
+                                           Text="💩"
+                                           FontSize="16"
+                                           Cursor="Hand"
+                                           PreviewMouseLeftButtonDown="OnSmellIconMouseDown"
+                                           PreviewMouseLeftButtonUp="OnSmellIconMouseUp">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasTypeSmells}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Popup x:Name="TypeSmellPopup"
+                                       PlacementTarget="{Binding ElementName=TypeSmellIcon}"
+                                       Placement="Bottom"
+                                       StaysOpen="True"
+                                       AllowsTransparency="True">
+                                    <Border Background="#2b2b2b" BorderBrush="#666" BorderThickness="1" Padding="10" MaxWidth="520"
+                                            Focusable="True" KeyDown="OnSmellPopupKeyDown">
+                                        <ItemsControl ItemsSource="{Binding TypeSmells}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type vm:CodeSmellViewModel}">
+                                                    <Grid Margin="0,3">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="{Binding TooltipLine}" TextWrapping="Wrap"
+                                                                   MaxWidth="380" Foreground="#e0e0e0" VerticalAlignment="Center" />
+                                                        <Button Grid.Column="1" Content="{Binding FixLabel}" Margin="10,0,0,0" Padding="8,3"
+                                                                Click="OnSmellFixButtonClick"
+                                                                Tag="{Binding}"
+                                                                Visibility="{Binding HasFix, Converter={StaticResource BoolToVis}}" />
+                                                        <Button Grid.Column="2" Margin="6,0,0,0" Padding="6,3"
+                                                                Click="OnAskAiSmellFixMenuOpen" Tag="{Binding}">
+                                                            <Button.Content>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{x:Static loc:Strings.Smell_Popup_AskAiButton}" VerticalAlignment="Center" />
+                                                                    <TextBlock Text="{Binding Source={x:Static svc:AiQuotaObserver.Instance}, Path=BadgeText}"
+                                                                               Margin="4,0,0,0" Foreground="#a0a0a0" FontSize="10"
+                                                                               VerticalAlignment="Center"
+                                                                               Visibility="{Binding Source={x:Static svc:AiQuotaObserver.Instance}, Path=Show, Converter={StaticResource BoolToVis}}" />
+                                                                </StackPanel>
+                                                            </Button.Content>
+                                                            <Button.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="Claude" Click="OnAskClaudeSmellFixClick"
+                                                                              Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                    <MenuItem Header="Codex" Click="OnAskCodexSmellFixClick"
+                                                                              Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                </ContextMenu>
+                                                            </Button.ContextMenu>
+                                                        </Button>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <ItemsControl ItemsSource="{Binding Members}" Padding="8,4">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:MemberItemViewModel}">
+                                <DockPanel LastChildFill="True" Margin="0,1">
+                                    <Grid DockPanel.Dock="Right" VerticalAlignment="Center">
+                                        <TextBlock x:Name="MemberSmellIcon"
+                                                   Text="💩"
+                                                   FontSize="11"
+                                                   Padding="4,0,4,0"
+                                                   Cursor="Hand"
+                                                   PreviewMouseLeftButtonDown="OnSmellIconMouseDown"
+                                                   PreviewMouseLeftButtonUp="OnSmellIconMouseUp">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasSmells}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <Popup x:Name="MemberSmellPopup"
+                                               PlacementTarget="{Binding ElementName=MemberSmellIcon}"
+                                               Placement="Bottom"
+                                               StaysOpen="True"
+                                               AllowsTransparency="True">
+                                            <Border Background="#2b2b2b" BorderBrush="#666" BorderThickness="1" Padding="10" MaxWidth="520"
+                                            Focusable="True" KeyDown="OnSmellPopupKeyDown">
+                                                <ItemsControl ItemsSource="{Binding Smells}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate DataType="{x:Type vm:CodeSmellViewModel}">
+                                                            <Grid Margin="0,3">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0" Text="{Binding TooltipLine}" TextWrapping="Wrap"
+                                                                           MaxWidth="380" Foreground="#e0e0e0" VerticalAlignment="Center" />
+                                                                <Button Grid.Column="1" Content="{Binding FixLabel}" Margin="10,0,0,0" Padding="8,3"
+                                                                        Click="OnSmellFixButtonClick" Tag="{Binding}"
+                                                                        Visibility="{Binding HasFix, Converter={StaticResource BoolToVis}}" />
+                                                                <Button Grid.Column="2" Margin="6,0,0,0" Padding="6,3"
+                                                                        Click="OnAskAiSmellFixMenuOpen" Tag="{Binding}">
+                                                                    <Button.Content>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{x:Static loc:Strings.Smell_Popup_AskAiButton}" VerticalAlignment="Center" />
+                                                                            <TextBlock Text="{Binding Source={x:Static svc:AiQuotaObserver.Instance}, Path=BadgeText}"
+                                                                                       Margin="4,0,0,0" Foreground="#a0a0a0" FontSize="10"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Visibility="{Binding Source={x:Static svc:AiQuotaObserver.Instance}, Path=Show, Converter={StaticResource BoolToVis}}" />
+                                                                        </StackPanel>
+                                                                    </Button.Content>
+                                                                    <Button.ContextMenu>
+                                                                        <ContextMenu>
+                                                                            <MenuItem Header="Claude" Click="OnAskClaudeSmellFixClick"
+                                                                                      Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                            <MenuItem Header="Codex" Click="OnAskCodexSmellFixClick"
+                                                                                      Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                        </ContextMenu>
+                                                                    </Button.ContextMenu>
+                                                                </Button>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Border>
+                                        </Popup>
+                                    </Grid>
+                                    <TextBlock Text="{Binding DisplayLine}"
+                                               FontFamily="Consolas"
+                                               FontSize="11"
+                                               Padding="4,0"
+                                               Cursor="Hand">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource MemberText}" />
+                                                <Setter Property="Background" Value="#01000000" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#3a3d5e" />
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsStatic}" Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource StaticMemberText}" />
+                                                        <Setter Property="TextDecorations" Value="Underline" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Added}">
+                                                        <Setter Property="Foreground" Value="{StaticResource DiffAddedText}" />
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding DiffState}" Value="{x:Static diff:DiffState.Removed}">
+                                                        <Setter Property="Foreground" Value="{StaticResource DiffRemovedText}" />
+                                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NamespaceClusterTemplate" DataType="{x:Type vm:NamespaceClusterViewModel}">
+            <Grid Background="{x:Null}"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top">
+                <Border Width="{Binding Size.Width}"
+                        Height="{Binding Size.Height}"
+                        Background="{Binding Background}"
+                        BorderBrush="{Binding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        IsHitTestVisible="False" />
+                <TextBlock Text="{Binding Namespace}"
+                           Margin="10,4,0,0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           FontSize="11"
+                           FontStyle="Italic"
+                           Foreground="#98a4b8"
+                           TextDecorations="Underline"
+                           Cursor="Hand"
+                           Background="#01000000"
+                           Tag="NsLabel" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ConnectionTemplate" DataType="{x:Type vm:ConnectionViewModel}">
+            <Canvas>
+                <Canvas.Style>
+                    <Style TargetType="Canvas">
+                        <Setter Property="Opacity" Value="1.0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDimmed}" Value="True">
+                                <Setter Property="Opacity" Value="0.12" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Style>
+
+                <!-- Hit-test 用の透明太線。細い矢印線を直接クリックさせるより余裕を持たせる。
+                     MouseEnter/Leave/Down は Path.PreviewMouse* ではなく通常 event で拾う (Nodify 側と衝突しないよう) -->
+                <Path Data="{Binding Geometry}"
+                      Stroke="Transparent"
+                      StrokeThickness="10"
+                      Fill="Transparent"
+                      Cursor="Hand"
+                      MouseEnter="OnConnectionMouseEnter"
+                      MouseLeave="OnConnectionMouseLeave"
+                      MouseLeftButtonDown="OnConnectionMouseDown"
+                      ToolTipService.InitialShowDelay="300">
+                    <Path.ToolTip>
+                        <TextBlock>
+                            <Run Text="{Binding SourceNode.Name, Mode=OneWay}" />
+                            <Run Text=" → " />
+                            <Run Text="{Binding TargetNode.Name, Mode=OneWay}" />
+                            <Run Text=" (" /><Run Text="{Binding Label, Mode=OneWay}" /><Run Text=")" />
+                        </TextBlock>
+                    </Path.ToolTip>
+                </Path>
+
+                <Path Data="{Binding Geometry}"
+                      Fill="Transparent"
+                      IsHitTestVisible="False">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="#7a9fd8" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                            <Setter Property="Opacity" Value="1.0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Kind}" Value="Interface">
+                                    <Setter Property="Stroke" Value="#8bce8b" />
+                                    <Setter Property="StrokeDashArray" Value="4,2" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Kind}" Value="Uses">
+                                    <Setter Property="Stroke" Value="#5a6a80" />
+                                    <Setter Property="StrokeThickness" Value="0.8" />
+                                    <Setter Property="StrokeDashArray" Value="2,3" />
+                                    <Setter Property="Opacity" Value="0.55" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                    <Setter Property="Stroke" Value="#ffd166" />
+                                    <Setter Property="StrokeThickness" Value="3" />
+                                    <Setter Property="Opacity" Value="1.0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <Path Data="M 0 0 L -12 -6 L -12 6 Z"
+                      Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=nodify:NodifyEditor}}"
+                      IsHitTestVisible="False">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="#7a9fd8" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+                            <Setter Property="Opacity" Value="1.0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Kind}" Value="Interface">
+                                    <Setter Property="Stroke" Value="#8bce8b" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Kind}" Value="Uses">
+                                    <Setter Property="Stroke" Value="#5a6a80" />
+                                    <Setter Property="StrokeThickness" Value="0.8" />
+                                    <Setter Property="Opacity" Value="0.55" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                    <Setter Property="Stroke" Value="#ffd166" />
+                                    <Setter Property="StrokeThickness" Value="3" />
+                                    <Setter Property="Opacity" Value="1.0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding EndAngle}" />
+                            <TranslateTransform X="{Binding EndPoint.X}" Y="{Binding EndPoint.Y}" />
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Border Canvas.Left="{Binding LabelPosition.X}"
+                        Canvas.Top="{Binding LabelPosition.Y}"
+                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=nodify:NodifyEditor}}"
+                        Padding="3,0"
+                        CornerRadius="2"
+                        Margin="-30,-8,0,0"
+                        IsHitTestVisible="False">
+                    <TextBlock Text="{Binding Label}"
+                               FontSize="10"
+                               FontStyle="Italic"
+                               HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#8a9fc0" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Kind}" Value="Interface">
+                                        <Setter Property="Foreground" Value="#9ecf9e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                        <Setter Property="Foreground" Value="#ffd166" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
+            </Canvas>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#2d2d30" Padding="8,6" BorderBrush="#3f3f46" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{x:Static loc:Strings.Toolbar_Search}" Foreground="#a0a0a0" FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBox Grid.Column="1"
+                         x:Name="SearchBox"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}"
+                         Background="#1e1e1e"
+                         Foreground="White"
+                         BorderBrush="#3f3f46"
+                         Padding="4,2"
+                         FontSize="12" />
+
+                <TextBlock Grid.Column="3" Text="{x:Static loc:Strings.Toolbar_Namespace}" Foreground="#a0a0a0" FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <ComboBox Grid.Column="4"
+                          x:Name="NamespaceCombo"
+                          ItemsSource="{Binding NamespaceOptions}"
+                          SelectedItem="{Binding SelectedNamespace, Mode=TwoWay}"
+                          Background="#1e1e1e"
+                          Foreground="White"
+                          BorderBrush="#3f3f46"
+                          FontSize="12" />
+
+                <Button Grid.Column="6"
+                        Content="{x:Static loc:Strings.Toolbar_Clear}"
+                        Command="{Binding ClearFilterCommand}"
+                        Padding="10,2"
+                        FontSize="11" />
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#3f3f46" Padding="8,4" BorderBrush="#5f5f66" BorderThickness="0,0,0,1"
+                Visibility="{Binding IsImpactFocusActive, Converter={StaticResource BoolToVis}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="🎯" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBlock Text="{Binding ImpactFocusStatus}" Foreground="#ffdd77" FontSize="11" VerticalAlignment="Center" />
+                <Button Content="{x:Static loc:Strings.Toolbar_ImpactFocus_ExpandOneHop}"
+                        Command="{Binding ExpandImpactFocusCommand}"
+                        Padding="8,2"
+                        FontSize="11"
+                        Margin="12,0,0,0" />
+                <Button Content="{x:Static loc:Strings.Toolbar_ImpactFocus_Clear}"
+                        Command="{Binding ClearImpactFocusCommand}"
+                        Padding="8,2"
+                        FontSize="11"
+                        Margin="6,0,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Background="#3a3a3a" Padding="8,4" BorderBrush="#5f5f66" BorderThickness="0,0,0,1"
+                Visibility="{Binding IsDiffOverlayActive, Converter={StaticResource BoolToVis}}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="🔀" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBlock Text="{Binding DiffOverlayStatus}" Foreground="#a5e2a5" FontSize="11" VerticalAlignment="Center" />
+                <Button Content="{x:Static loc:Strings.Toolbar_DiffOverlay_Clear}"
+                        Command="{Binding ClearDiffOverlayCommand}"
+                        Padding="8,2"
+                        FontSize="11"
+                        Margin="12,0,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#007acc" Padding="8,3">
+            <TextBlock Text="{Binding Status}" Foreground="White" FontSize="11" />
+        </Border>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="CodeViewerColumn" Width="0" MinWidth="0" />
+            </Grid.ColumnDefinitions>
+
+            <nodify:NodifyEditor x:Name="Editor"
+                                 Grid.Column="0"
+                                 PreviewMouseLeftButtonDown="OnEditorPreviewLeftButtonDown"
+                                 Background="#181818"
+                                 ItemsSource="{Binding Nodes}"
+                                 Connections="{Binding Connections}"
+                                 Decorators="{Binding NamespaceClusters}"
+                                 ItemTemplate="{StaticResource TypeNodeTemplate}"
+                                 ConnectionTemplate="{StaticResource ConnectionTemplate}"
+                                 DecoratorTemplate="{StaticResource NamespaceClusterTemplate}"
+                                 DisplayConnectionsOnTop="True"
+                                 MinViewportZoom="0.05"
+                                 MaxViewportZoom="3.0">
+                <nodify:NodifyEditor.ItemContainerStyle>
+                    <Style TargetType="nodify:ItemContainer">
+                        <Setter Property="Location" Value="{Binding Location, Mode=TwoWay}" />
+                        <Setter Property="IsDraggable" Value="False" />
+                        <Setter Property="Opacity" Value="1.0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDimmed}" Value="True">
+                                <Setter Property="Opacity" Value="0.2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </nodify:NodifyEditor.ItemContainerStyle>
+                <nodify:NodifyEditor.DecoratorContainerStyle>
+                    <Style TargetType="nodify:DecoratorContainer">
+                        <Setter Property="RenderTransform" Value="{x:Null}" />
+                        <Setter Property="Location" Value="{Binding Location, Mode=OneWay}" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </nodify:NodifyEditor.DecoratorContainerStyle>
+            </nodify:NodifyEditor>
+
+            <Border Grid.Column="0"
+                    Background="#CC181818"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"
+                    IsHitTestVisible="True">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical"
+                            Width="440">
+                    <TextBlock Text="⌛"
+                               FontSize="42"
+                               Foreground="#CCC"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10" />
+                    <TextBlock Text="{Binding LoadingMessage}"
+                               Foreground="#DDD"
+                               FontSize="14"
+                               HorizontalAlignment="Center" />
+                    <ProgressBar Minimum="0"
+                                 Maximum="1"
+                                 Value="{Binding LoadingProgress, Mode=OneWay}"
+                                 Height="10"
+                                 Margin="0,14,0,6"
+                                 Foreground="#0e7dc6"
+                                 Background="#2a2a2a"
+                                 BorderBrush="#3f3f46" />
+                    <TextBlock Text="{Binding LoadingPhase}"
+                               Foreground="#c0c0c0"
+                               FontSize="11"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{x:Static loc:Strings.Loading_RoslynHint}"
+                               Foreground="#888"
+                               FontSize="11"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,0"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <GridSplitter Grid.Column="1"
+                          Width="4"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Background="#3f3f46"
+                          Visibility="{Binding IsCodeViewerVisible, Converter={StaticResource BoolToVis}}" />
+
+            <Border Grid.Column="2"
+                    Background="#1e1e1e"
+                    BorderBrush="#3f3f46"
+                    BorderThickness="1,0,0,0"
+                    Visibility="{Binding IsCodeViewerVisible, Converter={StaticResource BoolToVis}}">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top"
+                            Background="#2d2d30"
+                            Padding="8,4"
+                            BorderBrush="#3f3f46"
+                            BorderThickness="0,0,0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <ItemsControl ItemsSource="{Binding Breadcrumbs}"
+                                              AlternationCount="999">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:BreadcrumbItem}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text=" ▸ "
+                                                           Foreground="#666"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="12">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=(ItemsControl.AlternationIndex)}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <Button Content="{Binding Label}"
+                                                        Tag="{Binding}"
+                                                        Click="OnBreadcrumbClick"
+                                                        Padding="4,0"
+                                                        BorderThickness="0"
+                                                        Background="Transparent"
+                                                        Foreground="#8ec7ff"
+                                                        Cursor="Hand"
+                                                        FontSize="12" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Text="{Binding CurrentMemberSource.MemberSignature}"
+                                           FontWeight="Bold"
+                                           FontSize="12"
+                                           Foreground="#e0e0e0"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding CurrentMemberSource.FilePath}"
+                                           FontSize="10"
+                                           Foreground="#666"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding CurrentMemberSource.FilePath}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Content="{x:Static loc:Strings.CodeViewer_FindRefs}"
+                                        Padding="8,0"
+                                        FontSize="11"
+                                        ToolTip="{x:Static loc:Strings.CodeViewer_FindRefs_Tooltip}"
+                                        Click="OnFindReferencesClick" />
+                                <Button Content="✕"
+                                        Padding="6,0"
+                                        FontSize="11"
+                                        Margin="4,0,0,0"
+                                        Click="OnCloseCodeViewerClick" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <Border DockPanel.Dock="Bottom"
+                            Background="#252526"
+                            Padding="8,3"
+                            BorderBrush="#3f3f46"
+                            BorderThickness="0,1,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static loc:Strings.CodeViewer_Selection}"
+                                       FontSize="10"
+                                       Foreground="#888"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0" />
+                            <TextBlock x:Name="SelectionInfoText"
+                                       FontSize="10"
+                                       Foreground="#c0c0c0"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top"
+                            Background="#252526"
+                            BorderBrush="#3f3f46"
+                            BorderThickness="0,0,0,1"
+                            MaxHeight="220"
+                            Visibility="{Binding IsReferencesPanelVisible, Converter={StaticResource BoolToVis}}">
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top"
+                                    Background="#2d2d30"
+                                    Padding="6,3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding ReferencesHeader}"
+                                               FontSize="11"
+                                               Foreground="#c0c0c0"
+                                               VerticalAlignment="Center" />
+                                    <Button Grid.Column="1"
+                                            Content="✕"
+                                            Padding="6,0"
+                                            FontSize="10"
+                                            Click="OnCloseReferencesPanelClick" />
+                                </Grid>
+                            </Border>
+                            <ListBox ItemsSource="{Binding References}"
+                                     Background="#1e1e1e"
+                                     Foreground="#d0d0d0"
+                                     BorderThickness="0"
+                                     FontFamily="Consolas"
+                                     FontSize="11"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     MouseDoubleClick="OnReferenceRowDoubleClick">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="2,1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding LanguageBadge}"
+                                                       Foreground="#7fcfff"
+                                                       Margin="0,0,6,0"
+                                                       MinWidth="36" />
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding FileLine}"
+                                                       Foreground="#a0a0a0"
+                                                       Margin="0,0,10,0"
+                                                       MinWidth="220"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip="{Binding FullPath}" />
+                                            <TextBlock Grid.Column="2"
+                                                       Text="{Binding Snippet}"
+                                                       Foreground="#d0d0d0"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+                    <avalonEdit:TextEditor x:Name="CodeEditor"
+                                           IsReadOnly="True"
+                                           ShowLineNumbers="True"
+                                           SyntaxHighlighting="C#"
+                                           HorizontalScrollBarVisibility="Auto"
+                                           VerticalScrollBarVisibility="Auto"
+                                           Background="#1e1e1e"
+                                           Foreground="#e0e0e0"
+                                           LineNumbersForeground="#606060"
+                                           FontFamily="Consolas"
+                                           FontSize="12">
+                        <avalonEdit:TextEditor.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_ExtractMethod}" Click="OnExtractMethodMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_ExtractVariable}" Click="OnExtractVariableMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_InlineMethod}" Click="OnInlineMethodMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_InlineVariable}" Click="OnInlineVariableMenuClick" />
+                                <Separator />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_DecomposeConditional}" Click="OnDecomposeConditionalMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_ConsolidateConditional}" Click="OnConsolidateConditionalMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_ConsolidateDuplicateFragments}" Click="OnConsolidateDuplicateFragmentsMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_GuardClauses}" Click="OnGuardClausesMenuClick" />
+                                <MenuItem Header="{x:Static loc:Strings.CodeMenu_IntroduceAssertion}" Click="OnIntroduceAssertionMenuClick" />
+                            </ContextMenu>
+                        </avalonEdit:TextEditor.ContextMenu>
+                    </avalonEdit:TextEditor>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

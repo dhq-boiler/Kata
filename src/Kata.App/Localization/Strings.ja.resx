@@ -1,0 +1,1227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+
+  <data name="Menu_File" xml:space="preserve">
+    <value>ファイル(_F)</value>
+  </data>
+  <data name="Menu_File_OpenSolution" xml:space="preserve">
+    <value>ソリューションを開く(_O)…</value>
+  </data>
+  <data name="Menu_File_Preferences" xml:space="preserve">
+    <value>環境設定(_P)…</value>
+  </data>
+  <data name="Menu_File_Exit" xml:space="preserve">
+    <value>終了(_X)</value>
+  </data>
+
+  <data name="Menu_Edit" xml:space="preserve">
+    <value>編集(_E)</value>
+  </data>
+  <data name="Menu_Edit_ClearFilter" xml:space="preserve">
+    <value>フィルタを解除(_F)</value>
+  </data>
+  <data name="Menu_Edit_ClearFocus" xml:space="preserve">
+    <value>フォーカスを解除(_F)</value>
+  </data>
+
+  <data name="Menu_View" xml:space="preserve">
+    <value>表示(_V)</value>
+  </data>
+  <data name="Menu_View_ClearDiffOverlay" xml:space="preserve">
+    <value>差分オーバーレイを消去(_D)</value>
+  </data>
+  <data name="Menu_View_ClearImpactFocus" xml:space="preserve">
+    <value>影響範囲フォーカスを解除(_I)</value>
+  </data>
+  <data name="Menu_View_ExpandImpactFocus" xml:space="preserve">
+    <value>影響範囲を広げる(_X)</value>
+  </data>
+
+  <data name="Menu_Refactor" xml:space="preserve">
+    <value>リファクタリング(_R)</value>
+  </data>
+  <data name="Menu_Refactor_Rename" xml:space="preserve">
+    <value>名前変更(_R)…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractInterface" xml:space="preserve">
+    <value>インターフェイスを抽出(_I)…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractSuperclass" xml:space="preserve">
+    <value>スーパークラスを抽出(_C)…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractClass" xml:space="preserve">
+    <value>クラスを抽出(_C)…</value>
+  </data>
+  <data name="Menu_Refactor_AddGhostType" xml:space="preserve">
+    <value>ゴースト型を追加(_A)…</value>
+  </data>
+
+  <data name="Menu_Tools" xml:space="preserve">
+    <value>ツール(_T)</value>
+  </data>
+
+  <data name="Menu_Help" xml:space="preserve">
+    <value>ヘルプ(_H)</value>
+  </data>
+
+  <data name="Preferences_Title" xml:space="preserve">
+    <value>環境設定</value>
+  </data>
+  <data name="Preferences_Category_General" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="Preferences_Language_Label" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Preferences_Language_Hint" xml:space="preserve">
+    <value>既に開いているウィンドウは現在の言語のまま。次に開くウィンドウから新しい言語で描かれます。</value>
+  </data>
+  <data name="Preferences_Language_System" xml:space="preserve">
+    <value>OS の表示言語に合わせる</value>
+  </data>
+  <data name="Preferences_Category_Ai" xml:space="preserve">
+    <value>AI</value>
+  </data>
+  <data name="Preferences_Ai_ClaudeModel_Label" xml:space="preserve">
+    <value>Claude モデル識別子</value>
+  </data>
+  <data name="Preferences_Ai_CodexModel_Label" xml:space="preserve">
+    <value>Codex モデル識別子</value>
+  </data>
+  <data name="Preferences_Ai_ModelHint" xml:space="preserve">
+    <value>ドロップダウンには既知のモデル ID が並びます。空欄にすると各 CLI の既定モデルが使われます。新しいモデル ID は直接入力できます。Kata のアップデートで最新の ID を候補に追加していきます。</value>
+  </data>
+  <data name="Preferences_Category_Diagnostics" xml:space="preserve">
+    <value>診断</value>
+  </data>
+  <data name="Preferences_Diagnostics_Enabled_Label" xml:space="preserve">
+    <value>診断モードを有効にする (apply / diff overlay のイベントを下記ファイルに記録)</value>
+  </data>
+  <data name="Preferences_Diagnostics_Hint" xml:space="preserve">
+    <value>有効にすると、リファクタ適用のたびにタイムスタンプ付きのトレース (変更ファイル一覧・前後の型数・safety net 発動・SolutionDiffer の出力・メンバー単位の overlay hit/miss) をログファイルに追記します。既定は無効。バグ調査時のみ有効にしてください。</value>
+  </data>
+
+  <data name="AiRequest_Title" xml:space="preserve">
+    <value>AI に相談中…</value>
+  </data>
+  <data name="AiRequest_Headline_Format" xml:space="preserve">
+    <value>{0} にリファクタ提案を問い合わせ中…</value>
+  </data>
+  <data name="AiRequest_Subtitle_Format" xml:space="preserve">
+    <value>Backend: {0}   対象: {1}   Type: {2}</value>
+  </data>
+
+  <!-- AI 月次上限 (Community 版) -->
+  <data name="AiQuota_ExceededTitle" xml:space="preserve">
+    <value>AI 相談の月次上限に達しました</value>
+  </data>
+  <data name="AiQuota_ExceededMessage_Format" xml:space="preserve">
+    <value>Community 版で今月使える AI 相談 ({0} 回) をすべて消費しました。
+
+上限は {1:yyyy-MM-dd} (UTC) にリセットされます。
+
+Kata Pro にアップグレードすると、AI 相談を無制限に使用でき、Team Collab や優先サポートなどの追加機能もご利用いただけます。 https://kata.dhq-boiler.dev/pro</value>
+  </data>
+  <data name="AiQuota_ExceededStatus_Format" xml:space="preserve">
+    <value>AI 相談の月次上限に達しました ({0}/{1} 使用済み)。 Pro 版で無制限に使えます。</value>
+  </data>
+  <data name="AiQuota_RemainingStatus_Format" xml:space="preserve">
+    <value>AI 相談 ({0}): 今月の残り {1}/{2} 回 (Community 版)。</value>
+  </data>
+  <data name="AiQuota_Dialog_Heading" xml:space="preserve">
+    <value>AI 相談の月次上限に達しました</value>
+  </data>
+  <data name="AiQuota_Dialog_Body_Format" xml:space="preserve">
+    <value>Community 版で今月使える AI 相談 ({0} 回) をすべて消費しました。上限は {1:yyyy-MM-dd} (UTC) にリセットされます。
+
+Kata Pro なら AI 相談を無制限に使え、Team Collab や優先サポートといった追加機能もご利用いただけます。</value>
+  </data>
+  <data name="AiQuota_Dialog_PurchaseButton" xml:space="preserve">
+    <value>Kata Pro を購入</value>
+  </data>
+  <data name="AiQuota_Dialog_EnterKeyButton" xml:space="preserve">
+    <value>キーを持っているのでキー入力へ…</value>
+  </data>
+  <data name="AiQuota_Dialog_CloseButton" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="AiQuota_BadgeRemaining_Format" xml:space="preserve">
+    <value>({0}/{1})</value>
+  </data>
+
+  <!-- Preferences: Pro License カテゴリ -->
+  <data name="Preferences_Category_Pro" xml:space="preserve">
+    <value>Pro ライセンス</value>
+  </data>
+  <data name="Preferences_Pro_StatusLabel" xml:space="preserve">
+    <value>現在の状態:</value>
+  </data>
+  <data name="Preferences_Pro_Status_Community" xml:space="preserve">
+    <value>Community 版</value>
+  </data>
+  <data name="Preferences_Pro_Status_Active_Format" xml:space="preserve">
+    <value>Pro — {0}</value>
+  </data>
+  <data name="Preferences_Pro_Status_Invalid" xml:space="preserve">
+    <value>ライセンスキーが無効</value>
+  </data>
+  <data name="Preferences_Pro_Status_Expired" xml:space="preserve">
+    <value>ライセンス期限切れ</value>
+  </data>
+  <data name="Preferences_Pro_LicenseKeyLabel" xml:space="preserve">
+    <value>ライセンスキー:</value>
+  </data>
+  <data name="Preferences_Pro_Hint" xml:space="preserve">
+    <value>Kata Pro 購入時に届いたライセンスキーを入力してください。 購入は https://kata.dhq-boiler.dev/pro から。</value>
+  </data>
+  <data name="Preferences_Pro_RestartHint" xml:space="preserve">
+    <value>ライセンス変更を反映するには Kata を再起動してください。</value>
+  </data>
+  <data name="Preferences_Pro_EmailLabel" xml:space="preserve">
+    <value>メール:</value>
+  </data>
+  <data name="Preferences_Pro_ExpiresLabel" xml:space="preserve">
+    <value>有効期限:</value>
+  </data>
+  <data name="Preferences_Pro_ExpiresPerpetual" xml:space="preserve">
+    <value>無期限 (buyout)</value>
+  </data>
+
+  <data name="Toolbar_Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Toolbar_Namespace" xml:space="preserve">
+    <value>名前空間</value>
+  </data>
+  <data name="Toolbar_Clear" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="Toolbar_ImpactFocus_ExpandOneHop" xml:space="preserve">
+    <value>+1 ホップ</value>
+  </data>
+  <data name="Toolbar_ImpactFocus_Clear" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="Toolbar_DiffOverlay_Clear" xml:space="preserve">
+    <value>差分をクリア</value>
+  </data>
+
+  <data name="CodeViewer_FindRefs" xml:space="preserve">
+    <value>参照検索</value>
+  </data>
+  <data name="CodeViewer_FindRefs_Tooltip" xml:space="preserve">
+    <value>現在表示中のメンバーへの参照をすべて検索します</value>
+  </data>
+  <data name="CodeViewer_Selection" xml:space="preserve">
+    <value>選択範囲:</value>
+  </data>
+
+  <data name="Loading_RoslynHint" xml:space="preserve">
+    <value>Roslyn がソリューションを開いています — マウスカーソルが一瞬止まることがあります。</value>
+  </data>
+  <data name="Loading_PhaseStarting" xml:space="preserve">
+    <value>開始中…</value>
+  </data>
+  <data name="LoadPhase_OpenSln" xml:space="preserve">
+    <value>ソリューションを開いています (Roslyn / MSBuild)…</value>
+  </data>
+  <data name="LoadPhase_Discover" xml:space="preserve">
+    <value>外部プロジェクトを検出中…</value>
+  </data>
+  <data name="LoadPhase_CppCompile" xml:space="preserve">
+    <value>C++/CLI ヘッダを解析中…</value>
+  </data>
+  <data name="LoadPhase_InjectShim" xml:space="preserve">
+    <value>Cpp シム参照を注入中…</value>
+  </data>
+  <data name="LoadPhase_MapAsync" xml:space="preserve">
+    <value>シンボルを Kata モデルにマッピング中…</value>
+  </data>
+  <data name="LoadPhase_ForeignProjects" xml:space="preserve">
+    <value>外部プロジェクトのモデルを構築中…</value>
+  </data>
+  <data name="LoadPhase_Graph" xml:space="preserve">
+    <value>型グラフを構築中…</value>
+  </data>
+  <data name="LoadPhase_Layout" xml:space="preserve">
+    <value>Sugiyama レイアウトを実行中…</value>
+  </data>
+  <data name="LoadPhase_Filter" xml:space="preserve">
+    <value>フィルタを適用中…</value>
+  </data>
+
+  <!-- Node context menu (Fowler リファクタリングカタログの訳語に準拠) -->
+  <data name="NodeMenu_Rename" xml:space="preserve">
+    <value>名前を変更…</value>
+  </data>
+  <data name="NodeMenu_RenameMember" xml:space="preserve">
+    <value>メンバー名を変更…</value>
+  </data>
+  <data name="NodeMenu_ExtractInterface" xml:space="preserve">
+    <value>インタフェースの抽出…</value>
+  </data>
+  <data name="NodeMenu_ExtractSuperclass" xml:space="preserve">
+    <value>スーパークラスの抽出…</value>
+  </data>
+  <data name="NodeMenu_ExtractClass" xml:space="preserve">
+    <value>クラスの抽出 / ドメインとプレゼンテーションの分離…</value>
+  </data>
+  <data name="NodeMenu_PullUpMethod" xml:space="preserve">
+    <value>メソッドの引き上げ…</value>
+  </data>
+  <data name="NodeMenu_PushDownMethod" xml:space="preserve">
+    <value>メソッドの押し下げ…</value>
+  </data>
+  <data name="NodeMenu_PullUpField" xml:space="preserve">
+    <value>フィールドの引き上げ…</value>
+  </data>
+  <data name="NodeMenu_PushDownField" xml:space="preserve">
+    <value>フィールドの押し下げ…</value>
+  </data>
+  <data name="NodeMenu_RemoveSettingMethod" xml:space="preserve">
+    <value>設定メソッドの削除…</value>
+  </data>
+  <data name="NodeMenu_RenameField" xml:space="preserve">
+    <value>フィールド名を変更…</value>
+  </data>
+  <data name="NodeMenu_PullUpConstructorBody" xml:space="preserve">
+    <value>コンストラクタボディの引き上げ…</value>
+  </data>
+  <data name="NodeMenu_EncapsulateField" xml:space="preserve">
+    <value>フィールドのカプセル化…</value>
+  </data>
+  <data name="NodeMenu_MoveMethod" xml:space="preserve">
+    <value>メソッドの移動…</value>
+  </data>
+  <data name="NodeMenu_MoveField" xml:space="preserve">
+    <value>フィールドの移動…</value>
+  </data>
+  <data name="NodeMenu_ReplaceConstructorWithFactory" xml:space="preserve">
+    <value>コンストラクタをファクトリメソッドで置き換え…</value>
+  </data>
+  <data name="NodeMenu_ReplaceMagicNumber" xml:space="preserve">
+    <value>マジックナンバーをシンボル定数で置き換え…</value>
+  </data>
+  <data name="NodeMenu_DropBackReference" xml:space="preserve">
+    <value>逆参照の削除…</value>
+  </data>
+  <data name="NodeMenu_IntroduceParameterObject" xml:space="preserve">
+    <value>パラメータオブジェクトの導入…</value>
+  </data>
+  <data name="NodeMenu_AddParameter" xml:space="preserve">
+    <value>パラメータの追加…</value>
+  </data>
+  <data name="NodeMenu_RemoveParameter" xml:space="preserve">
+    <value>パラメータの削除…</value>
+  </data>
+  <data name="NodeMenu_RenameParameter" xml:space="preserve">
+    <value>パラメータ名を変更…</value>
+  </data>
+  <data name="NodeMenu_ReplaceDataValueWithObject" xml:space="preserve">
+    <value>データ値をオブジェクトで置き換え…</value>
+  </data>
+  <data name="NodeMenu_SelfEncapsulateField" xml:space="preserve">
+    <value>自己カプセル化フィールド…</value>
+  </data>
+  <data name="NodeMenu_ChangeReferenceToValue" xml:space="preserve">
+    <value>参照から値への変更…</value>
+  </data>
+  <data name="NodeMenu_ChangeValueToReference" xml:space="preserve">
+    <value>値から参照への変更…</value>
+  </data>
+  <data name="NodeMenu_ReplaceTypeCodeWithClass" xml:space="preserve">
+    <value>タイプコードをクラスで置き換え…</value>
+  </data>
+  <data name="NodeMenu_PreserveWholeObject" xml:space="preserve">
+    <value>オブジェクト全体の保持…</value>
+  </data>
+  <data name="NodeMenu_ReplaceArrayWithObject" xml:space="preserve">
+    <value>配列をオブジェクトで置き換え…</value>
+  </data>
+  <data name="NodeMenu_ReplaceTypeCodeWithSubclasses" xml:space="preserve">
+    <value>タイプコードをサブクラスで置き換え…</value>
+  </data>
+  <data name="NodeMenu_ExtractHierarchy" xml:space="preserve">
+    <value>階層の抽出 / 条件記述をポリモーフィズムで置き換え…</value>
+  </data>
+  <data name="NodeMenu_IntroduceNullObject" xml:space="preserve">
+    <value>Null オブジェクトの導入…</value>
+  </data>
+  <data name="NodeMenu_TeaseApartInheritance" xml:space="preserve">
+    <value>継承の分割…</value>
+  </data>
+  <data name="NodeMenu_ConvertProceduralToObjects" xml:space="preserve">
+    <value>手続き型のオブジェクトへの変換…</value>
+  </data>
+  <data name="NodeMenu_ReplaceSubclassWithFields" xml:space="preserve">
+    <value>サブクラス階層をフィールドで置き換え…</value>
+  </data>
+  <data name="NodeMenu_FocusImpactOneHop" xml:space="preserve">
+    <value>ここから影響範囲を絞り込む (1 ホップ)</value>
+  </data>
+  <data name="NodeMenu_RemoveSubclass" xml:space="preserve">
+    <value>サブクラスの削除…</value>
+  </data>
+  <data name="NodeMenu_CollapseIntoBase" xml:space="preserve">
+    <value>基底へたたみ込む…</value>
+  </data>
+
+  <data name="CodeMenu_ExtractMethod" xml:space="preserve">
+    <value>メソッドの抽出…</value>
+  </data>
+  <data name="CodeMenu_ExtractVariable" xml:space="preserve">
+    <value>変数の抽出…</value>
+  </data>
+  <data name="CodeMenu_InlineMethod" xml:space="preserve">
+    <value>メソッドのインライン化</value>
+  </data>
+  <data name="CodeMenu_InlineVariable" xml:space="preserve">
+    <value>変数のインライン化</value>
+  </data>
+  <data name="CodeMenu_DecomposeConditional" xml:space="preserve">
+    <value>条件記述の分解…</value>
+  </data>
+  <data name="CodeMenu_ConsolidateConditional" xml:space="preserve">
+    <value>条件記述の統合</value>
+  </data>
+  <data name="CodeMenu_ConsolidateDuplicateFragments" xml:space="preserve">
+    <value>重複した条件記述断片の統合</value>
+  </data>
+  <data name="CodeMenu_GuardClauses" xml:space="preserve">
+    <value>ネストした条件記述を早期リターンで置き換え</value>
+  </data>
+  <data name="CodeMenu_IntroduceAssertion" xml:space="preserve">
+    <value>アサーションの導入…</value>
+  </data>
+
+  <!-- リファクタリングダイアログ 共通ラベル -->
+  <data name="Dialog_Preview" xml:space="preserve">
+    <value>プレビュー</value>
+  </data>
+  <data name="Dialog_OwnerClass" xml:space="preserve">
+    <value>所有クラス</value>
+  </data>
+  <data name="Dialog_SourceClass" xml:space="preserve">
+    <value>元クラス</value>
+  </data>
+  <data name="Dialog_ContainingMember" xml:space="preserve">
+    <value>所属メンバー</value>
+  </data>
+  <data name="Dialog_Method" xml:space="preserve">
+    <value>メソッド</value>
+  </data>
+  <data name="Dialog_Members" xml:space="preserve">
+    <value>メンバー</value>
+  </data>
+  <data name="Dialog_SelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="Dialog_NewName" xml:space="preserve">
+    <value>新しい名前</value>
+  </data>
+  <data name="Dialog_NewClassName" xml:space="preserve">
+    <value>新しいクラス名</value>
+  </data>
+
+  <data name="Rename_Title" xml:space="preserve">
+    <value>名前を変更</value>
+  </data>
+  <data name="Rename_CurrentName" xml:space="preserve">
+    <value>現在の名前</value>
+  </data>
+
+  <data name="RenameField_Title" xml:space="preserve">
+    <value>フィールド名を変更</value>
+  </data>
+  <data name="RenameField_Field" xml:space="preserve">
+    <value>フィールド</value>
+  </data>
+
+  <data name="RenameMember_Title" xml:space="preserve">
+    <value>メンバー名を変更</value>
+  </data>
+  <data name="RenameMember_MemberHint" xml:space="preserve">
+    <value>メンバー (メソッド / プロパティ / フィールド / イベント)</value>
+  </data>
+
+  <data name="RenameParameter_Title" xml:space="preserve">
+    <value>パラメータ名を変更</value>
+  </data>
+  <data name="RenameParameter_OldName" xml:space="preserve">
+    <value>古いパラメータ名</value>
+  </data>
+  <data name="RenameParameter_NewName" xml:space="preserve">
+    <value>新しいパラメータ名</value>
+  </data>
+
+  <data name="ExtractMethod_Title" xml:space="preserve">
+    <value>メソッドの抽出</value>
+  </data>
+  <data name="ExtractMethod_NewName" xml:space="preserve">
+    <value>新しいメソッド名</value>
+  </data>
+
+  <data name="ExtractVariable_Title" xml:space="preserve">
+    <value>変数の抽出</value>
+  </data>
+  <data name="ExtractVariable_NewName" xml:space="preserve">
+    <value>新しい変数名</value>
+  </data>
+
+  <data name="DecomposeConditional_Title" xml:space="preserve">
+    <value>条件記述の分解</value>
+  </data>
+  <data name="DecomposeConditional_ConditionMethod" xml:space="preserve">
+    <value>条件メソッド (bool を返す)</value>
+  </data>
+  <data name="DecomposeConditional_ThenMethod" xml:space="preserve">
+    <value>then メソッド (void)</value>
+  </data>
+  <data name="DecomposeConditional_ElseMethod" xml:space="preserve">
+    <value>else メソッド (void、else が無ければ空欄)</value>
+  </data>
+
+  <data name="IntroduceAssertion_Title" xml:space="preserve">
+    <value>アサーションの導入</value>
+  </data>
+  <data name="IntroduceAssertion_Condition" xml:space="preserve">
+    <value>条件 (常に true になるはず)</value>
+  </data>
+  <data name="IntroduceAssertion_Message" xml:space="preserve">
+    <value>メッセージ (省略可 — 既定では条件式のテキスト)</value>
+  </data>
+
+  <data name="AddParameter_Title" xml:space="preserve">
+    <value>パラメータの追加</value>
+  </data>
+  <data name="AddParameter_Heading" xml:space="preserve">
+    <value>メソッドにパラメータを追加</value>
+  </data>
+  <data name="AddParameter_Type" xml:space="preserve">
+    <value>パラメータの型</value>
+  </data>
+  <data name="AddParameter_Name" xml:space="preserve">
+    <value>パラメータ名</value>
+  </data>
+  <data name="AddParameter_DefaultValue" xml:space="preserve">
+    <value>デフォルト値 (省略可; 呼び出し側がコンパイル可能なままにするため推奨)</value>
+  </data>
+
+  <data name="RemoveParameter_Title" xml:space="preserve">
+    <value>パラメータの削除</value>
+  </data>
+  <data name="RemoveParameter_Heading" xml:space="preserve">
+    <value>メソッドからパラメータを削除</value>
+  </data>
+  <data name="RemoveParameter_Name" xml:space="preserve">
+    <value>削除するパラメータ名</value>
+  </data>
+
+  <data name="ExtractInterface_Title" xml:space="preserve">
+    <value>インタフェースの抽出</value>
+  </data>
+  <data name="ExtractInterface_NewName" xml:space="preserve">
+    <value>新しいインタフェース名</value>
+  </data>
+
+  <data name="ExtractSuperclass_Title" xml:space="preserve">
+    <value>スーパークラスの抽出</value>
+  </data>
+  <data name="ExtractSuperclass_NewName" xml:space="preserve">
+    <value>新しいスーパークラス名</value>
+  </data>
+  <data name="ExtractSuperclass_MembersToMoveUp" xml:space="preserve">
+    <value>引き上げるメンバー</value>
+  </data>
+
+  <data name="PullUpMember_Title" xml:space="preserve">
+    <value>メンバーの引き上げ</value>
+  </data>
+  <data name="PullUpMember_FromSubclass" xml:space="preserve">
+    <value>引き上げ元 (サブクラス)</value>
+  </data>
+  <data name="PullUpMember_UpToParent" xml:space="preserve">
+    <value>引き上げ先 (親クラス)</value>
+  </data>
+
+  <data name="PushDownMember_Title" xml:space="preserve">
+    <value>メンバーの押し下げ</value>
+  </data>
+  <data name="PushDownMember_FromParent" xml:space="preserve">
+    <value>押し下げ元 (親クラス)</value>
+  </data>
+  <data name="PushDownMember_DownToSubclass" xml:space="preserve">
+    <value>押し下げ先 (サブクラス)</value>
+  </data>
+
+  <data name="MoveMember_Title" xml:space="preserve">
+    <value>メンバーの移動</value>
+  </data>
+  <data name="MoveMember_FromClass" xml:space="preserve">
+    <value>移動元クラス</value>
+  </data>
+  <data name="MoveMember_ToClass" xml:space="preserve">
+    <value>移動先クラス</value>
+  </data>
+
+  <data name="RemoveSettingMethod_Title" xml:space="preserve">
+    <value>設定メソッドの削除</value>
+  </data>
+  <data name="RemoveSettingMethod_Hint" xml:space="preserve">
+    <value>読み取り専用にするプロパティ (または setter メソッド) を選択してください</value>
+  </data>
+
+  <data name="EncapsulateField_Title" xml:space="preserve">
+    <value>フィールドのカプセル化</value>
+  </data>
+  <data name="EncapsulateField_Hint" xml:space="preserve">
+    <value>自動プロパティに変換するフィールドを選択してください</value>
+  </data>
+
+  <data name="SelfEncapsulateField_Title" xml:space="preserve">
+    <value>自己カプセル化フィールド</value>
+  </data>
+  <data name="SelfEncapsulateField_Hint" xml:space="preserve">
+    <value>フィールドを選択してください — 対応するプロパティが追加され、クラス内部の参照はそのプロパティ経由に書き換えられます。</value>
+  </data>
+
+  <data name="DropBackReference_Title" xml:space="preserve">
+    <value>逆参照の削除</value>
+  </data>
+  <data name="DropBackReference_Heading" xml:space="preserve">
+    <value>双方向参照を単方向に変更</value>
+  </data>
+  <data name="DropBackReference_Hint" xml:space="preserve">
+    <value>削除するフィールドまたはプロパティを選択してください (相手クラスは自分側の参照を保持します)</value>
+  </data>
+
+  <data name="ExtractClass_Title" xml:space="preserve">
+    <value>クラスの抽出 / ドメインとプレゼンテーションの分離</value>
+  </data>
+  <data name="ExtractClass_DelegatePropName" xml:space="preserve">
+    <value>委譲プロパティ名 (元クラスに追加される)</value>
+  </data>
+  <data name="ExtractClass_MembersToMove" xml:space="preserve">
+    <value>抽出するメンバー</value>
+  </data>
+
+  <data name="ExtractHierarchy_Title" xml:space="preserve">
+    <value>階層の抽出 / 条件記述をポリモーフィズムで置き換え</value>
+  </data>
+  <data name="ExtractHierarchy_Heading" xml:space="preserve">
+    <value>階層の抽出</value>
+  </data>
+  <data name="ExtractHierarchy_OwnerClassAbstract" xml:space="preserve">
+    <value>所有クラス (抽象クラス化される)</value>
+  </data>
+  <data name="ExtractHierarchy_SubclassNames" xml:space="preserve">
+    <value>サブクラス名 (カンマ区切り、ケース 1 個につき 1 個)</value>
+  </data>
+  <data name="ExtractHierarchy_MethodsToVirtualize" xml:space="preserve">
+    <value>仮想化するメソッド (チェック → 所有クラス側で抽象化 + 各サブクラスに override スタブを生成)</value>
+  </data>
+  <data name="ExtractHierarchy_LeaveUncheckedHint" xml:space="preserve">
+    <value>何もチェックしなければ空のサブクラスだけが生成されます。</value>
+  </data>
+
+  <data name="TeaseApartInheritance_Title" xml:space="preserve">
+    <value>継承の分割</value>
+  </data>
+  <data name="TeaseApartInheritance_PrimaryRoot" xml:space="preserve">
+    <value>主階層のルート (委譲フィールドが追加される)</value>
+  </data>
+  <data name="TeaseApartInheritance_SecondaryRoot" xml:space="preserve">
+    <value>副階層の名前 (新しい抽象ルート)</value>
+  </data>
+  <data name="TeaseApartInheritance_SecondarySubclassNames" xml:space="preserve">
+    <value>副階層のサブクラス名 (カンマ区切り)</value>
+  </data>
+  <data name="TeaseApartInheritance_DelegationField" xml:space="preserve">
+    <value>委譲フィールド名 (主階層のルートに追加)</value>
+  </data>
+  <data name="TeaseApartInheritance_ScaffoldNote" xml:space="preserve">
+    <value>骨組みのみ — 副軸のメソッドは後で「メソッドの押し下げ」等で新しいサブクラスに移動してください。</value>
+  </data>
+
+  <data name="ConvertProceduralToObjects_Title" xml:space="preserve">
+    <value>手続き型のオブジェクトへの変換</value>
+  </data>
+  <data name="ConvertProceduralToObjects_ProceduralClass" xml:space="preserve">
+    <value>手続き型クラス (static な手続きが移動される)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_DataRecord" xml:space="preserve">
+    <value>データレコード型 (移動先 — 第 1 引数の型と一致する必要あり)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_MethodsToMove" xml:space="preserve">
+    <value>移動するメソッド (チェック = 条件を満たすメソッドのみ)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_SkipHint" xml:space="preserve">
+    <value>第 1 引数の型が上のレコードと一致しないメソッドは黙って除外されます。</value>
+  </data>
+
+  <data name="IntroduceParameterObject_Title" xml:space="preserve">
+    <value>パラメータオブジェクトの導入</value>
+  </data>
+  <data name="IntroduceParameterObject_NewClassName" xml:space="preserve">
+    <value>新しいパラメータオブジェクトのクラス名</value>
+  </data>
+  <data name="IntroduceParameterObject_ParamName" xml:space="preserve">
+    <value>メソッド内で使うパラメータ名</value>
+  </data>
+
+  <data name="PreserveWholeObject_Title" xml:space="preserve">
+    <value>オブジェクト全体の保持</value>
+  </data>
+  <data name="PreserveWholeObject_WholeObjType" xml:space="preserve">
+    <value>オブジェクト全体の型</value>
+  </data>
+  <data name="PreserveWholeObject_NewParamName" xml:space="preserve">
+    <value>新しいパラメータ名</value>
+  </data>
+  <data name="PreserveWholeObject_FoldIn" xml:space="preserve">
+    <value>まとめる既存のパラメータ名 (カンマ区切り)</value>
+  </data>
+
+  <data name="AddGhostType_Title" xml:space="preserve">
+    <value>ゴースト型の追加</value>
+  </data>
+  <data name="AddGhostType_Kind" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="AddGhostType_Namespace" xml:space="preserve">
+    <value>名前空間</value>
+  </data>
+  <data name="AddGhostType_TypeName" xml:space="preserve">
+    <value>型名</value>
+  </data>
+
+  <data name="ReplaceArrayWithObject_Title" xml:space="preserve">
+    <value>配列をオブジェクトで置き換え</value>
+  </data>
+  <data name="ReplaceArrayWithObject_ArrayField" xml:space="preserve">
+    <value>配列フィールド / プロパティ</value>
+  </data>
+  <data name="ReplaceArrayWithObject_IndexMapping" xml:space="preserve">
+    <value>インデックス → フィールドの対応 (1 行 1 個、'index:fieldName:fieldType')</value>
+  </data>
+
+  <data name="ReplaceDataValue_Title" xml:space="preserve">
+    <value>データ値をオブジェクトで置き換え</value>
+  </data>
+  <data name="ReplaceDataValue_PrimitiveField" xml:space="preserve">
+    <value>ラップする基本型のフィールドまたはプロパティ</value>
+  </data>
+  <data name="ReplaceDataValue_WrapperClassName" xml:space="preserve">
+    <value>ラッパークラス名</value>
+  </data>
+  <data name="ReplaceDataValue_InnerPropName" xml:space="preserve">
+    <value>内部プロパティ名 (既定は 'Value')</value>
+  </data>
+
+  <data name="ReplaceMagicNumber_Title" xml:space="preserve">
+    <value>マジックナンバーの置き換え</value>
+  </data>
+  <data name="ReplaceMagicNumber_Heading" xml:space="preserve">
+    <value>マジックナンバーをシンボル定数で置き換え</value>
+  </data>
+  <data name="ReplaceMagicNumber_Literal" xml:space="preserve">
+    <value>リテラル値 (ソーステキストと完全一致させる。例: '3.14159', '100', '0.1m')</value>
+  </data>
+  <data name="ReplaceMagicNumber_ConstName" xml:space="preserve">
+    <value>定数名</value>
+  </data>
+  <data name="ReplaceMagicNumber_ConstType" xml:space="preserve">
+    <value>定数の型 (例: 'int', 'double', 'decimal')</value>
+  </data>
+
+  <data name="ReplaceTypeCode_Title" xml:space="preserve">
+    <value>タイプコードをクラスで置き換え</value>
+  </data>
+  <data name="ReplaceTypeCode_TypeCodeField" xml:space="preserve">
+    <value>タイプコードのフィールド / プロパティ</value>
+  </data>
+  <data name="ReplaceTypeCode_InnerCodeType" xml:space="preserve">
+    <value>内部コードの型 (既定は 'int')</value>
+  </data>
+  <data name="ReplaceTypeCode_Codes" xml:space="preserve">
+    <value>コード (1 行 1 個、'Name=Value')</value>
+  </data>
+
+  <data name="ReplaceTypeCodeWithSubclasses_Title" xml:space="preserve">
+    <value>タイプコードをサブクラスで置き換え</value>
+  </data>
+  <data name="ReplaceTypeCodeWithSubclasses_SubclassNames" xml:space="preserve">
+    <value>サブクラス名 (カンマ区切り、コード 1 個につき 1 個)</value>
+  </data>
+
+  <data name="DiffPreview_Title" xml:space="preserve">
+    <value>変更のプレビュー</value>
+  </data>
+  <data name="DiffPreview_UnifiedDiff" xml:space="preserve">
+    <value>Unified diff (前後 3 行のコンテキスト)</value>
+  </data>
+  <data name="DiffPreview_ExportInstruction" xml:space="preserve">
+    <value>Instruction を出力…</value>
+  </data>
+  <data name="DiffPreview_Reject" xml:space="preserve">
+    <value>破棄</value>
+  </data>
+  <data name="DiffPreview_Apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+
+  <data name="Status_LoadMemberFirst" xml:space="preserve">
+    <value>先にメンバーを読み込んでください。</value>
+  </data>
+  <data name="Status_NoSolutionLoaded" xml:space="preserve">
+    <value>ソリューションが読み込まれていません。</value>
+  </data>
+  <data name="Status_NoSolutionLoadedHint" xml:space="preserve">
+    <value>ソリューションが読み込まれていません。ファイル &gt; ソリューションを開く (Ctrl+O) から開いてください。</value>
+  </data>
+  <data name="Status_ExternalChangeReload" xml:space="preserve">
+    <value>外部からの変更を検出しました — 再読み込み中…</value>
+  </data>
+  <data name="Status_OpenMemberFirst" xml:space="preserve">
+    <value>先にコードビューアでメンバーを開いてください。</value>
+  </data>
+  <data name="Status_SelectStatementsToExtract" xml:space="preserve">
+    <value>先にコードビューアで抽出する文を選択してください。</value>
+  </data>
+  <data name="Status_SelectExprToExtract" xml:space="preserve">
+    <value>先にコードビューアで抽出する式を選択してください。</value>
+  </data>
+  <data name="Status_SelectIfRun" xml:space="preserve">
+    <value>統合する if 文の連続を選択してください。</value>
+  </data>
+  <data name="Status_NameUnchanged" xml:space="preserve">
+    <value>名前が変わっていないので何もしません。</value>
+  </data>
+  <data name="Status_NoOtherClassesAsMoveTarget" xml:space="preserve">
+    <value>移動先として利用できる他のクラスがありません。</value>
+  </data>
+  <data name="Status_NoDataRecordAvailable" xml:space="preserve">
+    <value>手続きを移す先のデータレコード型が見つかりません。</value>
+  </data>
+  <data name="Status_NoTypeNodeExtract" xml:space="preserve">
+    <value>抽出に使える型ノードがありません。</value>
+  </data>
+  <data name="Status_NoTypeNodeExtractSuperclass" xml:space="preserve">
+    <value>スーパークラス抽出に使える型ノードがありません。</value>
+  </data>
+  <data name="Status_NoTypeNodeExtractClass" xml:space="preserve">
+    <value>クラス抽出に使える型ノードがありません。</value>
+  </data>
+  <data name="Status_NoTypeNodeRename" xml:space="preserve">
+    <value>名前変更に使える型ノードがありません。</value>
+  </data>
+
+  <data name="Status_CantExtractInterface" xml:space="preserve">
+    <value>外部型・ゴースト型からインタフェースを抽出することはできません。</value>
+  </data>
+  <data name="Status_CantExtractSuperclass" xml:space="preserve">
+    <value>外部型・ゴースト型からスーパークラスを抽出することはできません。</value>
+  </data>
+  <data name="Status_CantExtractClass" xml:space="preserve">
+    <value>外部型・ゴースト型からクラスを抽出することはできません。</value>
+  </data>
+  <data name="Status_CantCollapse" xml:space="preserve">
+    <value>外部型・ゴースト型はたたみ込めません。</value>
+  </data>
+  <data name="Status_CantRemoveSubclass" xml:space="preserve">
+    <value>外部型・ゴースト型は削除できません。</value>
+  </data>
+  <data name="Status_CantPullUpMethods" xml:space="preserve">
+    <value>外部型・ゴースト型からメソッドを引き上げることはできません。</value>
+  </data>
+  <data name="Status_CantPullUpFields" xml:space="preserve">
+    <value>外部型・ゴースト型からフィールドを引き上げることはできません。</value>
+  </data>
+  <data name="Status_CantPushDownMethods" xml:space="preserve">
+    <value>外部型・ゴースト型からメソッドを押し下げることはできません。</value>
+  </data>
+  <data name="Status_CantPushDownFields" xml:space="preserve">
+    <value>外部型・ゴースト型からフィールドを押し下げることはできません。</value>
+  </data>
+  <data name="Status_CantRemoveSetter" xml:space="preserve">
+    <value>外部型・ゴースト型の setter は削除できません。</value>
+  </data>
+  <data name="Status_CantRenameMembers" xml:space="preserve">
+    <value>外部型・ゴースト型のメンバーは名前変更できません。</value>
+  </data>
+  <data name="Status_CantRenameFields" xml:space="preserve">
+    <value>外部型・ゴースト型のフィールドは名前変更できません。</value>
+  </data>
+  <data name="Status_CantPullUpConstructorBody" xml:space="preserve">
+    <value>外部型・ゴースト型からコンストラクタボディを引き上げることはできません。</value>
+  </data>
+  <data name="Status_CantEncapsulateField" xml:space="preserve">
+    <value>外部型・ゴースト型のフィールドはカプセル化できません。</value>
+  </data>
+  <data name="Status_CantMoveMethods" xml:space="preserve">
+    <value>外部型・ゴースト型からメソッドを移動することはできません。</value>
+  </data>
+  <data name="Status_CantMoveFields" xml:space="preserve">
+    <value>外部型・ゴースト型からフィールドを移動することはできません。</value>
+  </data>
+  <data name="Status_CantConvertConstructor" xml:space="preserve">
+    <value>外部型・ゴースト型のコンストラクタは変換できません。</value>
+  </data>
+  <data name="Status_CantReplaceMagicNumber" xml:space="preserve">
+    <value>外部型・ゴースト型のマジックナンバーは置き換えできません。</value>
+  </data>
+  <data name="Status_CantChangeAssociation" xml:space="preserve">
+    <value>外部型・ゴースト型の関連は変更できません。</value>
+  </data>
+  <data name="Status_CantIntroduceParamObj" xml:space="preserve">
+    <value>外部型・ゴースト型にパラメータオブジェクトを導入することはできません。</value>
+  </data>
+  <data name="Status_CantModifySignature" xml:space="preserve">
+    <value>外部型・ゴースト型のメソッドシグネチャは変更できません。</value>
+  </data>
+  <data name="Status_CantRenameParameter" xml:space="preserve">
+    <value>外部型・ゴースト型のパラメータ名は変更できません。</value>
+  </data>
+  <data name="Status_CantPromoteDataValue" xml:space="preserve">
+    <value>外部型・ゴースト型のデータ値は昇格できません。</value>
+  </data>
+  <data name="Status_CantSelfEncapsulate" xml:space="preserve">
+    <value>外部型・ゴースト型は自己カプセル化できません。</value>
+  </data>
+  <data name="Status_CantLockDown" xml:space="preserve">
+    <value>外部型・ゴースト型はロックダウンできません。</value>
+  </data>
+  <data name="Status_CantConvertToReference" xml:space="preserve">
+    <value>外部型・ゴースト型は参照型へ変換できません。</value>
+  </data>
+  <data name="Status_CantReplaceTypeCode" xml:space="preserve">
+    <value>外部型・ゴースト型のタイプコードは置き換えできません。</value>
+  </data>
+  <data name="Status_CantPreserveWholeObject" xml:space="preserve">
+    <value>外部型・ゴースト型に対してオブジェクト全体を保持することはできません。</value>
+  </data>
+  <data name="Status_CantReplaceArray" xml:space="preserve">
+    <value>外部型・ゴースト型の配列は置き換えできません。</value>
+  </data>
+  <data name="Status_CantSubclass" xml:space="preserve">
+    <value>外部型・ゴースト型はサブクラス化できません。</value>
+  </data>
+  <data name="Status_CantExtractHierarchy" xml:space="preserve">
+    <value>外部型・ゴースト型から階層を抽出することはできません。</value>
+  </data>
+  <data name="Status_CantTeaseApart" xml:space="preserve">
+    <value>外部型・ゴースト型の継承は分割できません。</value>
+  </data>
+  <data name="Status_CantIntroduceNullObject" xml:space="preserve">
+    <value>外部型・ゴースト型に Null オブジェクトを導入することはできません。</value>
+  </data>
+  <data name="Status_CantMoveProcedures" xml:space="preserve">
+    <value>外部型・ゴースト型から手続きを移動することはできません。</value>
+  </data>
+  <data name="Status_CantFlattenHierarchy" xml:space="preserve">
+    <value>外部型・ゴースト型では階層をフラット化できません。</value>
+  </data>
+
+  <data name="Status_NoBaseToCollapseInto" xml:space="preserve">
+    <value>{0} にはたたみ込む先の基底型がありません。</value>
+  </data>
+  <data name="Status_NoBaseForRemoveSubclass" xml:space="preserve">
+    <value>{0} には代わりに使える基底型がありません。サブクラス削除にはスーパークラスが必要です。</value>
+  </data>
+  <data name="Status_NoBaseToPullUp" xml:space="preserve">
+    <value>{0} には引き上げる先の基底型がありません。</value>
+  </data>
+  <data name="Status_NoSubclassesToPushDown" xml:space="preserve">
+    <value>{0} には押し下げる先のサブクラスがありません。</value>
+  </data>
+  <data name="Status_NoSubclassesToFoldIn" xml:space="preserve">
+    <value>{0} にはたたみ込めるサブクラスがありません。</value>
+  </data>
+  <data name="Status_NoChangesProduced" xml:space="preserve">
+    <value>{0} の提案では変更が生成されませんでした。</value>
+  </data>
+  <data name="Status_OperationRejected" xml:space="preserve">
+    <value>{0} を破棄しました。</value>
+  </data>
+  <data name="Status_RefTargetMissing" xml:space="preserve">
+    <value>参照先ファイルが見つかりません: {0}</value>
+  </data>
+  <data name="Status_ReadFailed" xml:space="preserve">
+    <value>読み込み失敗: {0}</value>
+  </data>
+  <data name="Status_ReferenceLocation" xml:space="preserve">
+    <value>参照: {0}:{1}:{2}</value>
+  </data>
+  <data name="Status_NavigateFailed" xml:space="preserve">
+    <value>ナビゲート失敗: {0}</value>
+  </data>
+  <data name="Status_SourceNotFoundFor" xml:space="preserve">
+    <value>{0} のソースが見つかりません</value>
+  </data>
+  <data name="Status_ViewingMember" xml:space="preserve">
+    <value>表示中: {0}.{1}</value>
+  </data>
+  <data name="Status_SolutionNotFound" xml:space="preserve">
+    <value>ソリューションが見つかりません: {0}</value>
+  </data>
+  <data name="Status_LoadingSln" xml:space="preserve">
+    <value>{0} を読み込み中…</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>失敗: {0}</value>
+  </data>
+  <data name="Status_Showing" xml:space="preserve">
+    <value>{0}/{1} 型を表示中 (+{2} 外部)、関連 {3} 本</value>
+  </data>
+  <data name="Status_Proposing" xml:space="preserve">
+    <value>提案中: {0}…</value>
+  </data>
+  <data name="Status_ProposalReady" xml:space="preserve">
+    <value>提案準備完了: ファイル変更 {0} 件{1}</value>
+  </data>
+  <data name="Status_ProposeFailed" xml:space="preserve">
+    <value>提案失敗: {0}</value>
+  </data>
+  <data name="Status_ApplyingChanges" xml:space="preserve">
+    <value>{0} 件の変更を適用中…</value>
+  </data>
+
+  <data name="Refs_SearchingFor" xml:space="preserve">
+    <value>{0}.{1} への参照を検索中…</value>
+  </data>
+  <data name="Refs_CountFound" xml:space="preserve">
+    <value>{1}.{2} への参照 {0} 件</value>
+  </data>
+  <data name="Refs_FindFailed" xml:space="preserve">
+    <value>参照検索失敗: {0}</value>
+  </data>
+
+  <data name="DiffOverlay_Summary" xml:space="preserve">
+    <value>差分: +{0} 追加 / -{1} 削除 / ~{2} 変更</value>
+  </data>
+  <data name="ImpactFocus_Summary" xml:space="preserve">
+    <value>影響絞り込み: シード {0} 個、到達 {1} 個 (ユーザー {2} / 外部 {3} / 除外 {4} / 未検出 {5})、{6} ホップ以内 — [{7}]</value>
+  </data>
+
+  <data name="Confirm_CollapseHierarchy_Caption" xml:space="preserve">
+    <value>階層のたたみ込み</value>
+  </data>
+  <data name="Confirm_CollapseHierarchy_Body" xml:space="preserve">
+    <value>'{0}' を基底 '{1}' にたたみ込みますか？
+
+'{0}' の全メンバーが基底に移動され、'{0}' 自体は削除、使用箇所はすべて基底型に書き換えられます。</value>
+  </data>
+  <data name="Confirm_RemoveSubclass_Caption" xml:space="preserve">
+    <value>サブクラスの削除</value>
+  </data>
+  <data name="Confirm_RemoveSubclass_Body" xml:space="preserve">
+    <value>サブクラス '{0}' を削除し、使用箇所をすべて基底型 '{1}' に書き換えますか？
+
+宣言ファイルは削除されます。Kata 内からは元に戻せません (git を使用してください)。</value>
+  </data>
+  <data name="Confirm_PullUpCtor_Caption" xml:space="preserve">
+    <value>コンストラクタボディの引き上げ</value>
+  </data>
+  <data name="Confirm_PullUpCtor_Body" xml:space="preserve">
+    <value>{0} のコンストラクタボディを {1} のコンストラクタに移動しますか？
+
+{0} のコンストラクタは空になり、`: base()` で委譲します。</value>
+  </data>
+  <data name="Confirm_ReplaceCtorFactory_Caption" xml:space="preserve">
+    <value>コンストラクタをファクトリメソッドで置き換え</value>
+  </data>
+  <data name="Confirm_ReplaceCtorFactory_Body" xml:space="preserve">
+    <value>{0} に public static Create ファクトリを追加し、既存のコンストラクタを private にしますか？</value>
+  </data>
+  <data name="Confirm_RefToValue_Caption" xml:space="preserve">
+    <value>参照から値へ変更</value>
+  </data>
+  <data name="Confirm_RefToValue_Body" xml:space="preserve">
+    <value>{0} を実質的にイミュータブルにしますか？ 全ての可変フィールドに 'readonly' が付き、プロパティ setter は 'init' になります。</value>
+  </data>
+  <data name="Confirm_ValueToRef_Caption" xml:space="preserve">
+    <value>値から参照へ変更</value>
+  </data>
+  <data name="Confirm_ValueToRef_Body" xml:space="preserve">
+    <value>{0} に静的な Dictionary&lt;string, {0}&gt; レジストリと GetOrCreate ファクトリを追加しますか？</value>
+  </data>
+  <data name="Confirm_ReplaceSubclassFields_Caption" xml:space="preserve">
+    <value>サブクラスをフィールドで置き換え</value>
+  </data>
+  <data name="Confirm_ReplaceSubclassFields_Body" xml:space="preserve">
+    <value>{0} から 'abstract' を外し、以下のサブクラスファイルを削除しますか？
+
+{1}
+
+実行前に、サブクラス固有の振る舞いは必ず引き上げておいてください。</value>
+  </data>
+
+  <data name="DiffPreview_ExportSuccess_Caption" xml:space="preserve">
+    <value>Instruction 書き出し</value>
+  </data>
+  <data name="DiffPreview_ExportSuccess_Body" xml:space="preserve">
+    <value>Instruction を書き出しました:
+{0}</value>
+  </data>
+  <data name="DiffPreview_ExportFailure_Caption" xml:space="preserve">
+    <value>書き出し失敗</value>
+  </data>
+  <data name="DiffPreview_ExportFailure_Body" xml:space="preserve">
+    <value>Instruction の書き出しに失敗しました:
+{0}</value>
+  </data>
+
+  <!-- Smell popup button -->
+  <data name="Smell_Popup_AskAiButton" xml:space="preserve">
+    <value>AIに提案させる</value>
+  </data>
+
+  <!-- AiRequestDialog elapsed formatting -->
+  <data name="AiRequest_Elapsed_Initial" xml:space="preserve">
+    <value>0 秒</value>
+  </data>
+  <data name="AiRequest_Elapsed_MinutesSeconds_Format" xml:space="preserve">
+    <value>{0} 分 {1} 秒</value>
+  </data>
+  <data name="AiRequest_Elapsed_Seconds_Format" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+
+  <!-- Fowler smell categories (24) -->
+  <data name="Smell_Category_MysteriousName" xml:space="preserve"><value>不可思議な名前</value></data>
+  <data name="Smell_Category_DuplicatedCode" xml:space="preserve"><value>重複したコード</value></data>
+  <data name="Smell_Category_LongFunction" xml:space="preserve"><value>長い関数</value></data>
+  <data name="Smell_Category_LongParameterList" xml:space="preserve"><value>長いパラメータリスト</value></data>
+  <data name="Smell_Category_GlobalData" xml:space="preserve"><value>グローバルなデータ</value></data>
+  <data name="Smell_Category_MutableData" xml:space="preserve"><value>変更可能なデータ</value></data>
+  <data name="Smell_Category_DivergentChange" xml:space="preserve"><value>変更の偏り</value></data>
+  <data name="Smell_Category_ShotgunSurgery" xml:space="preserve"><value>変更の分散</value></data>
+  <data name="Smell_Category_FeatureEnvy" xml:space="preserve"><value>特性の横恋慕</value></data>
+  <data name="Smell_Category_DataClumps" xml:space="preserve"><value>データの群れ</value></data>
+  <data name="Smell_Category_PrimitiveObsession" xml:space="preserve"><value>基本データ型への執着</value></data>
+  <data name="Smell_Category_RepeatedSwitches" xml:space="preserve"><value>重複したスイッチ文</value></data>
+  <data name="Smell_Category_Loops" xml:space="preserve"><value>ループ</value></data>
+  <data name="Smell_Category_LazyElement" xml:space="preserve"><value>怠け者の要素</value></data>
+  <data name="Smell_Category_SpeculativeGenerality" xml:space="preserve"><value>疑わしき一般化</value></data>
+  <data name="Smell_Category_TemporaryField" xml:space="preserve"><value>一時的属性</value></data>
+  <data name="Smell_Category_MessageChains" xml:space="preserve"><value>メッセージの連鎖</value></data>
+  <data name="Smell_Category_MiddleMan" xml:space="preserve"><value>仲介人</value></data>
+  <data name="Smell_Category_InsiderTrading" xml:space="preserve"><value>インサイダー取引</value></data>
+  <data name="Smell_Category_LargeClass" xml:space="preserve"><value>巨大なクラス</value></data>
+  <data name="Smell_Category_AlternativeClassesWithDifferentInterfaces" xml:space="preserve"><value>クラスのインターフェース不一致</value></data>
+  <data name="Smell_Category_DataClass" xml:space="preserve"><value>データクラス</value></data>
+  <data name="Smell_Category_RefusedBequest" xml:space="preserve"><value>相続拒否</value></data>
+  <data name="Smell_Category_Comments" xml:space="preserve"><value>コメント</value></data>
+
+  <!-- Smell primary-fix labels -->
+  <data name="Smell_Fix_RenameMember" xml:space="preserve"><value>メンバー名を変更</value></data>
+  <data name="Smell_Fix_RenameType" xml:space="preserve"><value>型名を変更</value></data>
+  <data name="Smell_Fix_OpenViewer_ExtractMethod" xml:space="preserve"><value>コードビューアで開く (メソッドを抽出)</value></data>
+  <data name="Smell_Fix_OpenViewer_InlineMethod" xml:space="preserve"><value>コードビューアで開く (メソッドをインライン化)</value></data>
+  <data name="Smell_Fix_IntroduceParameterObject" xml:space="preserve"><value>パラメータオブジェクトを導入</value></data>
+  <data name="Smell_Fix_EncapsulateField" xml:space="preserve"><value>フィールドをカプセル化</value></data>
+  <data name="Smell_Fix_RemoveSettingMethod" xml:space="preserve"><value>設定メソッドを削除</value></data>
+  <data name="Smell_Fix_ExtractClass" xml:space="preserve"><value>クラスを抽出</value></data>
+  <data name="Smell_Fix_MoveMethod" xml:space="preserve"><value>メソッドを移動</value></data>
+  <data name="Smell_Fix_ReplaceDataValueWithObject" xml:space="preserve"><value>データ値をオブジェクトに置換</value></data>
+  <data name="Smell_Fix_ReplaceTypeCodeWithSubclasses" xml:space="preserve"><value>タイプコードをサブクラスに置換</value></data>
+  <data name="Smell_Fix_CollapseHierarchy" xml:space="preserve"><value>階層を平坦化</value></data>
+  <data name="Smell_Fix_ExtractSuperclass" xml:space="preserve"><value>スーパークラスを抽出</value></data>
+  <data name="Smell_Fix_PushDownMethod" xml:space="preserve"><value>メソッドを押し下げ</value></data>
+
+  <!-- MainWindow AI smell fix flow status / dialog captions -->
+  <data name="Status_Ai_SvmMissing_Format" xml:space="preserve"><value>AI 相談 ({0}): CodeSmellViewModel 取得失敗</value></data>
+  <data name="Status_Ai_Consulting_Format" xml:space="preserve"><value>AI に相談中 ({0}): {1} @ {2}</value></data>
+  <data name="Status_Ai_FollowupInProgress_Format" xml:space="preserve"><value>AI 提案 (.cpp 定義漏れ検出) — 追加で問い合わせ中 ({0})</value></data>
+  <data name="Status_Ai_Completed_Format" xml:space="preserve"><value>AI 相談完了 ({0}): {1}</value></data>
+  <data name="Status_Ai_AnalysisOnly_Format" xml:space="preserve"><value>AI 分析 ({0}): {1} — diff なし (解説のみ)</value></data>
+  <data name="Status_Ai_ApplyFailed_Format" xml:space="preserve"><value>AI 提案の diff 適用失敗 ({0}): {1}</value></data>
+  <data name="Status_Ai_Cancelled_Format" xml:space="preserve"><value>AI 相談 ({0}): 取消 or タイムアウト ({1} 分応答なし)</value></data>
+  <data name="Status_Ai_Error_Format" xml:space="preserve"><value>AI 相談エラー ({0}): {1} — {2}</value></data>
+  <data name="Status_Smell_OpenViewerHint_Format" xml:space="preserve"><value>「{0}」の対処は、コードビューアで範囲を選択してから右クリックメニューのリファクタリングを実行してください</value></data>
+  <data name="Status_Smell_TypeLevelHint_Format" xml:space="preserve"><value>「{0}」は型全体の指摘です — 該当メンバーを開いてから再度実行してください</value></data>
+  <data name="Dialog_Ai_AnalysisCaption_Format" xml:space="preserve"><value>AI 分析 ({0}) — {1}</value></data>
+  <data name="Dialog_Ai_DiffExtractFailedCaption_Format" xml:space="preserve"><value>AI 提案の diff 抽出に失敗 ({0}) — {1}</value></data>
+  <data name="Dialog_Ai_EmptyResponseBody" xml:space="preserve"><value>(空の応答)</value></data>
+  <data name="Ai_Rationale_Format" xml:space="preserve"><value>AI 提案 ({0}) — {1}: {2}</value></data>
+  <data name="Ai_ChangeSetSummary_Format" xml:space="preserve"><value>AI 提案 ({0} file change(s))</value></data>
+
+  <!-- AI response → diff → change-set build errors -->
+  <data name="Ai_BuildError_FollowupStillMissing" xml:space="preserve"><value>宣言の .cpp 定義追加を求めた再問い合わせでも欠落が解消せず</value></data>
+  <data name="Ai_BuildError_NoDiffBlock" xml:space="preserve"><value>AI 応答から diff ブロックを抽出できませんでした</value></data>
+  <data name="Ai_BuildError_NoHunks" xml:space="preserve"><value>diff ブロックにハンクが見つかりませんでした</value></data>
+  <data name="Ai_BuildError_UnknownTargetFile_Format" xml:space="preserve"><value>diff の対象ファイルが特定できませんでした: {0}</value></data>
+  <data name="Ai_BuildError_ReadOriginalFailed_Format" xml:space="preserve"><value>元ファイル読み込み失敗 ({0}): {1}</value></data>
+  <data name="Ai_BuildError_ApplyFailed_Format" xml:space="preserve"><value>diff 適用失敗 ({0}): {1}</value></data>
+  <data name="Ai_BuildError_NoChangesProduced_Format" xml:space="preserve"><value>diff は解釈できましたが差分が生成されませんでした ({0})</value></data>
+  <data name="Ai_BuildError_NoApplicableChanges" xml:space="preserve"><value>適用可能な変更が生成されませんでした</value></data>
+  <data name="Ai_BuildError_TransformException_Format" xml:space="preserve"><value>diff 変換で例外: {0} — {1}</value></data>
+
+  <!-- MainWindowViewModel apply safety-net -->
+  <data name="Status_ApplyBroken_Reload_Format" xml:space="preserve"><value>⚠ 差分反映が壊れました (型数 {0}→{1})。sln を再読み込みします…</value></data>
+</root>

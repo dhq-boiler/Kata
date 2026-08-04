@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kata.App/Kata.App.csproj" />
+    <Project Path="src/Kata.App.PluginApi/Kata.App.PluginApi.csproj" />
+    <Project Path="src/Kata.Core/Kata.Core.csproj" />
+    <Project Path="src/Kata.Cpp/Kata.Cpp.csproj" />
+    <Project Path="src/Kata.Mcp/Kata.Mcp.csproj" />
+    <Project Path="src/Kata.Roslyn/Kata.Roslyn.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Kata.Tests/Kata.Tests.csproj" />
+  </Folder>
+</Solution>

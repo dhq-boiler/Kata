@@ -1,0 +1,63 @@
+## Proprietary Pro edition (Kata.App.Pro) — lives in a separate private repo,
+## kept out of this public Community tree. See https://kata.dhq-boiler.dev/pro
+## for the commercial version.
+/src/Kata.App.Pro/
+
+## Build outputs
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## VS / Rider workspace state
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## .NET Core / SDK
+*.pdb
+*.dll
+!vendored/*.dll
+
+## Windows / OS junk
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+## macOS
+.DS_Store
+
+## MSBuild
+*.binlog
+
+## Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml

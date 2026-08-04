@@ -1,0 +1,53 @@
+﻿<Window x:Class="Kata.App.Dialogs.RenameFieldDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:Kata.App.Services"
+        xmlns:loc="clr-namespace:Kata.App.Localization"
+        Title="{x:Static loc:Strings.RenameField_Title}"
+        Height="440" Width="480"
+        Background="#252526"
+        Foreground="#e0e0e0"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/Icons/kata-transparent.ico"
+        Style="{StaticResource ChromedWindow}"
+        svc:WindowChromeHelper.IsAttached="True"
+        ShowInTaskbar="False">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{x:Static loc:Strings.RenameField_Title}" FontSize="14" FontWeight="Bold" Margin="0,0,0,10" />
+
+        <TextBlock Grid.Row="1" Text="{x:Static loc:Strings.Dialog_OwnerClass}" FontSize="11" Foreground="#888" />
+        <TextBlock Grid.Row="2" x:Name="OwnerText" FontFamily="Consolas" FontSize="13" Margin="0,2,0,12" />
+
+        <TextBlock Grid.Row="3" Text="{x:Static loc:Strings.RenameField_Field}" FontSize="11" Foreground="#888" />
+        <ComboBox Grid.Row="4" x:Name="FieldCombo" FontFamily="Consolas" FontSize="13" Padding="4,2" Margin="0,2,0,12" SelectionChanged="OnFieldChanged" />
+
+        <TextBlock Grid.Row="5" Text="{x:Static loc:Strings.Dialog_NewName}" FontSize="11" Foreground="#888" />
+        <TextBox Grid.Row="6"
+                 x:Name="NewNameBox"
+                 FontFamily="Consolas"
+                 FontSize="14"
+                 Padding="6,4"
+                 Background="#1e1e1e"
+                 Foreground="White"
+                 BorderBrush="#3f3f46"
+                 Margin="0,2,0,12" />
+
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="{x:Static loc:Strings.Common_Cancel}" Width="90" Height="30" Margin="0,0,8,0" Click="OnCancelClick" />
+            <Button Content="{x:Static loc:Strings.Dialog_Preview}" x:Name="OkButton" Width="90" Height="30" IsDefault="True" Click="OnOkClick" />
+        </StackPanel>
+    </Grid>
+</Window>

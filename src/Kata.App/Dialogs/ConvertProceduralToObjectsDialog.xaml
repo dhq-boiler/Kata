@@ -1,0 +1,73 @@
+﻿<Window x:Class="Kata.App.Dialogs.ConvertProceduralToObjectsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:Kata.App.Services"
+        xmlns:loc="clr-namespace:Kata.App.Localization"
+        Title="{x:Static loc:Strings.ConvertProceduralToObjects_Title}"
+        Height="560" Width="600"
+        Background="#252526"
+        Foreground="#e0e0e0"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/Icons/kata-transparent.ico"
+        Style="{StaticResource ChromedWindow}"
+        svc:WindowChromeHelper.IsAttached="True"
+        ShowInTaskbar="False">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{x:Static loc:Strings.ConvertProceduralToObjects_Title}" FontSize="14" FontWeight="Bold" Margin="0,0,0,10" />
+
+        <TextBlock Grid.Row="1"
+                   Text="{x:Static loc:Strings.ConvertProceduralToObjects_ProceduralClass}"
+                   FontSize="11" Foreground="#888" />
+        <TextBlock Grid.Row="2" x:Name="ProceduralText" FontFamily="Consolas" FontSize="13" Margin="0,2,0,12" />
+
+        <TextBlock Grid.Row="3"
+                   Text="{x:Static loc:Strings.ConvertProceduralToObjects_DataRecord}"
+                   FontSize="11" Foreground="#888" />
+        <ComboBox Grid.Row="4" x:Name="RecordCombo"
+                  Background="#1e1e1e" Foreground="White" BorderBrush="#3f3f46"
+                  FontFamily="Consolas" FontSize="12"
+                  Margin="0,2,0,10" />
+
+        <TextBlock Grid.Row="5"
+                   Text="{x:Static loc:Strings.ConvertProceduralToObjects_MethodsToMove}"
+                   FontSize="11" Foreground="#888" />
+        <TextBlock Grid.Row="6"
+                   Text="{x:Static loc:Strings.ConvertProceduralToObjects_SkipHint}"
+                   FontSize="10" Foreground="#666" Margin="0,0,0,4" />
+        <ListBox Grid.Row="7" x:Name="MethodList"
+                 Background="#1e1e1e" Foreground="#e0e0e0" BorderBrush="#3f3f46"
+                 FontFamily="Consolas" FontSize="12"
+                 SelectionMode="Extended">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="4,2" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                              Content="{Binding DisplayLabel}"
+                              Foreground="#e0e0e0" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="{x:Static loc:Strings.Common_Cancel}" Width="90" Height="30" Margin="0,0,8,0" Click="OnCancelClick" />
+            <Button Content="{x:Static loc:Strings.Dialog_Preview}" x:Name="OkButton" Width="90" Height="30" IsDefault="True" Click="OnOkClick" />
+        </StackPanel>
+    </Grid>
+</Window>

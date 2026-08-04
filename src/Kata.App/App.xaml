@@ -1,0 +1,19 @@
+<Application x:Class="Kata.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Kata.App"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Nodify.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Dark.xaml" />
+                <ResourceDictionary Source="/Themes/DarkTheme.xaml" />
+                <ResourceDictionary Source="/Themes/Theme.xaml" />
+                <ResourceDictionary Source="/Themes/NodifyEditorTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- 全 Button に DarkMessageBoxButton を適用 -->
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DarkMessageBoxButton}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

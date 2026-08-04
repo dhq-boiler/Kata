@@ -1,0 +1,270 @@
+﻿<Window x:Class="Kata.App.Views.PreferencesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:Kata.App.Services"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Kata.App.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        Width="640"
+        Height="360"
+        d:DataContext="{d:DesignInstance Type=vm:PreferencesViewModel}"
+        Background="#1e1e1e"
+        Foreground="#e0e0e0"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/Icons/kata-transparent.ico"
+        Style="{StaticResource ChromedWindow}"
+        svc:WindowChromeHelper.IsAttached="True"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <!-- 各カテゴリの中身。SelectedCategory.Key で DataTemplate を切り替える。
+             新カテゴリを増やすときはここに DataTemplate を 1 個足すだけ -->
+
+        <DataTemplate x:Key="GeneralCategoryTemplate">
+            <StackPanel Margin="4">
+                <TextBlock Text="{Binding DataContext.LanguageLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                           FontSize="12"
+                           Foreground="#e0e0e0"
+                           Margin="0,6,0,4" />
+                <ComboBox ItemsSource="{Binding DataContext.LanguageOptions, RelativeSource={RelativeSource AncestorType=Window}}"
+                          SelectedItem="{Binding DataContext.SelectedLanguageOption, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}"
+                          DisplayMemberPath="Display"
+                          MinWidth="240"
+                          HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding DataContext.LanguageHint, RelativeSource={RelativeSource AncestorType=Window}}"
+                           TextWrapping="Wrap"
+                           FontSize="11"
+                           Foreground="#a0a0a0"
+                           Margin="0,4,0,6" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- AI モデル識別子。 IsEditable="True" で任意 ID を入力可能、
+             IsTextSearchEnabled="True" で先頭一致の入力補完が効く -->
+        <DataTemplate x:Key="AiCategoryTemplate">
+            <StackPanel Margin="4">
+                <TextBlock Text="{Binding DataContext.ClaudeModelLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                           FontSize="12"
+                           Foreground="#e0e0e0"
+                           Margin="0,6,0,4" />
+                <ComboBox ItemsSource="{Binding DataContext.ClaudeModelSuggestions, RelativeSource={RelativeSource AncestorType=Window}}"
+                          Text="{Binding DataContext.ClaudeModel, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEditable="True"
+                          IsTextSearchEnabled="True"
+                          StaysOpenOnEdit="True"
+                          MinWidth="360"
+                          HorizontalAlignment="Left" />
+
+                <TextBlock Text="{Binding DataContext.CodexModelLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                           FontSize="12"
+                           Foreground="#e0e0e0"
+                           Margin="0,14,0,4" />
+                <ComboBox ItemsSource="{Binding DataContext.CodexModelSuggestions, RelativeSource={RelativeSource AncestorType=Window}}"
+                          Text="{Binding DataContext.CodexModel, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEditable="True"
+                          IsTextSearchEnabled="True"
+                          StaysOpenOnEdit="True"
+                          MinWidth="360"
+                          HorizontalAlignment="Left" />
+
+                <TextBlock Text="{Binding DataContext.AiModelHint, RelativeSource={RelativeSource AncestorType=Window}}"
+                           TextWrapping="Wrap"
+                           FontSize="11"
+                           Foreground="#a0a0a0"
+                           Margin="0,10,0,6" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Pro ライセンス。キー入力 → license.json 保存。反映は再起動 (ProLoader 経由) -->
+        <DataTemplate x:Key="ProCategoryTemplate">
+            <StackPanel Margin="4">
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,4">
+                    <TextBlock Text="{Binding DataContext.ProStatusLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="12"
+                               Foreground="#e0e0e0"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding DataContext.ProStatusText, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="#e0e0e0"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,2,0,2"
+                            Visibility="{Binding DataContext.ProHasEmail, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="{Binding DataContext.ProEmailLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="11"
+                               Foreground="#a0a0a0"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding DataContext.ProEmailText, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="11"
+                               Foreground="#e0e0e0"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,2,0,6"
+                            Visibility="{Binding DataContext.ProShowExpires, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="{Binding DataContext.ProExpiresLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="11"
+                               Foreground="#a0a0a0"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding DataContext.ProExpiresText, RelativeSource={RelativeSource AncestorType=Window}}"
+                               FontSize="11"
+                               Foreground="#e0e0e0"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Pro DLL のロード失敗 / 契約不整合など、ProLoader が返した診断メッセージ。
+                     契約者が「金払った Pro が動いてない」に気付けるように目立たせる。 -->
+                <Border Background="#3a2a1a"
+                        BorderBrush="#ff8c42"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Padding="8,6"
+                        Margin="0,8,0,4"
+                        Visibility="{Binding DataContext.ProHasDiagnostic, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="{Binding DataContext.ProDiagnosticMessage, RelativeSource={RelativeSource AncestorType=Window}}"
+                               TextWrapping="Wrap"
+                               FontSize="11"
+                               Foreground="#ffb84d" />
+                </Border>
+
+                <TextBlock Text="{Binding DataContext.ProLicenseKeyLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                           FontSize="12"
+                           Foreground="#e0e0e0"
+                           Margin="0,10,0,4" />
+                <TextBox Text="{Binding DataContext.LicenseKey, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         FontFamily="Consolas"
+                         MinWidth="380"
+                         HorizontalAlignment="Stretch" />
+
+                <TextBlock Text="{Binding DataContext.ProHint, RelativeSource={RelativeSource AncestorType=Window}}"
+                           TextWrapping="Wrap"
+                           FontSize="11"
+                           Foreground="#a0a0a0"
+                           Margin="0,10,0,6" />
+
+                <TextBlock Text="{Binding DataContext.ProRestartHint, RelativeSource={RelativeSource AncestorType=Window}}"
+                           TextWrapping="Wrap"
+                           FontSize="11"
+                           FontStyle="Italic"
+                           Foreground="#ffb84d"
+                           Margin="0,4,0,6"
+                           Visibility="{Binding DataContext.ProShowRestartHint, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVis}}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- 診断モード: 有効時は %TEMP%\kata-diag.log に apply / diff overlay の逐次ログが吐かれる -->
+        <DataTemplate x:Key="DiagnosticsCategoryTemplate">
+            <StackPanel Margin="4">
+                <CheckBox IsChecked="{Binding DataContext.DiagnosticsEnabled, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}"
+                          Content="{Binding DataContext.DiagnosticsEnabledLabel, RelativeSource={RelativeSource AncestorType=Window}}"
+                          Foreground="#e0e0e0"
+                          Margin="0,6,0,4" />
+
+                <TextBlock Text="{Binding DataContext.DiagnosticsHint, RelativeSource={RelativeSource AncestorType=Window}}"
+                           TextWrapping="Wrap"
+                           FontSize="11"
+                           Foreground="#a0a0a0"
+                           Margin="0,4,0,6" />
+
+                <TextBlock Text="{Binding DataContext.DiagnosticsLogPath, RelativeSource={RelativeSource AncestorType=Window}}"
+                           FontFamily="Consolas"
+                           FontSize="11"
+                           Foreground="#a0a0a0"
+                           TextWrapping="Wrap"
+                           Margin="0,4,0,6" />
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="CategoryContentStyle" TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource GeneralCategoryTemplate}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedCategory.Key}" Value="general">
+                    <Setter Property="ContentTemplate" Value="{StaticResource GeneralCategoryTemplate}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedCategory.Key}" Value="ai">
+                    <Setter Property="ContentTemplate" Value="{StaticResource AiCategoryTemplate}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedCategory.Key}" Value="pro">
+                    <Setter Property="ContentTemplate" Value="{StaticResource ProCategoryTemplate}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedCategory.Key}" Value="diagnostics">
+                    <Setter Property="ContentTemplate" Value="{StaticResource DiagnosticsCategoryTemplate}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DialogButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="MinWidth" Value="88" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="Padding" Value="12,4" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 上段: 左カテゴリ / 右詳細 -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="#252526"
+                    BorderBrush="#3f3f46"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Margin="0,0,8,0">
+                <ListBox ItemsSource="{Binding Categories}"
+                         SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="#e0e0e0"
+                         Padding="4">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:PreferencesCategory}">
+                            <TextBlock Text="{Binding DisplayName}" Padding="6,4" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Background="#2b2b2b"
+                    BorderBrush="#3f3f46"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="12">
+                <ContentControl Content="{Binding SelectedCategory}"
+                                Style="{StaticResource CategoryContentStyle}" />
+            </Border>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,12,0,0">
+            <Button Content="{Binding OkLabel}"
+                    Style="{StaticResource DialogButton}"
+                    IsDefault="True"
+                    Command="{Binding OkCommand}" />
+            <Button Content="{Binding CancelLabel}"
+                    Style="{StaticResource DialogButton}"
+                    IsCancel="True"
+                    Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,67 @@
+<Window x:Class="Kata.App.Dialogs.AiQuotaExceededDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:Kata.App.Services"
+        xmlns:loc="clr-namespace:Kata.App.Localization"
+        Title="{x:Static loc:Strings.AiQuota_ExceededTitle}"
+        Width="480"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/Icons/kata-transparent.ico"
+        Style="{StaticResource ChromedWindow}"
+        svc:WindowChromeHelper.IsAttached="True"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Background="#1e1e1e"
+        Foreground="#e0e0e0">
+    <Grid Margin="24,20,24,18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   x:Name="HeadingText"
+                   FontSize="15"
+                   FontWeight="SemiBold"
+                   Foreground="#ffb84d"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,10" />
+
+        <TextBlock Grid.Row="1"
+                   x:Name="BodyText"
+                   FontSize="12"
+                   Foreground="#e0e0e0"
+                   TextWrapping="Wrap"
+                   LineHeight="18"
+                   Margin="0,0,0,18" />
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="CloseButton"
+                    Content="{x:Static loc:Strings.AiQuota_Dialog_CloseButton}"
+                    Padding="14,4"
+                    MinWidth="88"
+                    Margin="0,0,8,0"
+                    Click="OnCloseClick"
+                    IsCancel="True" />
+            <Button x:Name="EnterKeyButton"
+                    Content="{x:Static loc:Strings.AiQuota_Dialog_EnterKeyButton}"
+                    Padding="14,4"
+                    MinWidth="88"
+                    Margin="0,0,8,0"
+                    Click="OnEnterKeyClick" />
+            <Button x:Name="PurchaseButton"
+                    Content="{x:Static loc:Strings.AiQuota_Dialog_PurchaseButton}"
+                    Padding="14,4"
+                    MinWidth="120"
+                    Click="OnPurchaseClick"
+                    IsDefault="True"
+                    Background="#4a9eff"
+                    Foreground="White"
+                    BorderBrush="#3a7ecc" />
+        </StackPanel>
+    </Grid>
+</Window>

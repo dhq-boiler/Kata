@@ -1,0 +1,136 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:nodify="clr-namespace:Nodify;assembly=Nodify"
+                    xmlns:kata="clr-namespace:Kata.App.Graph">
+
+    <!-- Local, publicly-visible copies of Nodify's converters. StaticResource
+         inside a ControlTemplate can only resolve keys from the template's own
+         ResourceDictionary, so we register these here rather than depend on the
+         app-level merge of Nodify.xaml (Nodify's converters are internal). -->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <kata:NodifyUnscaleTransformConverter x:Key="UnscaleTransformConverter" />
+    <kata:NodifyScaleDoubleConverter x:Key="ScaleDoubleConverter" />
+    <kata:NodifyScalePointConverter x:Key="ScalePointConverter" />
+
+    <!-- Override PART_ItemsHost with VirtualizingNodifyCanvas.
+         Everything else mirrors Nodify's default template verbatim
+         (v7.3.0 Themes/Styles/NodifyEditor.xaml). -->
+    <Style TargetType="{x:Type nodify:NodifyEditor}"
+           BasedOn="{StaticResource {x:Type nodify:NodifyEditor}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type nodify:NodifyEditor}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
+                            ClipToBounds="True">
+                        <Canvas RenderTransform="{TemplateBinding ViewportTransform}">
+                            <kata:VirtualizingNodifyCanvas x:Name="PART_ItemsHost"
+                                                           IsItemsHost="True"
+                                                           Extent="{Binding ItemsExtent, Mode=OneWayToSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           ViewportLocation="{Binding ViewportLocation, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           ViewportSize="{Binding ViewportSize, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                            <nodify:ConnectionsMultiSelector x:Name="PART_ConnectionsHost"
+                                                             ItemsSource="{TemplateBinding Connections}"
+                                                             SelectedItem="{Binding SelectedConnection, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             SelectedItems="{TemplateBinding SelectedConnections}"
+                                                             CanSelectMultipleItems="{TemplateBinding CanSelectMultipleConnections}"
+                                                             ItemTemplate="{TemplateBinding ConnectionTemplate}"
+                                                             ItemTemplateSelector="{TemplateBinding ConnectionTemplateSelector}"
+                                                             IsTabStop="False">
+                                <nodify:ConnectionsMultiSelector.Style>
+                                    <Style TargetType="nodify:ConnectionsMultiSelector">
+                                        <Setter Property="Panel.ZIndex" Value="-1" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DisplayConnectionsOnTop, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         Value="True">
+                                                <Setter Property="Panel.ZIndex" Value="0" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </nodify:ConnectionsMultiSelector.Style>
+                                <nodify:ConnectionsMultiSelector.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </nodify:ConnectionsMultiSelector.ItemsPanel>
+                            </nodify:ConnectionsMultiSelector>
+
+                            <ContentPresenter ContentSource="PendingConnection" />
+
+                            <Rectangle Style="{TemplateBinding SelectionRectangleStyle}"
+                                       RenderTransform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource UnscaleTransformConverter}}"
+                                       Canvas.Top="{Binding SelectedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Canvas.Left="{Binding SelectedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Visibility="{TemplateBinding IsSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Rectangle.Width>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="SelectedArea.Width" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Width>
+                                <Rectangle.Height>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="SelectedArea.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Height>
+                            </Rectangle>
+
+                            <Rectangle Style="{TemplateBinding PushedAreaStyle}"
+                                       RenderTransform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource UnscaleTransformConverter}}"
+                                       Canvas.Top="{Binding PushedArea.Y, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Canvas.Left="{Binding PushedArea.X, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Visibility="{TemplateBinding IsPushingItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Rectangle.Width>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="PushedArea.Width" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Width>
+                                <Rectangle.Height>
+                                    <MultiBinding Converter="{StaticResource ScaleDoubleConverter}">
+                                        <Binding Path="PushedArea.Height" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </Rectangle.Height>
+                            </Rectangle>
+
+                            <nodify:CuttingLine Style="{TemplateBinding CuttingLineStyle}"
+                                                Visibility="{TemplateBinding IsCutting, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                RenderTransform="{Binding ViewportTransform, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource UnscaleTransformConverter}}">
+                                <nodify:CuttingLine.StartPoint>
+                                    <MultiBinding Converter="{StaticResource ScalePointConverter}">
+                                        <Binding Path="CuttingLineStart" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </nodify:CuttingLine.StartPoint>
+                                <nodify:CuttingLine.EndPoint>
+                                    <MultiBinding Converter="{StaticResource ScalePointConverter}">
+                                        <Binding Path="CuttingLineEnd" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ViewportZoom" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </nodify:CuttingLine.EndPoint>
+                            </nodify:CuttingLine>
+
+                            <nodify:DecoratorsControl ItemsSource="{TemplateBinding Decorators}"
+                                                      ItemContainerStyle="{TemplateBinding DecoratorContainerStyle}"
+                                                      ItemTemplate="{TemplateBinding DecoratorTemplate}"
+                                                      ItemTemplateSelector="{TemplateBinding DecoratorTemplateSelector}"
+                                                      IsTabStop="False">
+                                <nodify:DecoratorsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <nodify:NodifyCanvas Extent="{Binding DecoratorsExtent, Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=nodify:NodifyEditor}}" />
+                                    </ItemsPanelTemplate>
+                                </nodify:DecoratorsControl.ItemsPanel>
+                            </nodify:DecoratorsControl>
+                        </Canvas>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

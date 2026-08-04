@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Common dialog buttons -->
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+
+  <!-- File menu -->
+  <data name="Menu_File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="Menu_File_OpenSolution" xml:space="preserve">
+    <value>_Open Solution…</value>
+  </data>
+  <data name="Menu_File_Preferences" xml:space="preserve">
+    <value>_Preferences…</value>
+  </data>
+  <data name="Menu_File_Exit" xml:space="preserve">
+    <value>E_xit</value>
+  </data>
+
+  <!-- Edit menu -->
+  <data name="Menu_Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="Menu_Edit_ClearFilter" xml:space="preserve">
+    <value>Clear _Filter</value>
+  </data>
+  <data name="Menu_Edit_ClearFocus" xml:space="preserve">
+    <value>Clear _Focus</value>
+  </data>
+
+  <!-- View menu -->
+  <data name="Menu_View" xml:space="preserve">
+    <value>_View</value>
+  </data>
+  <data name="Menu_View_ClearDiffOverlay" xml:space="preserve">
+    <value>Clear _Diff Overlay</value>
+  </data>
+  <data name="Menu_View_ClearImpactFocus" xml:space="preserve">
+    <value>Clear _Impact Focus</value>
+  </data>
+  <data name="Menu_View_ExpandImpactFocus" xml:space="preserve">
+    <value>E_xpand Impact Focus</value>
+  </data>
+
+  <!-- Refactor menu -->
+  <data name="Menu_Refactor" xml:space="preserve">
+    <value>_Refactor</value>
+  </data>
+  <data name="Menu_Refactor_Rename" xml:space="preserve">
+    <value>_Rename…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractInterface" xml:space="preserve">
+    <value>Extract _Interface…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractSuperclass" xml:space="preserve">
+    <value>Extract Super_class…</value>
+  </data>
+  <data name="Menu_Refactor_ExtractClass" xml:space="preserve">
+    <value>Extract _Class…</value>
+  </data>
+  <data name="Menu_Refactor_AddGhostType" xml:space="preserve">
+    <value>_Add Ghost Type…</value>
+  </data>
+
+  <!-- Tools menu -->
+  <data name="Menu_Tools" xml:space="preserve">
+    <value>_Tools</value>
+  </data>
+
+  <!-- Help menu -->
+  <data name="Menu_Help" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+
+  <!-- Preferences dialog -->
+  <data name="Preferences_Title" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="Preferences_Category_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Preferences_Language_Label" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Preferences_Language_Hint" xml:space="preserve">
+    <value>Windows already open keep their current language. New windows use the new one.</value>
+  </data>
+  <data name="Preferences_Language_System" xml:space="preserve">
+    <value>Follow OS setting</value>
+  </data>
+  <data name="Preferences_Category_Ai" xml:space="preserve">
+    <value>AI</value>
+  </data>
+  <data name="Preferences_Ai_ClaudeModel_Label" xml:space="preserve">
+    <value>Claude model identifier</value>
+  </data>
+  <data name="Preferences_Ai_CodexModel_Label" xml:space="preserve">
+    <value>Codex model identifier</value>
+  </data>
+  <data name="Preferences_Ai_ModelHint" xml:space="preserve">
+    <value>The dropdown lists known model IDs. Leave blank to use each CLI's default model. New models can be typed in directly — updates to Kata add the latest IDs to this list.</value>
+  </data>
+  <data name="Preferences_Category_Diagnostics" xml:space="preserve">
+    <value>Diagnostics</value>
+  </data>
+  <data name="Preferences_Diagnostics_Enabled_Label" xml:space="preserve">
+    <value>Enable diagnostic mode (log apply / diff overlay events to the file below)</value>
+  </data>
+  <data name="Preferences_Diagnostics_Hint" xml:space="preserve">
+    <value>When on, each refactor apply appends a timestamped trace to the log file (change list, before/after type count, safety-net trigger, SolutionDiffer output, per-member overlay hit/miss). Off by default; turn on only while investigating a bug.</value>
+  </data>
+
+  <!-- AI 待機ダイアログ -->
+  <data name="AiRequest_Title" xml:space="preserve">
+    <value>Consulting AI…</value>
+  </data>
+  <data name="AiRequest_Headline_Format" xml:space="preserve">
+    <value>Asking {0} for a refactor proposal…</value>
+  </data>
+  <data name="AiRequest_Subtitle_Format" xml:space="preserve">
+    <value>Backend: {0}   Target: {1}   Type: {2}</value>
+  </data>
+
+  <!-- AI 月次上限 (Community 版) -->
+  <data name="AiQuota_ExceededTitle" xml:space="preserve">
+    <value>AI consultation limit reached</value>
+  </data>
+  <data name="AiQuota_ExceededMessage_Format" xml:space="preserve">
+    <value>You've used all {0} AI consultations available this month in the Community edition.
+
+The quota resets on {1:yyyy-MM-dd} (UTC).
+
+Upgrade to Kata Pro for unlimited AI consultations and additional features (Team Collab, priority support). https://kata.dhq-boiler.dev/pro</value>
+  </data>
+  <data name="AiQuota_ExceededStatus_Format" xml:space="preserve">
+    <value>AI consultation limit reached ({0}/{1} used this month). Upgrade to Pro for unlimited usage.</value>
+  </data>
+  <data name="AiQuota_RemainingStatus_Format" xml:space="preserve">
+    <value>AI consultation ({0}): {1} of {2} remaining this month (Community edition).</value>
+  </data>
+  <data name="AiQuota_Dialog_Heading" xml:space="preserve">
+    <value>AI consultation limit reached</value>
+  </data>
+  <data name="AiQuota_Dialog_Body_Format" xml:space="preserve">
+    <value>You've used all {0} AI consultations available this month in the Community edition. The quota resets on {1:yyyy-MM-dd} (UTC).
+
+Kata Pro gives you unlimited AI consultations, Team Collab features, and priority support.</value>
+  </data>
+  <data name="AiQuota_Dialog_PurchaseButton" xml:space="preserve">
+    <value>Buy Kata Pro</value>
+  </data>
+  <data name="AiQuota_Dialog_EnterKeyButton" xml:space="preserve">
+    <value>I already have a key…</value>
+  </data>
+  <data name="AiQuota_Dialog_CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AiQuota_BadgeRemaining_Format" xml:space="preserve">
+    <value>({0}/{1})</value>
+  </data>
+
+  <!-- Preferences: Pro License カテゴリ -->
+  <data name="Preferences_Category_Pro" xml:space="preserve">
+    <value>Pro License</value>
+  </data>
+  <data name="Preferences_Pro_StatusLabel" xml:space="preserve">
+    <value>Current status:</value>
+  </data>
+  <data name="Preferences_Pro_Status_Community" xml:space="preserve">
+    <value>Community edition</value>
+  </data>
+  <data name="Preferences_Pro_Status_Active_Format" xml:space="preserve">
+    <value>Pro — {0}</value>
+  </data>
+  <data name="Preferences_Pro_Status_Invalid" xml:space="preserve">
+    <value>License key invalid</value>
+  </data>
+  <data name="Preferences_Pro_Status_Expired" xml:space="preserve">
+    <value>License expired</value>
+  </data>
+  <data name="Preferences_Pro_LicenseKeyLabel" xml:space="preserve">
+    <value>License key:</value>
+  </data>
+  <data name="Preferences_Pro_Hint" xml:space="preserve">
+    <value>Enter the license key you received when purchasing Kata Pro. Purchase at https://kata.dhq-boiler.dev/pro</value>
+  </data>
+  <data name="Preferences_Pro_RestartHint" xml:space="preserve">
+    <value>Restart Kata for license changes to take effect.</value>
+  </data>
+  <data name="Preferences_Pro_EmailLabel" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Preferences_Pro_ExpiresLabel" xml:space="preserve">
+    <value>Expires:</value>
+  </data>
+  <data name="Preferences_Pro_ExpiresPerpetual" xml:space="preserve">
+    <value>Perpetual (buyout)</value>
+  </data>
+
+  <!-- Toolbar -->
+  <data name="Toolbar_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Toolbar_Namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="Toolbar_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Toolbar_ImpactFocus_ExpandOneHop" xml:space="preserve">
+    <value>+1 hop</value>
+  </data>
+  <data name="Toolbar_ImpactFocus_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Toolbar_DiffOverlay_Clear" xml:space="preserve">
+    <value>Clear diff</value>
+  </data>
+
+  <!-- Code viewer -->
+  <data name="CodeViewer_FindRefs" xml:space="preserve">
+    <value>Find refs</value>
+  </data>
+  <data name="CodeViewer_FindRefs_Tooltip" xml:space="preserve">
+    <value>Find all references to the currently viewed member</value>
+  </data>
+  <data name="CodeViewer_Selection" xml:space="preserve">
+    <value>Selection:</value>
+  </data>
+
+  <!-- Loading overlay -->
+  <data name="Loading_RoslynHint" xml:space="preserve">
+    <value>Roslyn is opening the solution — the mouse cursor may stall briefly.</value>
+  </data>
+  <data name="Loading_PhaseStarting" xml:space="preserve">
+    <value>Starting…</value>
+  </data>
+  <data name="LoadPhase_OpenSln" xml:space="preserve">
+    <value>Opening the solution (Roslyn / MSBuild)…</value>
+  </data>
+  <data name="LoadPhase_Discover" xml:space="preserve">
+    <value>Discovering foreign projects…</value>
+  </data>
+  <data name="LoadPhase_CppCompile" xml:space="preserve">
+    <value>Parsing C++/CLI headers…</value>
+  </data>
+  <data name="LoadPhase_InjectShim" xml:space="preserve">
+    <value>Injecting Cpp shim references…</value>
+  </data>
+  <data name="LoadPhase_MapAsync" xml:space="preserve">
+    <value>Mapping symbols to the Kata model…</value>
+  </data>
+  <data name="LoadPhase_ForeignProjects" xml:space="preserve">
+    <value>Building foreign-project models…</value>
+  </data>
+  <data name="LoadPhase_Graph" xml:space="preserve">
+    <value>Building the type graph…</value>
+  </data>
+  <data name="LoadPhase_Layout" xml:space="preserve">
+    <value>Running Sugiyama layout…</value>
+  </data>
+  <data name="LoadPhase_Filter" xml:space="preserve">
+    <value>Applying filters…</value>
+  </data>
+
+  <!-- Node context menu (Fowler refactoring catalog) -->
+  <data name="NodeMenu_Rename" xml:space="preserve">
+    <value>Rename…</value>
+  </data>
+  <data name="NodeMenu_RenameMember" xml:space="preserve">
+    <value>Rename member…</value>
+  </data>
+  <data name="NodeMenu_ExtractInterface" xml:space="preserve">
+    <value>Extract interface…</value>
+  </data>
+  <data name="NodeMenu_ExtractSuperclass" xml:space="preserve">
+    <value>Extract superclass…</value>
+  </data>
+  <data name="NodeMenu_ExtractClass" xml:space="preserve">
+    <value>Extract class / Separate domain from presentation…</value>
+  </data>
+  <data name="NodeMenu_PullUpMethod" xml:space="preserve">
+    <value>Pull up method…</value>
+  </data>
+  <data name="NodeMenu_PushDownMethod" xml:space="preserve">
+    <value>Push down method…</value>
+  </data>
+  <data name="NodeMenu_PullUpField" xml:space="preserve">
+    <value>Pull up field…</value>
+  </data>
+  <data name="NodeMenu_PushDownField" xml:space="preserve">
+    <value>Push down field…</value>
+  </data>
+  <data name="NodeMenu_RemoveSettingMethod" xml:space="preserve">
+    <value>Remove setting method…</value>
+  </data>
+  <data name="NodeMenu_RenameField" xml:space="preserve">
+    <value>Rename field…</value>
+  </data>
+  <data name="NodeMenu_PullUpConstructorBody" xml:space="preserve">
+    <value>Pull up constructor body…</value>
+  </data>
+  <data name="NodeMenu_EncapsulateField" xml:space="preserve">
+    <value>Encapsulate field…</value>
+  </data>
+  <data name="NodeMenu_MoveMethod" xml:space="preserve">
+    <value>Move method…</value>
+  </data>
+  <data name="NodeMenu_MoveField" xml:space="preserve">
+    <value>Move field…</value>
+  </data>
+  <data name="NodeMenu_ReplaceConstructorWithFactory" xml:space="preserve">
+    <value>Replace constructor with factory…</value>
+  </data>
+  <data name="NodeMenu_ReplaceMagicNumber" xml:space="preserve">
+    <value>Replace magic number…</value>
+  </data>
+  <data name="NodeMenu_DropBackReference" xml:space="preserve">
+    <value>Drop back-reference…</value>
+  </data>
+  <data name="NodeMenu_IntroduceParameterObject" xml:space="preserve">
+    <value>Introduce parameter object…</value>
+  </data>
+  <data name="NodeMenu_AddParameter" xml:space="preserve">
+    <value>Add parameter…</value>
+  </data>
+  <data name="NodeMenu_RemoveParameter" xml:space="preserve">
+    <value>Remove parameter…</value>
+  </data>
+  <data name="NodeMenu_RenameParameter" xml:space="preserve">
+    <value>Rename parameter…</value>
+  </data>
+  <data name="NodeMenu_ReplaceDataValueWithObject" xml:space="preserve">
+    <value>Replace data value with object…</value>
+  </data>
+  <data name="NodeMenu_SelfEncapsulateField" xml:space="preserve">
+    <value>Self encapsulate field…</value>
+  </data>
+  <data name="NodeMenu_ChangeReferenceToValue" xml:space="preserve">
+    <value>Change reference to value…</value>
+  </data>
+  <data name="NodeMenu_ChangeValueToReference" xml:space="preserve">
+    <value>Change value to reference…</value>
+  </data>
+  <data name="NodeMenu_ReplaceTypeCodeWithClass" xml:space="preserve">
+    <value>Replace type code with class…</value>
+  </data>
+  <data name="NodeMenu_PreserveWholeObject" xml:space="preserve">
+    <value>Preserve whole object…</value>
+  </data>
+  <data name="NodeMenu_ReplaceArrayWithObject" xml:space="preserve">
+    <value>Replace array with object…</value>
+  </data>
+  <data name="NodeMenu_ReplaceTypeCodeWithSubclasses" xml:space="preserve">
+    <value>Replace type code with subclasses…</value>
+  </data>
+  <data name="NodeMenu_ExtractHierarchy" xml:space="preserve">
+    <value>Extract hierarchy / Replace conditional with polymorphism…</value>
+  </data>
+  <data name="NodeMenu_IntroduceNullObject" xml:space="preserve">
+    <value>Introduce Null Object…</value>
+  </data>
+  <data name="NodeMenu_TeaseApartInheritance" xml:space="preserve">
+    <value>Tease apart inheritance…</value>
+  </data>
+  <data name="NodeMenu_ConvertProceduralToObjects" xml:space="preserve">
+    <value>Convert procedural to objects…</value>
+  </data>
+  <data name="NodeMenu_ReplaceSubclassWithFields" xml:space="preserve">
+    <value>Replace subclass hierarchy with fields…</value>
+  </data>
+  <data name="NodeMenu_FocusImpactOneHop" xml:space="preserve">
+    <value>Focus impact from here (1 hop)</value>
+  </data>
+  <data name="NodeMenu_RemoveSubclass" xml:space="preserve">
+    <value>Remove subclass…</value>
+  </data>
+  <data name="NodeMenu_CollapseIntoBase" xml:space="preserve">
+    <value>Collapse into base…</value>
+  </data>
+
+  <!-- Code viewer context menu (AvalonEdit right-click) -->
+  <data name="CodeMenu_ExtractMethod" xml:space="preserve">
+    <value>Extract method…</value>
+  </data>
+  <data name="CodeMenu_ExtractVariable" xml:space="preserve">
+    <value>Extract variable…</value>
+  </data>
+  <data name="CodeMenu_InlineMethod" xml:space="preserve">
+    <value>Inline method</value>
+  </data>
+  <data name="CodeMenu_InlineVariable" xml:space="preserve">
+    <value>Inline variable</value>
+  </data>
+  <data name="CodeMenu_DecomposeConditional" xml:space="preserve">
+    <value>Decompose conditional…</value>
+  </data>
+  <data name="CodeMenu_ConsolidateConditional" xml:space="preserve">
+    <value>Consolidate conditional expression</value>
+  </data>
+  <data name="CodeMenu_ConsolidateDuplicateFragments" xml:space="preserve">
+    <value>Consolidate duplicate conditional fragments</value>
+  </data>
+  <data name="CodeMenu_GuardClauses" xml:space="preserve">
+    <value>Replace nested conditional with guard clauses</value>
+  </data>
+  <data name="CodeMenu_IntroduceAssertion" xml:space="preserve">
+    <value>Introduce assertion…</value>
+  </data>
+
+  <!-- Refactoring dialogs — shared labels -->
+  <data name="Dialog_Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Dialog_OwnerClass" xml:space="preserve">
+    <value>Owner class</value>
+  </data>
+  <data name="Dialog_SourceClass" xml:space="preserve">
+    <value>Source class</value>
+  </data>
+  <data name="Dialog_ContainingMember" xml:space="preserve">
+    <value>Containing member</value>
+  </data>
+  <data name="Dialog_Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="Dialog_Members" xml:space="preserve">
+    <value>Members</value>
+  </data>
+  <data name="Dialog_SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="Dialog_NewName" xml:space="preserve">
+    <value>New name</value>
+  </data>
+  <data name="Dialog_NewClassName" xml:space="preserve">
+    <value>New class name</value>
+  </data>
+
+  <!-- RenameDialog -->
+  <data name="Rename_Title" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Rename_CurrentName" xml:space="preserve">
+    <value>Current name</value>
+  </data>
+
+  <!-- RenameFieldDialog -->
+  <data name="RenameField_Title" xml:space="preserve">
+    <value>Rename field</value>
+  </data>
+  <data name="RenameField_Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
+
+  <!-- RenameMemberDialog -->
+  <data name="RenameMember_Title" xml:space="preserve">
+    <value>Rename member</value>
+  </data>
+  <data name="RenameMember_MemberHint" xml:space="preserve">
+    <value>Member (method / property / field / event)</value>
+  </data>
+
+  <!-- RenameParameterDialog -->
+  <data name="RenameParameter_Title" xml:space="preserve">
+    <value>Rename parameter</value>
+  </data>
+  <data name="RenameParameter_OldName" xml:space="preserve">
+    <value>Old parameter name</value>
+  </data>
+  <data name="RenameParameter_NewName" xml:space="preserve">
+    <value>New parameter name</value>
+  </data>
+
+  <!-- ExtractMethodDialog -->
+  <data name="ExtractMethod_Title" xml:space="preserve">
+    <value>Extract method</value>
+  </data>
+  <data name="ExtractMethod_NewName" xml:space="preserve">
+    <value>New method name</value>
+  </data>
+
+  <!-- ExtractVariableDialog -->
+  <data name="ExtractVariable_Title" xml:space="preserve">
+    <value>Extract variable</value>
+  </data>
+  <data name="ExtractVariable_NewName" xml:space="preserve">
+    <value>New variable name</value>
+  </data>
+
+  <!-- DecomposeConditionalDialog -->
+  <data name="DecomposeConditional_Title" xml:space="preserve">
+    <value>Decompose conditional</value>
+  </data>
+  <data name="DecomposeConditional_ConditionMethod" xml:space="preserve">
+    <value>Condition method (returns bool)</value>
+  </data>
+  <data name="DecomposeConditional_ThenMethod" xml:space="preserve">
+    <value>Then method (void)</value>
+  </data>
+  <data name="DecomposeConditional_ElseMethod" xml:space="preserve">
+    <value>Else method (void, blank if no else)</value>
+  </data>
+
+  <!-- IntroduceAssertionDialog -->
+  <data name="IntroduceAssertion_Title" xml:space="preserve">
+    <value>Introduce assertion</value>
+  </data>
+  <data name="IntroduceAssertion_Condition" xml:space="preserve">
+    <value>Condition (must be true)</value>
+  </data>
+  <data name="IntroduceAssertion_Message" xml:space="preserve">
+    <value>Message (optional — defaults to the condition text)</value>
+  </data>
+
+  <!-- AddParameterDialog -->
+  <data name="AddParameter_Title" xml:space="preserve">
+    <value>Add parameter</value>
+  </data>
+  <data name="AddParameter_Heading" xml:space="preserve">
+    <value>Add parameter to method</value>
+  </data>
+  <data name="AddParameter_Type" xml:space="preserve">
+    <value>Parameter type</value>
+  </data>
+  <data name="AddParameter_Name" xml:space="preserve">
+    <value>Parameter name</value>
+  </data>
+  <data name="AddParameter_DefaultValue" xml:space="preserve">
+    <value>Default value (optional; recommended to keep call sites compiling)</value>
+  </data>
+
+  <!-- RemoveParameterDialog -->
+  <data name="RemoveParameter_Title" xml:space="preserve">
+    <value>Remove parameter</value>
+  </data>
+  <data name="RemoveParameter_Heading" xml:space="preserve">
+    <value>Remove parameter from method</value>
+  </data>
+  <data name="RemoveParameter_Name" xml:space="preserve">
+    <value>Parameter name to remove</value>
+  </data>
+
+  <!-- ExtractInterfaceDialog -->
+  <data name="ExtractInterface_Title" xml:space="preserve">
+    <value>Extract interface</value>
+  </data>
+  <data name="ExtractInterface_NewName" xml:space="preserve">
+    <value>New interface name</value>
+  </data>
+
+  <!-- ExtractSuperclassDialog -->
+  <data name="ExtractSuperclass_Title" xml:space="preserve">
+    <value>Extract superclass</value>
+  </data>
+  <data name="ExtractSuperclass_NewName" xml:space="preserve">
+    <value>New superclass name</value>
+  </data>
+  <data name="ExtractSuperclass_MembersToMoveUp" xml:space="preserve">
+    <value>Members to move up</value>
+  </data>
+
+  <!-- PullUpMemberDialog -->
+  <data name="PullUpMember_Title" xml:space="preserve">
+    <value>Pull up members</value>
+  </data>
+  <data name="PullUpMember_FromSubclass" xml:space="preserve">
+    <value>From subclass</value>
+  </data>
+  <data name="PullUpMember_UpToParent" xml:space="preserve">
+    <value>Up to parent</value>
+  </data>
+
+  <!-- PushDownMemberDialog -->
+  <data name="PushDownMember_Title" xml:space="preserve">
+    <value>Push down members</value>
+  </data>
+  <data name="PushDownMember_FromParent" xml:space="preserve">
+    <value>From parent</value>
+  </data>
+  <data name="PushDownMember_DownToSubclass" xml:space="preserve">
+    <value>Down to subclass</value>
+  </data>
+
+  <!-- MoveMemberDialog -->
+  <data name="MoveMember_Title" xml:space="preserve">
+    <value>Move members</value>
+  </data>
+  <data name="MoveMember_FromClass" xml:space="preserve">
+    <value>From class</value>
+  </data>
+  <data name="MoveMember_ToClass" xml:space="preserve">
+    <value>To class</value>
+  </data>
+
+  <!-- RemoveSettingMethodDialog -->
+  <data name="RemoveSettingMethod_Title" xml:space="preserve">
+    <value>Remove setting method</value>
+  </data>
+  <data name="RemoveSettingMethod_Hint" xml:space="preserve">
+    <value>Pick a property (or setter method) to make read-only</value>
+  </data>
+
+  <!-- EncapsulateFieldDialog -->
+  <data name="EncapsulateField_Title" xml:space="preserve">
+    <value>Encapsulate field</value>
+  </data>
+  <data name="EncapsulateField_Hint" xml:space="preserve">
+    <value>Pick a field to convert into an auto-property</value>
+  </data>
+
+  <!-- SelfEncapsulateFieldDialog -->
+  <data name="SelfEncapsulateField_Title" xml:space="preserve">
+    <value>Self encapsulate field</value>
+  </data>
+  <data name="SelfEncapsulateField_Hint" xml:space="preserve">
+    <value>Pick a field — the class will get a matching property and internal refs will be rewritten to use it.</value>
+  </data>
+
+  <!-- DropBackReferenceDialog -->
+  <data name="DropBackReference_Title" xml:space="preserve">
+    <value>Drop back-reference</value>
+  </data>
+  <data name="DropBackReference_Heading" xml:space="preserve">
+    <value>Change bidirectional to unidirectional</value>
+  </data>
+  <data name="DropBackReference_Hint" xml:space="preserve">
+    <value>Pick a field or property to drop (the other class keeps its side)</value>
+  </data>
+
+  <!-- ExtractClassDialog -->
+  <data name="ExtractClass_Title" xml:space="preserve">
+    <value>Extract class / Separate domain from presentation</value>
+  </data>
+  <data name="ExtractClass_DelegatePropName" xml:space="preserve">
+    <value>Delegate property name (on source class)</value>
+  </data>
+  <data name="ExtractClass_MembersToMove" xml:space="preserve">
+    <value>Members to move out</value>
+  </data>
+
+  <!-- ExtractHierarchyDialog -->
+  <data name="ExtractHierarchy_Title" xml:space="preserve">
+    <value>Extract hierarchy / Replace conditional with polymorphism</value>
+  </data>
+  <data name="ExtractHierarchy_Heading" xml:space="preserve">
+    <value>Extract hierarchy</value>
+  </data>
+  <data name="ExtractHierarchy_OwnerClassAbstract" xml:space="preserve">
+    <value>Owner class (will become abstract)</value>
+  </data>
+  <data name="ExtractHierarchy_SubclassNames" xml:space="preserve">
+    <value>Subclass names (comma-separated, one per case)</value>
+  </data>
+  <data name="ExtractHierarchy_MethodsToVirtualize" xml:space="preserve">
+    <value>Methods to virtualize (checked → made abstract on owner + override stub in each subclass)</value>
+  </data>
+  <data name="ExtractHierarchy_LeaveUncheckedHint" xml:space="preserve">
+    <value>Leave everything unchecked to just scaffold empty subclasses.</value>
+  </data>
+
+  <!-- TeaseApartInheritanceDialog -->
+  <data name="TeaseApartInheritance_Title" xml:space="preserve">
+    <value>Tease apart inheritance</value>
+  </data>
+  <data name="TeaseApartInheritance_PrimaryRoot" xml:space="preserve">
+    <value>Primary hierarchy root (gets a delegation field)</value>
+  </data>
+  <data name="TeaseApartInheritance_SecondaryRoot" xml:space="preserve">
+    <value>Secondary hierarchy name (new abstract root)</value>
+  </data>
+  <data name="TeaseApartInheritance_SecondarySubclassNames" xml:space="preserve">
+    <value>Secondary subclass names (comma-separated)</value>
+  </data>
+  <data name="TeaseApartInheritance_DelegationField" xml:space="preserve">
+    <value>Delegation field name (added to primary root)</value>
+  </data>
+  <data name="TeaseApartInheritance_ScaffoldNote" xml:space="preserve">
+    <value>Scaffold only — user pushes down / moves secondary-axis methods into the new subclasses afterwards, typically via Push Down Method.</value>
+  </data>
+
+  <!-- ConvertProceduralToObjectsDialog -->
+  <data name="ConvertProceduralToObjects_Title" xml:space="preserve">
+    <value>Convert procedural to objects</value>
+  </data>
+  <data name="ConvertProceduralToObjects_ProceduralClass" xml:space="preserve">
+    <value>Procedural class (static procedures will be moved)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_DataRecord" xml:space="preserve">
+    <value>Data record type (destination — must appear as first parameter)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_MethodsToMove" xml:space="preserve">
+    <value>Methods to move (checked = qualifying methods only)</value>
+  </data>
+  <data name="ConvertProceduralToObjects_SkipHint" xml:space="preserve">
+    <value>Silently skipped if first param type doesn't match the record above.</value>
+  </data>
+
+  <!-- IntroduceParameterObjectDialog -->
+  <data name="IntroduceParameterObject_Title" xml:space="preserve">
+    <value>Introduce parameter object</value>
+  </data>
+  <data name="IntroduceParameterObject_NewClassName" xml:space="preserve">
+    <value>New parameter-object class name</value>
+  </data>
+  <data name="IntroduceParameterObject_ParamName" xml:space="preserve">
+    <value>Parameter name inside the method</value>
+  </data>
+
+  <!-- PreserveWholeObjectDialog -->
+  <data name="PreserveWholeObject_Title" xml:space="preserve">
+    <value>Preserve whole object</value>
+  </data>
+  <data name="PreserveWholeObject_WholeObjType" xml:space="preserve">
+    <value>Whole-object type</value>
+  </data>
+  <data name="PreserveWholeObject_NewParamName" xml:space="preserve">
+    <value>New parameter name</value>
+  </data>
+  <data name="PreserveWholeObject_FoldIn" xml:space="preserve">
+    <value>Existing parameter names to fold in (comma-separated)</value>
+  </data>
+
+  <!-- AddGhostTypeDialog -->
+  <data name="AddGhostType_Title" xml:space="preserve">
+    <value>Add ghost type</value>
+  </data>
+  <data name="AddGhostType_Kind" xml:space="preserve">
+    <value>Kind</value>
+  </data>
+  <data name="AddGhostType_Namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="AddGhostType_TypeName" xml:space="preserve">
+    <value>Type name</value>
+  </data>
+
+  <!-- ReplaceArrayWithObjectDialog -->
+  <data name="ReplaceArrayWithObject_Title" xml:space="preserve">
+    <value>Replace array with object</value>
+  </data>
+  <data name="ReplaceArrayWithObject_ArrayField" xml:space="preserve">
+    <value>Array field / property</value>
+  </data>
+  <data name="ReplaceArrayWithObject_IndexMapping" xml:space="preserve">
+    <value>Index → field mappings (one per line, 'index:fieldName:fieldType')</value>
+  </data>
+
+  <!-- ReplaceDataValueDialog -->
+  <data name="ReplaceDataValue_Title" xml:space="preserve">
+    <value>Replace data value with object</value>
+  </data>
+  <data name="ReplaceDataValue_PrimitiveField" xml:space="preserve">
+    <value>Primitive field or property to wrap</value>
+  </data>
+  <data name="ReplaceDataValue_WrapperClassName" xml:space="preserve">
+    <value>Wrapper class name</value>
+  </data>
+  <data name="ReplaceDataValue_InnerPropName" xml:space="preserve">
+    <value>Inner property name (default 'Value')</value>
+  </data>
+
+  <!-- ReplaceMagicNumberDialog -->
+  <data name="ReplaceMagicNumber_Title" xml:space="preserve">
+    <value>Replace magic number</value>
+  </data>
+  <data name="ReplaceMagicNumber_Heading" xml:space="preserve">
+    <value>Replace magic number with symbolic constant</value>
+  </data>
+  <data name="ReplaceMagicNumber_Literal" xml:space="preserve">
+    <value>Literal value (must match source text exactly, e.g. '3.14159', '100', '0.1m')</value>
+  </data>
+  <data name="ReplaceMagicNumber_ConstName" xml:space="preserve">
+    <value>Constant name</value>
+  </data>
+  <data name="ReplaceMagicNumber_ConstType" xml:space="preserve">
+    <value>Constant type (e.g. 'int', 'double', 'decimal')</value>
+  </data>
+
+  <!-- ReplaceTypeCodeDialog -->
+  <data name="ReplaceTypeCode_Title" xml:space="preserve">
+    <value>Replace type code with class</value>
+  </data>
+  <data name="ReplaceTypeCode_TypeCodeField" xml:space="preserve">
+    <value>Type-code field/property</value>
+  </data>
+  <data name="ReplaceTypeCode_InnerCodeType" xml:space="preserve">
+    <value>Inner code type (default 'int')</value>
+  </data>
+  <data name="ReplaceTypeCode_Codes" xml:space="preserve">
+    <value>Codes (one per line, 'Name=Value')</value>
+  </data>
+
+  <!-- ReplaceTypeCodeWithSubclassesDialog -->
+  <data name="ReplaceTypeCodeWithSubclasses_Title" xml:space="preserve">
+    <value>Replace type code with subclasses</value>
+  </data>
+  <data name="ReplaceTypeCodeWithSubclasses_SubclassNames" xml:space="preserve">
+    <value>Subclass names (comma-separated, one per code)</value>
+  </data>
+
+  <!-- DiffPreviewDialog -->
+  <data name="DiffPreview_Title" xml:space="preserve">
+    <value>Preview changes</value>
+  </data>
+  <data name="DiffPreview_UnifiedDiff" xml:space="preserve">
+    <value>Unified diff (±3 lines context)</value>
+  </data>
+  <data name="DiffPreview_ExportInstruction" xml:space="preserve">
+    <value>Export instruction…</value>
+  </data>
+  <data name="DiffPreview_Reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="DiffPreview_Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+
+  <!-- Status bar — simple messages -->
+  <data name="Status_LoadMemberFirst" xml:space="preserve">
+    <value>Load a member first.</value>
+  </data>
+  <data name="Status_NoSolutionLoaded" xml:space="preserve">
+    <value>No solution loaded.</value>
+  </data>
+  <data name="Status_NoSolutionLoadedHint" xml:space="preserve">
+    <value>No solution loaded. Use File &gt; Open Solution… (Ctrl+O).</value>
+  </data>
+  <data name="Status_ExternalChangeReload" xml:space="preserve">
+    <value>External change detected — reloading…</value>
+  </data>
+  <data name="Status_OpenMemberFirst" xml:space="preserve">
+    <value>Open a member in the code viewer first.</value>
+  </data>
+  <data name="Status_SelectStatementsToExtract" xml:space="preserve">
+    <value>Select the statements to extract in the code viewer first.</value>
+  </data>
+  <data name="Status_SelectExprToExtract" xml:space="preserve">
+    <value>Select the expression to extract in the code viewer first.</value>
+  </data>
+  <data name="Status_SelectIfRun" xml:space="preserve">
+    <value>Select the run of if-statements to consolidate.</value>
+  </data>
+  <data name="Status_NameUnchanged" xml:space="preserve">
+    <value>Name unchanged; nothing to do.</value>
+  </data>
+  <data name="Status_NoOtherClassesAsMoveTarget" xml:space="preserve">
+    <value>No other classes available as move target.</value>
+  </data>
+  <data name="Status_NoDataRecordAvailable" xml:space="preserve">
+    <value>No data record type available to move procedures onto.</value>
+  </data>
+  <data name="Status_NoTypeNodeExtract" xml:space="preserve">
+    <value>No type node available for extract.</value>
+  </data>
+  <data name="Status_NoTypeNodeExtractSuperclass" xml:space="preserve">
+    <value>No type node available for extract superclass.</value>
+  </data>
+  <data name="Status_NoTypeNodeExtractClass" xml:space="preserve">
+    <value>No type node available for extract class.</value>
+  </data>
+  <data name="Status_NoTypeNodeRename" xml:space="preserve">
+    <value>No type node available for rename.</value>
+  </data>
+
+  <!-- Status bar — "Cannot X on external/ghost type" family -->
+  <data name="Status_CantExtractInterface" xml:space="preserve">
+    <value>Cannot extract interface from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantExtractSuperclass" xml:space="preserve">
+    <value>Cannot extract superclass from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantExtractClass" xml:space="preserve">
+    <value>Cannot extract class from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantCollapse" xml:space="preserve">
+    <value>Cannot collapse an external or ghost type.</value>
+  </data>
+  <data name="Status_CantRemoveSubclass" xml:space="preserve">
+    <value>Cannot remove an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPullUpMethods" xml:space="preserve">
+    <value>Cannot pull up methods from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPullUpFields" xml:space="preserve">
+    <value>Cannot pull up fields from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPushDownMethods" xml:space="preserve">
+    <value>Cannot push down methods from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPushDownFields" xml:space="preserve">
+    <value>Cannot push down fields from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantRemoveSetter" xml:space="preserve">
+    <value>Cannot remove setter from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantRenameMembers" xml:space="preserve">
+    <value>Cannot rename members of an external or ghost type.</value>
+  </data>
+  <data name="Status_CantRenameFields" xml:space="preserve">
+    <value>Cannot rename fields on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPullUpConstructorBody" xml:space="preserve">
+    <value>Cannot pull up constructor body from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantEncapsulateField" xml:space="preserve">
+    <value>Cannot encapsulate fields on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantMoveMethods" xml:space="preserve">
+    <value>Cannot move methods from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantMoveFields" xml:space="preserve">
+    <value>Cannot move fields from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantConvertConstructor" xml:space="preserve">
+    <value>Cannot convert constructor on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantReplaceMagicNumber" xml:space="preserve">
+    <value>Cannot replace magic numbers on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantChangeAssociation" xml:space="preserve">
+    <value>Cannot change association on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantIntroduceParamObj" xml:space="preserve">
+    <value>Cannot introduce parameter object on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantModifySignature" xml:space="preserve">
+    <value>Cannot modify method signature on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantRenameParameter" xml:space="preserve">
+    <value>Cannot rename parameter on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPromoteDataValue" xml:space="preserve">
+    <value>Cannot promote data value on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantSelfEncapsulate" xml:space="preserve">
+    <value>Cannot self-encapsulate on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantLockDown" xml:space="preserve">
+    <value>Cannot lock down an external or ghost type.</value>
+  </data>
+  <data name="Status_CantConvertToReference" xml:space="preserve">
+    <value>Cannot convert to reference on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantReplaceTypeCode" xml:space="preserve">
+    <value>Cannot replace type code on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantPreserveWholeObject" xml:space="preserve">
+    <value>Cannot preserve whole object on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantReplaceArray" xml:space="preserve">
+    <value>Cannot replace array on an external or ghost type.</value>
+  </data>
+  <data name="Status_CantSubclass" xml:space="preserve">
+    <value>Cannot subclass an external or ghost type.</value>
+  </data>
+  <data name="Status_CantExtractHierarchy" xml:space="preserve">
+    <value>Cannot extract a hierarchy from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantTeaseApart" xml:space="preserve">
+    <value>Cannot tease apart an external or ghost type.</value>
+  </data>
+  <data name="Status_CantIntroduceNullObject" xml:space="preserve">
+    <value>Cannot introduce a Null Object for an external or ghost type.</value>
+  </data>
+  <data name="Status_CantMoveProcedures" xml:space="preserve">
+    <value>Cannot move procedures from an external or ghost type.</value>
+  </data>
+  <data name="Status_CantFlattenHierarchy" xml:space="preserve">
+    <value>Cannot flatten hierarchy on an external or ghost type.</value>
+  </data>
+
+  <!-- Status bar — formatted (string.Format with {0}/{1}/…) -->
+  <data name="Status_NoBaseToCollapseInto" xml:space="preserve">
+    <value>{0} has no base type to collapse into.</value>
+  </data>
+  <data name="Status_NoBaseForRemoveSubclass" xml:space="preserve">
+    <value>{0} has no base type to fall back to. Remove Subclass requires a superclass.</value>
+  </data>
+  <data name="Status_NoBaseToPullUp" xml:space="preserve">
+    <value>{0} has no base type to pull up into.</value>
+  </data>
+  <data name="Status_NoSubclassesToPushDown" xml:space="preserve">
+    <value>{0} has no subclasses to push down into.</value>
+  </data>
+  <data name="Status_NoSubclassesToFoldIn" xml:space="preserve">
+    <value>{0} has no subclasses to fold in.</value>
+  </data>
+  <data name="Status_NoChangesProduced" xml:space="preserve">
+    <value>No changes were produced by the {0} proposal.</value>
+  </data>
+  <data name="Status_OperationRejected" xml:space="preserve">
+    <value>{0} rejected.</value>
+  </data>
+  <data name="Status_RefTargetMissing" xml:space="preserve">
+    <value>Ref target file missing: {0}</value>
+  </data>
+  <data name="Status_ReadFailed" xml:space="preserve">
+    <value>Read failed: {0}</value>
+  </data>
+  <data name="Status_ReferenceLocation" xml:space="preserve">
+    <value>Reference: {0}:{1}:{2}</value>
+  </data>
+  <data name="Status_NavigateFailed" xml:space="preserve">
+    <value>Navigate failed: {0}</value>
+  </data>
+  <data name="Status_SourceNotFoundFor" xml:space="preserve">
+    <value>Source not found for {0}</value>
+  </data>
+  <data name="Status_ViewingMember" xml:space="preserve">
+    <value>Viewing {0}.{1}</value>
+  </data>
+  <data name="Status_SolutionNotFound" xml:space="preserve">
+    <value>Solution not found: {0}</value>
+  </data>
+  <data name="Status_LoadingSln" xml:space="preserve">
+    <value>Loading {0}…</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>Failed: {0}</value>
+  </data>
+  <data name="Status_Showing" xml:space="preserve">
+    <value>Showing {0}/{1} types (+{2} external), {3} relationships</value>
+  </data>
+  <data name="Status_Proposing" xml:space="preserve">
+    <value>Proposing: {0}…</value>
+  </data>
+  <data name="Status_ProposalReady" xml:space="preserve">
+    <value>Proposal ready: {0} file change(s){1}</value>
+  </data>
+  <data name="Status_ProposeFailed" xml:space="preserve">
+    <value>Propose failed: {0}</value>
+  </data>
+  <data name="Status_ApplyingChanges" xml:space="preserve">
+    <value>Applying {0} change(s)…</value>
+  </data>
+
+  <!-- References panel header -->
+  <data name="Refs_SearchingFor" xml:space="preserve">
+    <value>Searching references for {0}.{1}…</value>
+  </data>
+  <data name="Refs_CountFound" xml:space="preserve">
+    <value>{0} reference(s) to {1}.{2}</value>
+  </data>
+  <data name="Refs_FindFailed" xml:space="preserve">
+    <value>Find references failed: {0}</value>
+  </data>
+
+  <!-- Overlay chips -->
+  <data name="DiffOverlay_Summary" xml:space="preserve">
+    <value>Diff: +{0} added / -{1} removed / ~{2} modified</value>
+  </data>
+  <data name="ImpactFocus_Summary" xml:space="preserve">
+    <value>Impact focus: {0} seed(s), {1} reached ({2} user, {3} external, {4} filtered-out, {5} missing) within {6} hop(s) — [{7}]</value>
+  </data>
+
+  <!-- MessageBox: confirmation dialogs -->
+  <data name="Confirm_CollapseHierarchy_Caption" xml:space="preserve">
+    <value>Collapse hierarchy</value>
+  </data>
+  <data name="Confirm_CollapseHierarchy_Body" xml:space="preserve">
+    <value>Collapse '{0}' into its base '{1}'?
+
+All members of '{0}' will be moved into the base, then '{0}' will be deleted and every usage rewritten to the base.</value>
+  </data>
+  <data name="Confirm_RemoveSubclass_Caption" xml:space="preserve">
+    <value>Remove subclass</value>
+  </data>
+  <data name="Confirm_RemoveSubclass_Body" xml:space="preserve">
+    <value>Remove subclass '{0}' and rewrite every usage to its base type '{1}'?
+
+The declaration file will be deleted. This cannot be undone from within Kata (use git).</value>
+  </data>
+  <data name="Confirm_PullUpCtor_Caption" xml:space="preserve">
+    <value>Pull up constructor body</value>
+  </data>
+  <data name="Confirm_PullUpCtor_Body" xml:space="preserve">
+    <value>Move the body of {0}'s constructor into {1}'s constructor?
+
+{0}'s constructor will become empty and delegate via `: base()`.</value>
+  </data>
+  <data name="Confirm_ReplaceCtorFactory_Caption" xml:space="preserve">
+    <value>Replace constructor with factory</value>
+  </data>
+  <data name="Confirm_ReplaceCtorFactory_Body" xml:space="preserve">
+    <value>Add a public static Create factory to {0} and make the existing constructor private?</value>
+  </data>
+  <data name="Confirm_RefToValue_Caption" xml:space="preserve">
+    <value>Change reference to value</value>
+  </data>
+  <data name="Confirm_RefToValue_Body" xml:space="preserve">
+    <value>Make {0} effectively immutable? All mutable fields will get 'readonly' and property setters become 'init'.</value>
+  </data>
+  <data name="Confirm_ValueToRef_Caption" xml:space="preserve">
+    <value>Change value to reference</value>
+  </data>
+  <data name="Confirm_ValueToRef_Body" xml:space="preserve">
+    <value>Add a static Dictionary&lt;string, {0}&gt; registry and a GetOrCreate factory on {0}?</value>
+  </data>
+  <data name="Confirm_ReplaceSubclassFields_Caption" xml:space="preserve">
+    <value>Replace subclass with fields</value>
+  </data>
+  <data name="Confirm_ReplaceSubclassFields_Body" xml:space="preserve">
+    <value>Drop 'abstract' from {0} and delete these subclass file(s)?
+
+{1}
+
+Pull up any subclass-specific behaviour BEFORE running this.</value>
+  </data>
+
+  <!-- DiffPreview export MessageBoxes -->
+  <data name="DiffPreview_ExportSuccess_Caption" xml:space="preserve">
+    <value>Export instruction</value>
+  </data>
+  <data name="DiffPreview_ExportSuccess_Body" xml:space="preserve">
+    <value>Instruction written to:
+{0}</value>
+  </data>
+  <data name="DiffPreview_ExportFailure_Caption" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="DiffPreview_ExportFailure_Body" xml:space="preserve">
+    <value>Failed to write instruction:
+{0}</value>
+  </data>
+
+  <!-- Smell popup button -->
+  <data name="Smell_Popup_AskAiButton" xml:space="preserve">
+    <value>Ask AI</value>
+  </data>
+
+  <!-- AiRequestDialog elapsed formatting -->
+  <data name="AiRequest_Elapsed_Initial" xml:space="preserve">
+    <value>0s</value>
+  </data>
+  <data name="AiRequest_Elapsed_MinutesSeconds_Format" xml:space="preserve">
+    <value>{0}m {1}s</value>
+  </data>
+  <data name="AiRequest_Elapsed_Seconds_Format" xml:space="preserve">
+    <value>{0}s</value>
+  </data>
+
+  <!-- Fowler smell categories (24) -->
+  <data name="Smell_Category_MysteriousName" xml:space="preserve"><value>Mysterious Name</value></data>
+  <data name="Smell_Category_DuplicatedCode" xml:space="preserve"><value>Duplicated Code</value></data>
+  <data name="Smell_Category_LongFunction" xml:space="preserve"><value>Long Function</value></data>
+  <data name="Smell_Category_LongParameterList" xml:space="preserve"><value>Long Parameter List</value></data>
+  <data name="Smell_Category_GlobalData" xml:space="preserve"><value>Global Data</value></data>
+  <data name="Smell_Category_MutableData" xml:space="preserve"><value>Mutable Data</value></data>
+  <data name="Smell_Category_DivergentChange" xml:space="preserve"><value>Divergent Change</value></data>
+  <data name="Smell_Category_ShotgunSurgery" xml:space="preserve"><value>Shotgun Surgery</value></data>
+  <data name="Smell_Category_FeatureEnvy" xml:space="preserve"><value>Feature Envy</value></data>
+  <data name="Smell_Category_DataClumps" xml:space="preserve"><value>Data Clumps</value></data>
+  <data name="Smell_Category_PrimitiveObsession" xml:space="preserve"><value>Primitive Obsession</value></data>
+  <data name="Smell_Category_RepeatedSwitches" xml:space="preserve"><value>Repeated Switches</value></data>
+  <data name="Smell_Category_Loops" xml:space="preserve"><value>Loops</value></data>
+  <data name="Smell_Category_LazyElement" xml:space="preserve"><value>Lazy Element</value></data>
+  <data name="Smell_Category_SpeculativeGenerality" xml:space="preserve"><value>Speculative Generality</value></data>
+  <data name="Smell_Category_TemporaryField" xml:space="preserve"><value>Temporary Field</value></data>
+  <data name="Smell_Category_MessageChains" xml:space="preserve"><value>Message Chains</value></data>
+  <data name="Smell_Category_MiddleMan" xml:space="preserve"><value>Middle Man</value></data>
+  <data name="Smell_Category_InsiderTrading" xml:space="preserve"><value>Insider Trading</value></data>
+  <data name="Smell_Category_LargeClass" xml:space="preserve"><value>Large Class</value></data>
+  <data name="Smell_Category_AlternativeClassesWithDifferentInterfaces" xml:space="preserve"><value>Alternative Classes with Different Interfaces</value></data>
+  <data name="Smell_Category_DataClass" xml:space="preserve"><value>Data Class</value></data>
+  <data name="Smell_Category_RefusedBequest" xml:space="preserve"><value>Refused Bequest</value></data>
+  <data name="Smell_Category_Comments" xml:space="preserve"><value>Comments</value></data>
+
+  <!-- Smell primary-fix labels (deduplicated across the 24 smells) -->
+  <data name="Smell_Fix_RenameMember" xml:space="preserve"><value>Rename member</value></data>
+  <data name="Smell_Fix_RenameType" xml:space="preserve"><value>Rename type</value></data>
+  <data name="Smell_Fix_OpenViewer_ExtractMethod" xml:space="preserve"><value>Open in code viewer (Extract Method)</value></data>
+  <data name="Smell_Fix_OpenViewer_InlineMethod" xml:space="preserve"><value>Open in code viewer (Inline Method)</value></data>
+  <data name="Smell_Fix_IntroduceParameterObject" xml:space="preserve"><value>Introduce Parameter Object</value></data>
+  <data name="Smell_Fix_EncapsulateField" xml:space="preserve"><value>Encapsulate Field</value></data>
+  <data name="Smell_Fix_RemoveSettingMethod" xml:space="preserve"><value>Remove Setting Method</value></data>
+  <data name="Smell_Fix_ExtractClass" xml:space="preserve"><value>Extract Class</value></data>
+  <data name="Smell_Fix_MoveMethod" xml:space="preserve"><value>Move Method</value></data>
+  <data name="Smell_Fix_ReplaceDataValueWithObject" xml:space="preserve"><value>Replace Data Value with Object</value></data>
+  <data name="Smell_Fix_ReplaceTypeCodeWithSubclasses" xml:space="preserve"><value>Replace Type Code with Subclasses</value></data>
+  <data name="Smell_Fix_CollapseHierarchy" xml:space="preserve"><value>Collapse Hierarchy</value></data>
+  <data name="Smell_Fix_ExtractSuperclass" xml:space="preserve"><value>Extract Superclass</value></data>
+  <data name="Smell_Fix_PushDownMethod" xml:space="preserve"><value>Push Down Method</value></data>
+
+  <!-- MainWindow AI smell fix flow status / dialog captions -->
+  <data name="Status_Ai_SvmMissing_Format" xml:space="preserve"><value>AI consultation ({0}): failed to resolve CodeSmellViewModel</value></data>
+  <data name="Status_Ai_Consulting_Format" xml:space="preserve"><value>Asking AI ({0}): {1} @ {2}</value></data>
+  <data name="Status_Ai_FollowupInProgress_Format" xml:space="preserve"><value>AI proposal (.cpp missing detected) — retrying ({0})</value></data>
+  <data name="Status_Ai_Completed_Format" xml:space="preserve"><value>AI consultation complete ({0}): {1}</value></data>
+  <data name="Status_Ai_AnalysisOnly_Format" xml:space="preserve"><value>AI analysis ({0}): {1} — no diff (explanation only)</value></data>
+  <data name="Status_Ai_ApplyFailed_Format" xml:space="preserve"><value>AI proposal diff apply failed ({0}): {1}</value></data>
+  <data name="Status_Ai_Cancelled_Format" xml:space="preserve"><value>AI consultation ({0}): cancelled or timeout ({1} min no response)</value></data>
+  <data name="Status_Ai_Error_Format" xml:space="preserve"><value>AI consultation error ({0}): {1} — {2}</value></data>
+  <data name="Status_Smell_OpenViewerHint_Format" xml:space="preserve"><value>For "{0}": open the code viewer, select a range, then use the right-click refactoring menu.</value></data>
+  <data name="Status_Smell_TypeLevelHint_Format" xml:space="preserve"><value>"{0}" is a type-level smell — open a member and try again.</value></data>
+  <data name="Dialog_Ai_AnalysisCaption_Format" xml:space="preserve"><value>AI analysis ({0}) — {1}</value></data>
+  <data name="Dialog_Ai_DiffExtractFailedCaption_Format" xml:space="preserve"><value>AI proposal diff extraction failed ({0}) — {1}</value></data>
+  <data name="Dialog_Ai_EmptyResponseBody" xml:space="preserve"><value>(empty response)</value></data>
+  <data name="Ai_Rationale_Format" xml:space="preserve"><value>AI proposal ({0}) — {1}: {2}</value></data>
+  <data name="Ai_ChangeSetSummary_Format" xml:space="preserve"><value>AI proposal ({0} file change(s))</value></data>
+
+  <!-- AI response → diff → change-set build errors (surfaced in the fallback MessageBox) -->
+  <data name="Ai_BuildError_FollowupStillMissing" xml:space="preserve"><value>Followup asking for missing .cpp definitions still incomplete.</value></data>
+  <data name="Ai_BuildError_NoDiffBlock" xml:space="preserve"><value>Could not extract a diff block from the AI response.</value></data>
+  <data name="Ai_BuildError_NoHunks" xml:space="preserve"><value>No hunks found in the diff block.</value></data>
+  <data name="Ai_BuildError_UnknownTargetFile_Format" xml:space="preserve"><value>Could not resolve the diff target file: {0}</value></data>
+  <data name="Ai_BuildError_ReadOriginalFailed_Format" xml:space="preserve"><value>Failed to read original file ({0}): {1}</value></data>
+  <data name="Ai_BuildError_ApplyFailed_Format" xml:space="preserve"><value>Diff apply failed ({0}): {1}</value></data>
+  <data name="Ai_BuildError_NoChangesProduced_Format" xml:space="preserve"><value>Diff was parsed but no changes were produced ({0}).</value></data>
+  <data name="Ai_BuildError_NoApplicableChanges" xml:space="preserve"><value>No applicable changes were produced.</value></data>
+  <data name="Ai_BuildError_TransformException_Format" xml:space="preserve"><value>Diff transform threw an exception: {0} — {1}</value></data>
+
+  <!-- MainWindowViewModel apply safety-net -->
+  <data name="Status_ApplyBroken_Reload_Format" xml:space="preserve"><value>⚠ Apply looks broken (type count {0} → {1}). Reloading solution…</value></data>
+</root>

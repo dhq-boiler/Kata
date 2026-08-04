@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <!-- Strings.resx が英語 (ja サテライトが無い言語圏はこれにフォールバック) -->
+    <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>Assets\Icons\kata-transparent.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\kata.ico" />
+    <Resource Include="Assets\Icons\kata-light.ico" />
+    <Resource Include="Assets\Icons\kata-transparent.ico" />
+    <Resource Include="Assets\Icons\kata-16.png" />
+    <Resource Include="Assets\Icons\kata-32.png" />
+    <Resource Include="Assets\Icons\kata-48.png" />
+    <Resource Include="Assets\Icons\kata-64.png" />
+    <Resource Include="Assets\Icons\kata-128.png" />
+    <Resource Include="Assets\Icons\kata-256.png" />
+    <Resource Include="Assets\Icons\kata-512.png" />
+    <Resource Include="Assets\Icons\kata-16-light.png" />
+    <Resource Include="Assets\Icons\kata-32-light.png" />
+    <Resource Include="Assets\Icons\kata-48-light.png" />
+    <Resource Include="Assets\Icons\kata-64-light.png" />
+    <Resource Include="Assets\Icons\kata-128-light.png" />
+    <Resource Include="Assets\Icons\kata-256-light.png" />
+    <Resource Include="Assets\Icons\kata-512-light.png" />
+    <Resource Include="Assets\Icons\kata-16-transparent.png" />
+    <Resource Include="Assets\Icons\kata-32-transparent.png" />
+    <Resource Include="Assets\Icons\kata-48-transparent.png" />
+    <Resource Include="Assets\Icons\kata-64-transparent.png" />
+    <Resource Include="Assets\Icons\kata-128-transparent.png" />
+    <Resource Include="Assets\Icons\kata-256-transparent.png" />
+    <Resource Include="Assets\Icons\kata-512-transparent.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="Nodify" Version="7.3.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="ModelContextProtocol" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutomaticGraphLayout" Version="1.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kata.Core\Kata.Core.csproj" />
+    <ProjectReference Include="..\Kata.Roslyn\Kata.Roslyn.csproj" />
+    <ProjectReference Include="..\Kata.Mcp\Kata.Mcp.csproj" />
+    <ProjectReference Include="..\Kata.App.PluginApi\Kata.App.PluginApi.csproj" />
+  </ItemGroup>
+
+</Project>

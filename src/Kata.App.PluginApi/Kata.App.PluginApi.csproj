@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <!--
+      Pro 版 (Kata.App.Pro) が実装する契約 (contract) だけを置く小さな library。
+      Kata.App と Kata.App.Pro の両方から参照される。
+      Pro 版が private repo に分離しても、この assembly が公開契約として維持される。
+    -->
+  </PropertyGroup>
+
+</Project>

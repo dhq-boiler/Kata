@@ -1,0 +1,57 @@
+using Kata.Core.Model;
+
+namespace Kata.Core.Intents;
+
+public static class IntentAffectedTypes
+{
+    public static IReadOnlyList<TypeRef> Extract(RefactoringIntent intent) => intent switch
+    {
+        RenameIntent r => new[] { r.TargetType },
+        ExtractInterfaceIntent i => new[] { i.SourceType },
+        ExtractSuperclassIntent i => new[] { i.SourceType },
+        ExtractClassIntent i => new[] { i.SourceType },
+        RemoveSubclassIntent i => new[] { i.Subclass, i.ReplacementBase },
+        CollapseHierarchyIntent i => new[] { i.Subclass, i.Parent },
+        PullUpMethodIntent i => new[] { i.Subclass, i.Parent },
+        PushDownMethodIntent i => new[] { i.Parent, i.Subclass },
+        PullUpFieldIntent i => new[] { i.Subclass, i.Parent },
+        PushDownFieldIntent i => new[] { i.Parent, i.Subclass },
+        RemoveSettingMethodIntent i => new[] { i.OwnerType },
+        RenameFieldIntent i => new[] { i.OwnerType },
+        PullUpConstructorBodyIntent i => new[] { i.Subclass, i.Parent },
+        EncapsulateFieldIntent i => new[] { i.OwnerType },
+        MoveMethodIntent i => new[] { i.SourceType, i.TargetType },
+        MoveFieldIntent i => new[] { i.SourceType, i.TargetType },
+        ReplaceConstructorWithFactoryIntent i => new[] { i.OwnerType },
+        ReplaceMagicNumberIntent i => new[] { i.OwnerType },
+        ChangeBidirectionalToUnidirectionalIntent i => new[] { i.OwnerType },
+        IntroduceParameterObjectIntent i => new[] { i.OwnerType },
+        AddParameterIntent i => new[] { i.OwnerType },
+        RemoveParameterIntent i => new[] { i.OwnerType },
+        ReplaceDataValueWithObjectIntent i => new[] { i.OwnerType },
+        RenameParameterIntent i => new[] { i.OwnerType },
+        SelfEncapsulateFieldIntent i => new[] { i.OwnerType },
+        ChangeReferenceToValueIntent i => new[] { i.OwnerType },
+        ChangeValueToReferenceIntent i => new[] { i.OwnerType },
+        ReplaceTypeCodeWithClassIntent i => new[] { i.OwnerType },
+        PreserveWholeObjectIntent i => new[] { i.OwnerType, i.ObjectType },
+        ReplaceArrayWithObjectIntent i => new[] { i.OwnerType },
+        ReplaceTypeCodeWithSubclassesIntent i => new[] { i.OwnerType },
+        ExtractHierarchyIntent i => new[] { i.OwnerType },
+        TeaseApartInheritanceIntent i => new[] { i.PrimaryHierarchyRoot },
+        ConvertProceduralToObjectsIntent i => new[] { i.ProceduralClass, i.DataRecordType },
+        ExtractMethodIntent i => new[] { i.OwnerType },
+        ExtractVariableIntent i => new[] { i.OwnerType },
+        InlineMethodIntent i => new[] { i.OwnerType },
+        InlineVariableIntent i => new[] { i.OwnerType },
+        DecomposeConditionalIntent i => new[] { i.OwnerType },
+        ConsolidateConditionalExpressionIntent i => new[] { i.OwnerType },
+        ConsolidateDuplicateConditionalFragmentsIntent i => new[] { i.OwnerType },
+        ReplaceNestedConditionalWithGuardClausesIntent i => new[] { i.OwnerType },
+        IntroduceNullObjectIntent i => new[] { i.SourceType },
+        IntroduceAssertionIntent i => new[] { i.OwnerType },
+        ReplaceSubclassWithFieldsIntent i => new[] { i.ParentType }.Concat(i.SubclassesToRemove).ToArray(),
+        AddGhostTypeIntent _ => System.Array.Empty<TypeRef>(),
+        _ => System.Array.Empty<TypeRef>(),
+    };
+}

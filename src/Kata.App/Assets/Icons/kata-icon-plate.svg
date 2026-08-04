@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="kp-plate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#232A36"></stop>
+      <stop offset="1" stop-color="#12151C"></stop>
+    </linearGradient>
+    <linearGradient id="kp-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#39414F"></stop>
+      <stop offset="1" stop-color="#232935"></stop>
+    </linearGradient>
+    <linearGradient id="kp-amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6C664"></stop>
+      <stop offset="1" stop-color="#D99A20"></stop>
+    </linearGradient>
+      <linearGradient id="kp-blue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5288DE"></stop>
+      <stop offset="1" stop-color="#2F5A9C"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#kp-plate)"></rect>
+  <g transform="translate(256 256) scale(.78) translate(-256 -256)">
+    <path d="M256 232 L256 288 M108 288 L404 288 M108 288 L108 344 M404 288 L404 344" stroke="#6B788C" stroke-width="18" fill="none" stroke-linecap="round"></path>
+    <rect x="188" y="72" width="160" height="104" rx="16" fill="#8A6212"></rect>
+    <rect x="176" y="56" width="160" height="104" rx="16" fill="url(#kp-amber)"></rect>
+    <rect x="196" y="86" width="120" height="12" rx="6" fill="#141006" fill-opacity=".55"></rect>
+    <rect x="196" y="114" width="76" height="10" rx="5" fill="#141006" fill-opacity=".35"></rect>
+    <rect x="44" y="352" width="144" height="112" rx="16" fill="#171B23"></rect>
+    <rect x="32" y="336" width="144" height="112" rx="16" fill="url(#kp-blue)" stroke="#78A4EA" stroke-width="8"></rect>
+    <rect x="348" y="352" width="144" height="112" rx="16" fill="#171B23"></rect>
+    <rect x="336" y="336" width="144" height="112" rx="16" fill="url(#kp-blue)" stroke="#78A4EA" stroke-width="8"></rect>
+    <path d="M256 172 L204 240 L308 240 Z" fill="#0C0E12" stroke="url(#kp-amber)" stroke-width="18" stroke-linejoin="round"></path>
+  </g>
+</svg>
