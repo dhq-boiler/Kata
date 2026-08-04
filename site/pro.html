@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kata Pro — Unlimited AI-assisted refactoring for real codebases</title>
+<meta name="description" content="Kata Pro unlocks the monthly AI cap in Kata Community and grants commercial-use rights. $49 buyout for Individual, $150/seat/year Team, $290/seat/year Business.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<meta property="og:title" content="Kata Pro">
+<meta property="og:description" content="Unlimited AI-assisted refactoring, commercial-use rights, and the upcoming Team Collab features. Buyout $49 or subscription tiers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/pro">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Kata Pro</h1>
+    <p class="lead">
+      Unlock unlimited AI-assisted refactoring in Kata, plus commercial-use rights and
+      early access to the upcoming Team Collab features. One-time buyout or annual seat.
+      Your Claude / Codex CLI subscription pays the AI cost — Pro has no per-request markup.
+    </p>
+    <div class="ctas">
+      <a class="btn primary" href="#pricing">See pricing ↓</a>
+      <a class="btn secondary" href="/">← Back to overview</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What Pro unlocks</h2>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Community</th>
+          <th>Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>AI diff apply</strong></td>
+          <td>10 uses per month</td>
+          <td class="yes">Unlimited</td>
+        </tr>
+        <tr>
+          <td>Team Collab features (2026 roadmap)</td>
+          <td class="no">—</td>
+          <td class="yes">Included as they ship</td>
+        </tr>
+        <tr>
+          <td>Commercial use</td>
+          <td class="no">Not permitted</td>
+          <td class="yes">Permitted</td>
+        </tr>
+        <tr>
+          <td>Editor / diagram / refactorings / smell badges</td>
+          <td class="yes">Full</td>
+          <td class="yes">Same base</td>
+        </tr>
+        <tr>
+          <td>License</td>
+          <td>PolyForm Noncommercial (source-available)</td>
+          <td>Proprietary plugin</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      Pro is a small plugin DLL that loads on top of Community. You install
+      Kata Community once, drop <code>Kata.App.Pro.dll</code> next to
+      <code>Kata.App.exe</code>, and enter your key in Preferences → Pro.
+      No separate installer, no re-download.
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>Pricing</h2>
+    <div class="pricing">
+      <div class="tier">
+        <div class="name">Individual</div>
+        <div class="price">$49<span class="period"> · one-time buyout</span></div>
+        <ul>
+          <li>Unlimited AI refactoring</li>
+          <li>Commercial use</li>
+          <li>Activate on up to 3 machines</li>
+          <li>Perpetual — updates for the current major version</li>
+          <li>No support beyond docs</li>
+        </ul>
+        <!-- TODO: replace with real Lemon Squeezy variant checkout URL after products are created. -->
+        <a class="btn primary" href="https://kata-app.lemonsqueezy.com/">Buy Individual</a>
+      </div>
+
+      <div class="tier featured">
+        <div class="name">Team</div>
+        <div class="price">$150<span class="period"> · per seat / year</span></div>
+        <ul>
+          <li>Everything in Individual</li>
+          <li>Activate on up to 5 machines per seat</li>
+          <li>Annual subscription — cancel anytime</li>
+          <li>Priority email support</li>
+          <li>Bulk-seat purchase</li>
+        </ul>
+        <!-- TODO: replace with real Lemon Squeezy variant checkout URL. -->
+        <a class="btn primary" href="https://kata-app.lemonsqueezy.com/">Buy Team</a>
+      </div>
+
+      <div class="tier">
+        <div class="name">Business</div>
+        <div class="price">$290<span class="period"> · per seat / year</span></div>
+        <ul>
+          <li>Everything in Team</li>
+          <li>Activate on up to 10 machines per seat</li>
+          <li>Invoice / PO available</li>
+          <li>Priority for Team Collab feature requests</li>
+          <li>Dedicated email support</li>
+        </ul>
+        <!-- TODO: replace with real Lemon Squeezy variant checkout URL. -->
+        <a class="btn primary" href="https://kata-app.lemonsqueezy.com/">Buy Business</a>
+      </div>
+    </div>
+    <p style="text-align: center; color: var(--muted); margin-top: 20px; font-size: 0.9rem;">
+      Prices in USD. Payment is processed by
+      <a href="https://www.lemonsqueezy.com/">Lemon Squeezy</a>
+      (Merchant of Record). Local sales tax / VAT is calculated at checkout.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>How activation works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Purchase</h3>
+        <p>Complete checkout on Lemon Squeezy. You'll receive an email with
+          your license key and a link to <code>Kata.App.Pro.dll</code>.</p>
+      </div>
+      <div class="step">
+        <h3>Drop the DLL</h3>
+        <p>Place <code>Kata.App.Pro.dll</code> in the same folder as
+          <code>Kata.App.exe</code> (Community edition). No installer.</p>
+      </div>
+      <div class="step">
+        <h3>Enter key + restart</h3>
+        <p>Open Preferences → Pro, paste your key, save, and restart Kata.
+          The Pro loader picks up the plugin on startup.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Do I need to buy Pro to use Kata?</h3>
+        <p>No. Kata Community is free and open-source (PolyForm Noncommercial)
+          and has the full editor, refactoring catalog, and smell analyzer.
+          Pro removes the monthly AI cap and grants commercial-use rights.</p>
+      </div>
+      <div class="feature">
+        <h3>Do I pay for AI on top of the license?</h3>
+        <p>No. Kata calls your own Claude Code / Codex CLI. Your existing AI
+          subscription covers all requests — Pro doesn't add a per-request charge.</p>
+      </div>
+      <div class="feature">
+        <h3>Can I move my license to another machine?</h3>
+        <p>Yes. Open Preferences → Pro → Deactivate license. This releases
+          the seat on the Lemon Squeezy side so you can activate on a new machine.</p>
+      </div>
+      <div class="feature">
+        <h3>What if I go offline?</h3>
+        <p>The Pro plugin caches your validation for 7 days without any network
+          check and up to 30 days with a warning. Beyond 30 days offline, you
+          need to reconnect once to revalidate.</p>
+      </div>
+      <div class="feature">
+        <h3>Refunds?</h3>
+        <p>Contact <a href="mailto:dhq_boiler@live.jp">dhq_boiler@live.jp</a>
+          within 14 days of purchase for a full refund, no questions asked.</p>
+      </div>
+      <div class="feature">
+        <h3>Team / Business — how do renewals work?</h3>
+        <p>Yearly subscription via Lemon Squeezy. Cancel anytime from the
+          Lemon Squeezy customer portal. Your Pro features continue until the
+          end of the paid period.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

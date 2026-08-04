@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kata — AI-collaborative UML class diagram editor for real codebases</title>
+<meta name="description" content="Kata reads your .sln (C# via Roslyn, C++/CLI via a custom parser), renders it as an interactive class diagram, detects smells, and drives Fowler-catalog refactorings with AI assistance. Community edition is free and open-source.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<meta property="og:title" content="Kata — AI-collaborative UML class diagram editor">
+<meta property="og:description" content="Reads your real .sln, renders it as an interactive class diagram, and drives whole refactorings from the diagram surface.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>UML class diagrams that <em>are</em> the code.</h1>
+    <p class="lead">
+      Kata reads your solution directly, renders it as an interactive class diagram,
+      detects code smells, and drives whole refactorings — Fowler catalog plus your own
+      AI-assisted intents — right from the diagram surface. Changes flow back into the
+      source, so the diagram stays a live view of the code, not a static picture.
+    </p>
+    <div class="ctas">
+      <a class="btn primary" href="https://github.com/dhq-boiler/Kata/releases">Download Community</a>
+      <a class="btn secondary" href="/pro">Get Kata Pro →</a>
+    </div>
+    <figure class="hero-shot">
+      <img src="/assets/kata-diagram.png" alt="Kata rendering its own solution — dark-themed class diagram with ViewModel classes wired to ObservableObject." loading="lazy">
+      <figcaption>Kata dogfooding on its own <code>Kata.slnx</code> — 57 types, 57 relationships.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What it does</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Live class diagram</h3>
+        <p>Opens a real <code>.sln</code> or <code>.slnx</code> — no
+          hand-drawn boxes. Sugiyama layout, namespace clusters, MSAGL rectilinear
+          edges with proper extends/implements labels.</p>
+      </div>
+      <div class="feature">
+        <h3>Cross-language Ctrl+Click</h3>
+        <p>Jumps from a member name to its definition across C# ↔ C++/CLI
+          boundaries. Custom C++/CLI parser + Roslyn hybrid resolver.</p>
+      </div>
+      <div class="feature">
+        <h3>Fowler refactoring catalog</h3>
+        <p>Extract Method / Interface / Superclass / Hierarchy, Rename,
+          Move Method, Convert Procedural to Objects — over 30 refactorings,
+          each surfaced on the diagram <em>and</em> callable via MCP so external
+          AI agents can drive them.</p>
+      </div>
+      <div class="feature">
+        <h3>Code smell analyzer</h3>
+        <p>24 Fowler smells — Large Class, Long Function, Data Clumps,
+          Feature Envy, Message Chains, and friends — badged as
+          💩 right on the class node.</p>
+      </div>
+      <div class="feature">
+        <h3>AI diff apply</h3>
+        <p>Right-click a smell → ask Claude / Codex → get a unified diff →
+          preview → apply. The diagram adapter updates incrementally, no
+          full sln reload.</p>
+      </div>
+      <div class="feature">
+        <h3>Uses your own AI subscription</h3>
+        <p>No API fee on top of the app. Kata invokes your local
+          Claude Code / Codex CLI. You control the model and the cost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Community and Pro</h2>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Community</th>
+          <th>Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>License</td>
+          <td>PolyForm Noncommercial (source-available, free for noncommercial use)</td>
+          <td>Commercial (proprietary plugin)</td>
+        </tr>
+        <tr>
+          <td>Editor / diagram</td>
+          <td class="yes">Full</td>
+          <td class="yes">Same base</td>
+        </tr>
+        <tr>
+          <td>Fowler refactorings</td>
+          <td class="yes">All 30+</td>
+          <td class="yes">All 30+</td>
+        </tr>
+        <tr>
+          <td>Code smell badges</td>
+          <td class="yes">All 24 smells</td>
+          <td class="yes">All 24 smells</td>
+        </tr>
+        <tr>
+          <td>AI diff apply</td>
+          <td>10 uses per month</td>
+          <td class="yes">Unlimited</td>
+        </tr>
+        <tr>
+          <td>Team Collab features</td>
+          <td class="no">—</td>
+          <td>Rolling out in 2026</td>
+        </tr>
+        <tr>
+          <td>Commercial use</td>
+          <td class="no">Not permitted</td>
+          <td class="yes">Permitted</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ctas" style="margin-top: 24px;">
+      <a class="btn primary" href="/pro">See Pro pricing →</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Getting started</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Download</h3>
+        <p>Grab the latest Community binary or clone
+          <a href="https://github.com/dhq-boiler/Kata">github.com/dhq-boiler/Kata</a>.</p>
+      </div>
+      <div class="step">
+        <h3>Open a solution</h3>
+        <p>File → Open Solution (.sln / .slnx). Works with C# projects and
+          C++/CLI (.vcxproj referenced from a .sln).</p>
+      </div>
+      <div class="step">
+        <h3>Refactor from the diagram</h3>
+        <p>Right-click a node or member to open a refactoring, or click a
+          💩 badge and let AI propose a diff you can preview and apply.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
