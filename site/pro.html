@@ -108,8 +108,7 @@
           <li>Perpetual — updates for the current major version</li>
           <li>No support beyond docs</li>
         </ul>
-        <!-- Pre-launch: LS 商品審査中。承認 & variant 作成後、実 checkout URL に差し替える。 -->
-        <a class="btn primary" href="mailto:dhq_boiler@live.jp?subject=Notify%20me%20at%20launch%3A%20Kata%20Pro%20Individual&amp;body=Please%20email%20me%20when%20Kata%20Pro%20Individual%20(%2449%20buyout)%20goes%20on%20sale.">Notify me at launch</a>
+        <a class="btn primary lemonsqueezy-button" href="https://kata-app.lemonsqueezy.com/checkout/buy/1a750eaa-a595-45d5-97dd-85c8ac0cabf5?embed=1">Buy $49</a>
       </div>
 
       <div class="tier featured">
@@ -122,8 +121,7 @@
           <li>Priority email support</li>
           <li>Bulk-seat purchase</li>
         </ul>
-        <!-- Pre-launch: LS 商品審査中。 -->
-        <a class="btn primary" href="mailto:dhq_boiler@live.jp?subject=Notify%20me%20at%20launch%3A%20Kata%20Pro%20Team&amp;body=Please%20email%20me%20when%20Kata%20Pro%20Team%20(%24150%20per%20seat%2Fyear)%20goes%20on%20sale.">Notify me at launch</a>
+        <a class="btn primary lemonsqueezy-button" href="https://kata-app.lemonsqueezy.com/checkout/buy/f05eee7f-f8f1-49fd-8d92-6a90124b9c89?embed=1">Buy $150/year</a>
       </div>
 
       <div class="tier">
@@ -136,8 +134,7 @@
           <li>Priority for Team Collab feature requests</li>
           <li>Dedicated email support</li>
         </ul>
-        <!-- Pre-launch: LS 商品審査中。 -->
-        <a class="btn primary" href="mailto:dhq_boiler@live.jp?subject=Notify%20me%20at%20launch%3A%20Kata%20Pro%20Business&amp;body=Please%20email%20me%20when%20Kata%20Pro%20Business%20(%24290%20per%20seat%2Fyear)%20goes%20on%20sale.">Notify me at launch</a>
+        <a class="btn primary lemonsqueezy-button" href="https://kata-app.lemonsqueezy.com/checkout/buy/e9e8db82-5dbe-4f33-9c05-eea61432151d?embed=1">Buy $290/year</a>
       </div>
     </div>
     <p style="text-align: center; color: var(--muted); margin-top: 20px; font-size: 0.9rem;">
@@ -233,6 +230,15 @@
     <a href="mailto:dhq_boiler@live.jp">Contact</a>
   </div>
 </footer>
+
+<!-- Lemon Squeezy overlay checkout。anchor に class="lemonsqueezy-button" が
+     付いていると同一ページ内 iframe で checkout が開く (page 遷移なし)。
+     integrity=... (SRI) を意図的に付けない: LS は lemon.js を dynamic に更新する
+     設計 (公式の embed snippet にも SRI なし) なので、hash pin すると script が
+     revalidate された瞬間 overlay が blocked = customer が買えなくなる。CDN
+     compromise リスクは残るが、そのシナリオは LS 自体の決済インフラが破綻して
+     いる状況なので他の影響が桁違いに大きい。 -->
+<script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
 </body>
 </html>
