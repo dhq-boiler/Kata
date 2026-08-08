@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kata — AI-collaborative UML class diagram editor for real codebases</title>
-<meta name="description" content="Kata reads your .sln (C# via Roslyn, C++/CLI via a custom parser), renders it as an interactive class diagram, detects smells, and drives Fowler-catalog refactorings with AI assistance. Community edition is free and open-source.">
+<meta name="description" content="Kata reads your real project — C#, C++/CLI, Java, and TypeScript — renders it as an interactive class diagram, detects smells, and drives Fowler-catalog refactorings with AI assistance. Scales to 20k-type solutions. Community edition is free and open-source.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
@@ -67,6 +67,13 @@
           boundaries. Custom C++/CLI parser + Roslyn hybrid resolver.</p>
       </div>
       <div class="feature">
+        <h3>Four languages, one diagram</h3>
+        <p>C# (Roslyn), C++/CLI (custom parser), Java, and TypeScript —
+          each with its own project loader, symbol resolver, and smell
+          detectors. Mix them in one solution and Kata lays them out
+          together.</p>
+      </div>
+      <div class="feature">
         <h3>Fowler refactoring catalog</h3>
         <p>Extract Method / Interface / Superclass / Hierarchy, Rename,
           Move Method, Convert Procedural to Objects — over 30 refactorings,
@@ -90,6 +97,53 @@
         <p>No API fee on top of the app. Kata invokes your local
           Claude Code / Codex CLI. You control the model and the cost.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Real-world scale</h2>
+    <p style="color: var(--muted); max-width: 700px;">
+      Kata was built to survive the codebases people actually work in — not toy
+      samples. On a 21 464-type TypeScript solution (Visual Studio Code's
+      <code>src/tsconfig.json</code>), the whole-graph Sugiyama layout would
+      stall, so Kata's scale gate picks the largest namespace that fits under
+      the layout budget and renders that as the entry view. Switch namespace
+      from the top ComboBox to explore the rest — every type is still loaded,
+      indexed, and Ctrl+Clickable.
+    </p>
+    <figure class="hero-shot">
+      <img src="/assets/kata-vscode-typescript.png" alt="Kata rendering a 1157-type subset of VSCode's src/tsconfig.json — dark-themed class diagram with «interface» and «class» stereotypes, auto-picked namespace vs.workbench.api.common." loading="lazy">
+      <figcaption>
+        VSCode (<code>src/tsconfig.json</code>) — 21 464 types indexed,
+        <code>vs.workbench.api.common</code> (1 157 types) auto-selected as the
+        entry view. Cold render 12.5&nbsp;s.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>See it in action</h2>
+    <div class="showcase-grid">
+      <figure>
+        <img src="/assets/kata-smell-badge.png" alt="Kata class diagram closeup — MainWindowViewModel class header with a 💩 smell badge in the top-right corner, marking it as a God Class." loading="lazy">
+        <figcaption><strong>Smell badges</strong> — 💩 on the class header flags God Classes; per-member badges appear on individual long methods and message chains.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/kata-refactor-dialog.png" alt="Extract Superclass refactoring dialog — source class, new superclass name field, and a checkbox list of pull-up member candidates." loading="lazy">
+        <figcaption><strong>Refactor dialogs</strong> — Rename, Extract Interface / Superclass / Class, Add Ghost Type, and 25+ more, driven from the diagram surface.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/kata-ai-diff.png" alt="Kata AI diff preview dialog — Claude-generated unified diff for MainWindowViewModel.cs, with policy check and quality delta banners above the diff and Apply / Reject / Export buttons below." loading="lazy">
+        <figcaption><strong>AI diff preview</strong> — click a 💩, ask Claude or Codex, get a real diff with policy check and quality delta before you apply.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/kata-code-viewer.png" alt="Kata with the code viewer pane docked to the right, showing a member's source with breadcrumb and Find References button." loading="lazy">
+        <figcaption><strong>Code viewer pane</strong> — Ctrl+Click any underlined member to see its source in place, with breadcrumbs and cross-language jump.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -159,9 +213,10 @@
           <a href="https://github.com/dhq-boiler/Kata">github.com/dhq-boiler/Kata</a>.</p>
       </div>
       <div class="step">
-        <h3>Open a solution</h3>
-        <p>File → Open Solution (.sln / .slnx). Works with C# projects and
-          C++/CLI (.vcxproj referenced from a .sln).</p>
+        <h3>Open a project</h3>
+        <p>File → Open Solution. Works with C# / C++/CLI (<code>.sln</code> /
+          <code>.slnx</code>), Java (Maven / Gradle), and TypeScript
+          (<code>tsconfig.json</code>).</p>
       </div>
       <div class="step">
         <h3>Refactor from the diagram</h3>

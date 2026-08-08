@@ -207,6 +207,40 @@ section h3 {
 .feature h3 { color: var(--text); }
 .feature p { color: var(--muted); margin: 8px 0 0; font-size: 0.95rem; }
 
+/* ---- Showcase grid (4 feature screenshots) ---- */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.showcase-grid figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.showcase-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  background: var(--panel);
+}
+.showcase-grid figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.showcase-grid figcaption strong {
+  color: var(--text);
+  font-weight: 600;
+}
+@media (max-width: 720px) {
+  .showcase-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
 /* ---- Compare table ---- */
 .compare {
   width: 100%;
