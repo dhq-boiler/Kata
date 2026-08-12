@@ -34,23 +34,19 @@ the diagram stays a live view of the code — not a static picture.
 - **Live graph** — no sln reload after refactors; the diagram adapter updates
   incrementally.
 
-## Supported languages
+## Supported inputs
 
-Kata's core (analysis, refactor intents, MCP protocol) is language-neutral.
-Language adapters:
+- **C# projects** (via Roslyn) — full symbol semantics, cross-project refs,
+  complete Fowler catalog
+- **C++/CLI projects** — custom Roslyn-flavoured layer in `Kata.Cpp`, inline
+  members, macros, hybrid symbol resolution across the C# ↔ C++/CLI boundary
+- **Mixed C# + C++/CLI solutions** — the main dogfooding target. Ctrl+Click
+  from a C# call site into a C++/CLI header and back.
+- **ASP.NET Razor / Web Forms views** (as C# flavor) — view pseudo-types with
+  cross-file rename
 
-| Adapter          | Status                     | Notes                                           |
-| :--------------- | :------------------------- | :---------------------------------------------- |
-| **C#** (Roslyn)  | ✅ full                    | Complete Fowler catalog, cross-project refs     |
-| **C++/CLI**      | ✅ semantic + hybrid       | Custom parser + Roslyn interop layer            |
-| **Java**         | ✅ parity                  | Maven + Gradle multi-module, JdkStubIndex       |
-| **Kotlin**       | ✅ basic                   | Nav, smells, subset of intents                  |
-| **Go**           | ✅ basic                   | Nav, smells, subset of intents                  |
-| **TypeScript**   | ✅ basic                   | Nav, smells, subset of intents                  |
-| **ASP.NET Razor / Web Forms** | ✅ (as C# flavor) | View pseudo-types, cross-file rename            |
-
-Mixed-language solutions (the main dogfooding target) work — you can Ctrl+Click
-from a C# call site into a C++/CLI header and back.
+Additional language adapters (Java / Kotlin / Go / TypeScript) are in
+development for a future release.
 
 ## MCP integration
 
@@ -118,10 +114,6 @@ src/
   Kata.Core/          — model, analysis, intents (language-neutral)
   Kata.Roslyn/        — C# language adapter (Roslyn)
   Kata.Cpp/           — C++/CLI parser + semantics
-  Kata.Java/          — Java adapter (Maven + Gradle)
-  Kata.Kotlin/        — Kotlin adapter
-  Kata.Go/            — Go adapter
-  Kata.TypeScript/    — TypeScript adapter
   Kata.Razor/         — Razor / Blazor view adapter
   Kata.WebForms/      — ASP.NET Web Forms view adapter
   Kata.App/           — WPF frontend
@@ -129,7 +121,7 @@ src/
   Kata.Mcp/           — MCP tool definitions
   Kata.Mcp.HostApp/   — MCP Streamable HTTP host executable
 tests/
-  Kata.Tests/         — xUnit (1886 tests)
+  Kata.Tests/         — xUnit
 ```
 
 ## Contributing
