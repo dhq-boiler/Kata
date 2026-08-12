@@ -1,49 +1,87 @@
 # Kata
 
-AI-collaborative UML class diagram editor for real codebases.
+**AI-agent-driven refactoring platform for real codebases.**
 
-Kata reads a `.sln` (or `.slnx`) directly, renders it as an interactive class
-diagram, detects code smells, and lets you drive whole refactorings — Fowler
-catalog + your own AI-assisted intents — from the diagram surface. Changes
-flow **back** into the source (Roslyn workspace / C++/CLI project files) so
-the diagram stays a live view of the code, not a static picture.
+Kata exposes Fowler's refactoring catalog and code-smell detection through a
+Model Context Protocol (MCP) server, so any AI agent — Claude Code, Codex,
+your own — can drive whole refactorings against a real solution. A class
+diagram surfaces the same intents in a UI when you want a human-in-the-loop
+view.
 
-**Supported inputs**
+The workflow, in one sentence: an agent reads the smells Kata detected,
+proposes a diff, you preview it in the app, then apply it back to the source.
+Changes flow back into the Roslyn workspace / C++/CLI project files, so
+the diagram stays a live view of the code — not a static picture.
 
-- C# projects (via Roslyn) — full symbol semantics, cross-project refs
-- C++/CLI projects (via a custom Roslyn-flavoured layer in `Kata.Cpp`) — inline
-  members, macros, hybrid symbol resolution across the C# ↔ C++/CLI boundary
-- Mixed C# + C++/CLI solutions (the main dogfooding target)
+<!-- TODO: 15-sec GIF here — "AI agent picks a smell → previews diff → applies" -->
 
-**Highlights**
+## Why it's different
 
-- **Ctrl+Click navigation** on any type or member, cross-language
-- **Fowler refactoring catalog** — Extract Method / Extract Interface / Rename /
-  Move Method / etc., surfaced on the diagram and also callable from an MCP
-  tool so external AI agents can drive them
-- **Code smell analyzer** — 24 smells, badged as 💩 on nodes and members
-- **AI diff apply** — right-click a smell → "Ask AI (Claude / Codex)" → the
-  agent produces a unified diff → preview → apply
-- **Live graph** — sln reload isn't required after refactors; the diagram
-  adapter updates incrementally
+- **MCP-native** — the refactor catalog isn't a plugin, it's the primary surface.
+  75+ MCP tools cover load-solution, list-smells, propose-*, apply-change-set,
+  quality-delta, so an agent can drive Kata alongside its own tooling.
+- **Cross-language symbol index** — C# ↔ C++/CLI resolution works Ctrl+Click
+  and refactor-wise across the boundary (the C++/CLI symbol layer in
+  `Kata.Cpp` reimplements just enough Roslyn semantics to interop).
+- **Whole-codebase Fowler catalog** — 47 refactoring intents wired through
+  a `IIntentApplier<T>` strategy pattern, each MSBuild-free unit-testable.
+- **Smell → refactor loop** — 24 Fowler smells detected as badges on nodes and
+  members. The AI-fix flow reads the exact smell + local source, produces a
+  unified diff, and hands you a preview dialog.
+- **Live graph** — no sln reload after refactors; the diagram adapter updates
+  incrementally.
+
+## Supported languages
+
+Kata's core (analysis, refactor intents, MCP protocol) is language-neutral.
+Language adapters:
+
+| Adapter          | Status                     | Notes                                           |
+| :--------------- | :------------------------- | :---------------------------------------------- |
+| **C#** (Roslyn)  | ✅ full                    | Complete Fowler catalog, cross-project refs     |
+| **C++/CLI**      | ✅ semantic + hybrid       | Custom parser + Roslyn interop layer            |
+| **Java**         | ✅ parity                  | Maven + Gradle multi-module, JdkStubIndex       |
+| **Kotlin**       | ✅ basic                   | Nav, smells, subset of intents                  |
+| **Go**           | ✅ basic                   | Nav, smells, subset of intents                  |
+| **TypeScript**   | ✅ basic                   | Nav, smells, subset of intents                  |
+| **ASP.NET Razor / Web Forms** | ✅ (as C# flavor) | View pseudo-types, cross-file rename            |
+
+Mixed-language solutions (the main dogfooding target) work — you can Ctrl+Click
+from a C# call site into a C++/CLI header and back.
+
+## MCP integration
+
+Kata.Mcp is a Streamable HTTP server (per MCP 2026-07-28 spec), stateless by
+default. Multiple agents can connect simultaneously alongside a running Kata
+App instance. Common tools:
+
+```
+load_solution               list_projects            list_types
+list_smells                  get_smell_context       propose_rename
+propose_extract_method       propose_extract_class   apply_change_set
+get_quality_delta            export_test_instruction
+```
+
+`apply_change_set` in standalone (headless) mode is opt-in via
+`--allow-headless-apply` / `KATA_ALLOW_HEADLESS_APPLY=1` — by default a
+human confirms the diff in `Kata.App`'s preview dialog first.
 
 ## Status
 
 Kata is under active solo development by [@dhq-boiler](https://github.com/dhq-boiler).
-It works well on the codebases it was built against, but the surface is wide
-and the edges are still rough. Bug reports and reproducible examples are the
-most useful form of contribution right now.
+It works well on the codebases it was built against; the surface is wide and
+the edges are still rough. Bug reports and reproducible examples are the most
+useful form of contribution right now.
 
 ## Community vs Pro
-
-Kata ships in two editions:
 
 |                    | **Community** (this repo) | **Pro** ([kata.dhq-boiler.dev/pro](https://kata.dhq-boiler.dev/pro)) |
 | :----------------- | :------------------------ | :------------------------------------------------------------------- |
 | License            | PolyForm NC (source-available, free for noncommercial use) | Commercial (proprietary plugin) |
 | Editor / diagram   | ✅ full                   | ✅ same base                                                         |
-| Refactorings       | ✅ Fowler catalog         | ✅ + Team Collab features (planned)                                  |
+| Refactorings       | ✅ Fowler catalog         | ✅ + Team Collab (planned)                                           |
 | Code smell badges  | ✅ 24 smells              | ✅ same                                                              |
+| MCP server         | ✅ full 75+ tools         | ✅ same                                                              |
 | AI diff apply      | ✅ **10 uses / month**    | ✅ unlimited                                                         |
 | License upgrade    | —                          | Drop `Kata.App.Pro.dll` next to `Kata.App.exe` + enter key           |
 | Pricing            | Free                       | $49 buyout / $150 seat·yr / $290 Business seat·yr                    |
@@ -55,13 +93,16 @@ either way — the Community monthly cap is a *value* gate, not a cost gate.
 
 ## Building
 
-Requires .NET 10 SDK and Windows (WPF).
+Requires .NET 10 SDK and Windows (WPF for the App; MCP host runs headless).
 
 ```powershell
 dotnet build Kata.slnx
 dotnet test  tests\Kata.Tests\Kata.Tests.csproj
 dotnet run   --project src\Kata.App\Kata.App.csproj
+dotnet run   --project src\Kata.Mcp.HostApp\Kata.Mcp.HostApp.csproj
 ```
+
+Default MCP endpoint: `http://localhost:7345/mcp` (override with `KATA_MCP_URLS`).
 
 The `Kata.App.Pro/` folder does **not** live in this tree — it's the private
 plugin repo. Community builds fine without it; the ProLoader silently falls
@@ -74,23 +115,19 @@ src/
   Kata.Core/          — model, analysis, intents (language-neutral)
   Kata.Roslyn/        — C# language adapter (Roslyn)
   Kata.Cpp/           — C++/CLI parser + semantics
+  Kata.Java/          — Java adapter (Maven + Gradle)
+  Kata.Kotlin/        — Kotlin adapter
+  Kata.Go/            — Go adapter
+  Kata.TypeScript/    — TypeScript adapter
+  Kata.Razor/         — Razor / Blazor view adapter
+  Kata.WebForms/      — ASP.NET Web Forms view adapter
   Kata.App/           — WPF frontend
   Kata.App.PluginApi/ — public contract shared with the Pro plugin
-  Kata.Mcp/           — MCP server exposing intents to external agents
+  Kata.Mcp/           — MCP tool definitions
+  Kata.Mcp.HostApp/   — MCP Streamable HTTP host executable
 tests/
-  Kata.Tests/         — xUnit
-tools/
-  Generate-Strings.ps1
+  Kata.Tests/         — xUnit (1886 tests)
 ```
-
-## AI integration
-
-Kata talks to AI agents (Claude Code, Codex) either directly via CLI
-invocation or through its own MCP server (`Kata.Mcp`). The MCP layer is a
-Streamable HTTP + stateless server so multiple agents can connect
-simultaneously alongside the App. This means you can drive Kata from a
-running Claude Code session, and the changes it makes reflect immediately
-in the diagram.
 
 ## Contributing
 
