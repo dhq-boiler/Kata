@@ -13,7 +13,10 @@ proposes a diff, you preview it in the app, then apply it back to the source.
 Changes flow back into the Roslyn workspace / C++/CLI project files, so
 the diagram stays a live view of the code — not a static picture.
 
-<!-- TODO: 15-sec GIF here — "AI agent picks a smell → previews diff → applies" -->
+![Kata AI-agent refactor demo](docs/assets/kata-demo.gif)
+
+*20-second demo: right-click a `LongFunction` smell on `Order.PlaceOrder` → Ask AI (Claude) → preview the proposed diff → Apply. The bloated method is decomposed into `ValidateInputs` / `CalculateDiscountRate` / `CalculateTaxRate` / `BuildReceipt`. See the [full 3-minute recording](docs/assets/kata-demo-full.gif) for the complete flow.*
+
 
 ## Why it's different
 
