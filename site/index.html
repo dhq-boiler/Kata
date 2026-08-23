@@ -99,13 +99,13 @@
 
 <section class="hero">
   <div class="wrap">
-    <h1>Point your AI at your codebase.<br>Not a fragment of it.</h1>
+    <h1>Point your AI at your codebase.<br>See every diff before it lands.</h1>
     <p class="lead">
       Kata reads your real solution — up to 21,000+ types across six languages — as a live
-      class diagram. Spot the smells, hand each one to your own AI CLI (Claude Code, Codex,
-      Cursor, or any MCP-compatible tool) as a scoped refactor, preview the diff, apply from
-      the diagram. The source moves. No copy-paste roundtrip, no context you have to
-      reconstruct by hand.
+      class diagram. When your AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible
+      tool) proposes a refactor, Kata verifies it: preview the diff, check the policy and
+      quality-delta banners, apply what fits, roll back the rest — all before the source
+      moves. It isn't that the AI is always right. It's that being wrong is cheap here.
     </p>
     <ul class="proof-strip">
       <li><strong>6</strong> languages</li>
@@ -148,10 +148,11 @@
           solution and Kata lays them out together.</p>
       </div>
       <div class="feature">
-        <h3>Refactor from the diagram surface</h3>
+        <h3>Refactor from the diagram, verified before write</h3>
         <p>Extract Method / Interface / Superclass / Hierarchy, Rename, Move Method, Convert
           Procedural to Objects — over 30 Fowler intents, invoked on the node you're looking
-          at. The same intents are exposed over MCP so external AI agents can drive them.</p>
+          at. Every intent runs through the same preview → apply loop as an AI diff. Same
+          intents are exposed over MCP so external agents ride the same verification path.</p>
       </div>
       <div class="feature">
         <h3>See the smells before you dig</h3>
@@ -160,10 +161,10 @@
           as 💩 badges right on the class node so you know where to look.</p>
       </div>
       <div class="feature">
-        <h3>Ask AI, preview the diff, apply from the diagram</h3>
-        <p>Right-click a 💩 → hand it to your AI CLI with the surrounding context already
-          scoped → get a unified diff → check the policy and quality-delta banners → apply.
-          The diagram updates incrementally, no full sln reload.</p>
+        <h3>AI proposes. Kata verifies. You apply.</h3>
+        <p>Right-click a 💩 → your AI CLI returns a scoped diff → the policy check and
+          quality-delta banners tell you whether it's safe to keep → apply, or discard with
+          one click. Wrong guesses are cheap here — you see them before the source moves.</p>
       </div>
       <div class="feature">
         <h3>Your AI subscription — no middleman fee</h3>
