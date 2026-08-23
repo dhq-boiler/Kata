@@ -70,7 +70,7 @@
       </p>
 
       <div class="outcomes">
-        <h4>What you'll learn here</h4>
+        <h4>What you'll be able to do</h4>
         <ul>
           <li>Whether Community covers your workflow, or when Pro pays off.</li>
           <li>Where your code goes when Kata invokes your AI CLI, and where it does not.</li>
@@ -92,8 +92,12 @@
       <h3>What does Kata Pro actually unlock?</h3>
       <ul>
         <li><strong>Commercial-use rights</strong> — the license difference above.</li>
-        <li><strong>Unlimited AI diff apply</strong> — Community is capped at 10 per month.</li>
-        <li>Early access to the upcoming <strong>Team Collab</strong> features.</li>
+        <li><strong>Unlimited AI consultations</strong> — Community is capped at 10 per
+            month.</li>
+        <li><strong>AI Puppet Mode</strong> — Kata auto-replays the AI diff preview
+            dialog end-to-end (apply, re-index, re-check, move on).</li>
+        <li>Early access to the upcoming <strong>Team Collab</strong> features, plus
+            priority support.</li>
       </ul>
       <p>
         Community and Pro share the same editor, diagram, all 30+ Fowler refactorings, and
@@ -102,17 +106,18 @@
 
       <h3>Can I move my Pro license between machines?</h3>
       <p>
-        Yes. Open <strong>Preferences → Pro → Deactivate license</strong> on the old machine,
-        then activate on the new one. Deactivation releases the seat on the Lemon Squeezy
-        side.
+        Yes. Open <strong>Preferences → Pro License → Deactivate license</strong> on the
+        old machine, then activate on the new one. Deactivation releases the seat on the
+        Lemon Squeezy side.
       </p>
 
       <h2>AI cost &amp; data privacy</h2>
 
       <h3>Do I pay Kata anything for AI requests?</h3>
       <p>
-        No. Kata calls your own AI CLI — Claude Code, Codex, Cursor, or any MCP-compatible
-        tool. Your existing AI subscription covers all requests. Pro doesn't add a
+        No. Kata routes AI work through your own local AI CLI (Claude Code or Codex CLI)
+        or an MCP-compatible client (Cursor and friends) that connects to Kata's MCP
+        server. Your existing AI subscription covers all requests. Pro doesn't add a
         per-request charge and Kata itself never proxies AI traffic through our servers.
       </p>
 
@@ -155,9 +160,7 @@
 
       <h3>Is there a macOS or Linux build?</h3>
       <p>
-        Not today. Kata's editor is WPF-based, which is Windows-only. Following users on
-        WSL / VM / Parallels have reported the app runs there, but it is not a supported
-        configuration.
+        Not today. Kata's editor is WPF-based, which is Windows-only.
       </p>
 
       <h2>Compatibility &amp; scope</h2>
@@ -171,11 +174,11 @@
 
       <h3>How large a solution can Kata open?</h3>
       <p>
-        Verified on Visual Studio Code's <code>src/tsconfig.json</code> —
-        <strong>21,464 types</strong> indexed. When the whole graph is too big to lay out
-        at once, Kata's scale gate picks the largest namespace that fits under the layout
-        budget and lets you swap views from the namespace ComboBox. Every type is still
-        indexed and Ctrl+Clickable.
+        Benchmarked against a <strong>21,464-type</strong> TypeScript solution — the
+        engine held up. When the whole graph is too big to lay out at once, Kata's
+        scale gate picks the largest namespace that fits under the layout budget and
+        lets you swap views from the namespace ComboBox. Every type is still indexed
+        and Ctrl+Clickable.
       </p>
 
       <h3>Does Kata replace my IDE's refactoring?</h3>

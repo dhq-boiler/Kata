@@ -231,21 +231,15 @@
             type-code-driven variance into a hierarchy of subclasses.</li>
       </ul>
 
-      <h2>What Kata does not (yet) cover</h2>
+      <h2>What is coming next</h2>
       <p>
-        Two Fowler categories are only partially in the box today:
-      </p>
-      <ul>
-        <li><strong>Body-level intents</strong> that need an in-editor range picker
-            (e.g. Extract Variable on an arbitrary subexpression) — waiting on the
-            code-viewer range UI.</li>
-        <li><strong>Some Simplifying Conditional</strong> intents that depend on the
-            same range UI (e.g. Consolidate Duplicate Conditional Fragments across
-            branches).</li>
-      </ul>
-      <p>
-        These are on the roadmap; Kata falls back to an AI diff apply when they come up
-        so you're not blocked in the meantime.
+        Extract Variable, Decompose Conditional, and their neighbours are already
+        implemented — the dialog opens on a member you right-click and you get a named
+        variable or a decomposed condition on Apply. The range-picker UI that will let
+        you highlight <em>an arbitrary subexpression</em> inside the code viewer and
+        drive the same intents from that selection is on the roadmap. Until it lands,
+        those intents work at member granularity; if you need finer scope, an AI diff
+        apply covers the gap.
       </p>
 
       <h2>Next steps</h2>

@@ -111,8 +111,8 @@
       </ul>
 
       <div class="note">
-        <strong>System requirements:</strong> Windows 10 (build 19041+) or Windows 11.
-        The .NET 8 runtime is bundled — you do not need to install anything else.
+        <strong>System requirements:</strong> Windows 10 or Windows 11. The .NET 10
+        runtime is bundled — you do not need to install anything else.
       </div>
 
       <h2>2. Open your first project</h2>
@@ -160,13 +160,13 @@
       <ol>
         <li>Right-click any class or member in the diagram and choose
             <strong>Rename</strong>.</li>
-        <li>Type the new name in the dialog. Kata resolves every reference across the
-            solution — including cross-language ones where applicable — and shows how many
-            call sites will change.</li>
-        <li>Click <strong>Preview</strong>. Kata surfaces a unified diff of every file it
-            will edit.</li>
-        <li>Click <strong>Apply</strong>. Kata writes the changes to disk and updates the
-            diagram incrementally — no full reload.</li>
+        <li>Type the new name in the Rename dialog. Kata resolves every reference across
+            the solution — including cross-language ones where applicable.</li>
+        <li>Click <strong>Preview</strong>. Kata builds a unified diff and opens the diff
+            preview dialog.</li>
+        <li>In the diff preview, review each hunk and click <strong>Apply</strong>. Kata
+            writes the changes to disk and updates the diagram incrementally — no full
+            reload.</li>
       </ol>
       <p>
         The same pattern works for every Fowler intent Kata ships — Extract Method /
@@ -181,8 +181,9 @@
       </p>
       <ol>
         <li>Point Kata at your own AI CLI once —
-            <strong>Preferences → AI CLI</strong>. Kata supports Claude Code, Codex, Cursor,
-            and any MCP-compatible tool. Full setup details are on the
+            <strong>Preferences → AI</strong>. Kata drives Claude Code or Codex CLI on
+            your behalf; external MCP-compatible tools (Cursor and friends) attach to
+            Kata's MCP server instead. Full setup details are on the
             <a href="/docs/ai-cli.html">AI CLI setup</a> page.</li>
         <li>Find a 💩 smell badge on any node in the diagram. Right-click it and choose
             <strong>Ask AI</strong>.</li>
@@ -196,7 +197,7 @@
             recomputes, and you see whether the fix took.</li>
       </ol>
       <div class="warn">
-        Community edition includes 10 AI diff applies per month. Pro removes the cap —
+        Community edition includes 10 AI consultations per month. Pro removes the cap —
         see <a href="/pro">Kata Pro</a>.
       </div>
 

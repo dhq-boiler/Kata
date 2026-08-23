@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MCP API — Kata Docs</title>
-<meta name="description" content="Kata exposes its smell index and Fowler refactoring catalog as MCP tools over Streamable HTTP, so any MCP-compatible AI agent can query, request, and apply refactors without a human at the diagram.">
+<meta name="description" content="Kata exposes its smell index and Fowler refactoring catalog as MCP tools over Streamable HTTP on localhost:7345/mcp, so any MCP-compatible AI agent can inspect smells, propose refactors, review pending change sets, and apply them under a governance / provenance chain.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
@@ -64,208 +64,210 @@
       <p class="kicker">AI integration</p>
       <h1>Drive Kata from an external AI agent (MCP)</h1>
       <p class="subtitle">
-        Kata runs an MCP server that publishes its smell index and Fowler refactoring
-        catalog as callable tools. Any MCP-compatible agent — Claude Code, Codex, Cursor,
-        or a custom one you built — can list smells, request a refactor, and receive a
-        unified diff, without touching your source files directly.
+        Kata runs an MCP server that publishes its smell index, Fowler refactoring
+        catalog, pending-change-set store, and governance / provenance ledger as callable
+        tools. Any MCP-compatible agent — Claude Code, Codex, Cursor, or a custom one —
+        can inspect smells, propose refactors, review the pending changes, and apply
+        them, without touching your source files directly.
       </p>
 
       <div class="outcomes">
         <h4>What you'll be able to do</h4>
         <ul>
-          <li>List the tools Kata publishes over MCP and know what each one returns.</li>
-          <li>Point an MCP-compatible client at your running Kata instance.</li>
-          <li>Trace a full round-trip: agent asks for smells → Kata replies → agent
-              picks one → Kata returns a diff → agent (or you) applies it.</li>
-          <li>Know what data crosses the MCP boundary and what stays local.</li>
+          <li>Connect an MCP-compatible client to the running Kata instance.</li>
+          <li>Walk the tool families Kata publishes — inspection, refactoring proposals,
+              change-set review, apply / approve / discard, and governance.</li>
+          <li>Trace a full round-trip: agent asks for smells → proposes a refactor → the
+              proposal lands in the pending-change-set store → agent (or you) applies it
+              through the governance gate.</li>
+          <li>Know what data crosses the boundary, and how the provenance ledger records
+              every applied change.</li>
         </ul>
       </div>
 
       <h2>Transport</h2>
       <p>
-        Kata's MCP server uses <strong>Streamable HTTP</strong> — the same transport
-        Claude Code, Codex, and Cursor use as MCP clients — bound to
-        <code>127.0.0.1</code> only. Nothing on the network can reach it; the CLI you
-        configure must run on the same machine as Kata.
+        Kata's MCP server uses <strong>Streamable HTTP</strong> and, by default, binds to
+        <code>http://localhost:7345/mcp</code>. The bind address is <code>localhost</code>
+        only — nothing on the network can reach it; the CLI you configure must run on the
+        same machine.
       </p>
       <p>
-        Kata picks a free port at startup and writes the endpoint URL to
-        <code>%LOCALAPPDATA%\Kata\mcp-endpoint.json</code>. MCP clients that read that
-        file (Claude Code, Codex, Cursor) discover Kata automatically.
+        To change the URL (multiple simultaneous instances, a non-default port), set
+        <code>KATA_MCP_URLS</code> before launching Kata:
+      </p>
+      <pre>set KATA_MCP_URLS=http://localhost:8080/mcp
+Kata.App.exe</pre>
+      <p>
+        The in-app MCP host runs inside <code>Kata.App.exe</code> while the diagram is
+        open. There is also a standalone binary, <code>kata-mcp.exe</code>, that hosts
+        the same tools headlessly — useful for CI / batch flows. The standalone host
+        rejects <code>apply_change_set</code> by default; pass
+        <code>--allow-headless-apply</code> to opt in.
       </p>
 
       <h2>Tools Kata publishes</h2>
       <p>
-        The current tool surface is intentionally small — enough that an agent can
-        <em>find</em> what to fix, <em>ask</em> Kata to fix it, and <em>see</em> the
-        result. The full JSON Schema for each is served over the MCP
-        <code>list_tools</code> handshake.
+        Kata's MCP server publishes ~80 tools grouped into inspection, refactoring
+        proposals, change-set lifecycle, AI assistance, and governance. The full JSON
+        Schema for each is served over the standard MCP <code>list_tools</code>
+        handshake. Below are the tools you'll reach for first.
       </p>
 
-      <h3>list_smells</h3>
+      <h3>Inspection</h3>
+      <ul>
+        <li><code>list_smells</code> — enumerate 💩 badges currently on the diagram,
+            filterable by <code>typeFullName</code>, <code>memberSignature</code>, and
+            <code>categoryName</code>.</li>
+        <li><code>get_smell_context</code> — given a smell id from <code>list_smells</code>,
+            return the target symbol's source verbatim plus enough surrounding context
+            to make a change applyable.</li>
+      </ul>
+
+      <h3>Refactoring proposals — <code>propose_*</code></h3>
       <p>
-        Returns every 💩 badge currently on the diagram, with its category, severity,
-        target symbol (fully qualified name + file/line), and the Fowler intent Kata
-        would suggest.
+        Rather than one generic "request refactor" tool, Kata exposes each Fowler intent
+        as its own tool — <code>propose_extract_method</code>,
+        <code>propose_rename</code>, <code>propose_extract_variable</code>,
+        <code>propose_move_method</code>, <code>propose_extract_superclass</code>, and so
+        on, roughly 48 in total. Preconditions are checked server-side, so a proposal on
+        a symbol that doesn't qualify comes back as an error rather than a broken diff.
+      </p>
+      <p>
+        Every <code>propose_*</code> call writes a <strong>pending change set</strong>
+        into Kata's change-set store — the change is not applied to disk yet. This gives
+        the agent (and you, in the app) an explicit review step.
       </p>
 
-      <h3>get_smell_detail</h3>
-      <p>
-        Given a smell id from <code>list_smells</code>, returns the target symbol's
-        source verbatim plus enough surrounding context (callers, callees, dependent
-        types) to make a diff applyable.
-      </p>
+      <h3>Change-set lifecycle</h3>
+      <ul>
+        <li><code>list_pending_changes</code> — return every pending change set with its
+            id, originating intent, and affected files.</li>
+        <li><code>apply_change_set</code> — apply a pending change set to the working
+            tree and update the diagram incrementally. Passes through Kata's policy /
+            quality-delta gate before writing.</li>
+        <li><code>approve_change_set</code> / <code>discard_change_set</code> — mark or
+            drop a change set without applying, useful for review workflows.</li>
+      </ul>
 
-      <h3>list_refactorings</h3>
-      <p>
-        Returns the Fowler intents available on a given symbol — the same set that would
-        appear in the right-click menu on that node. Preconditions are checked
-        server-side, so an agent never gets Pull Up Method on a top-level class.
-      </p>
+      <h3>AI assistance</h3>
+      <ul>
+        <li><code>request_ai_smell_analysis</code> — queue an AI analysis of a smell.
+            Runs through the AI CLI configured in the Kata app (see
+            <a href="/docs/ai-cli.html">AI CLI setup</a>) and returns a change-set
+            proposal the caller can then review.</li>
+      </ul>
 
-      <h3>request_refactor</h3>
+      <h3>Governance &amp; provenance</h3>
+      <ul>
+        <li><code>export_governance_report</code> — return a signed report of applied
+            changes suitable for audit.</li>
+        <li><code>verify_provenance</code> — verify the SHA-256 hash chain recorded
+            under <code>.kata/provenance/</code> against the working tree, so an auditor
+            can confirm no tampering happened between apply and review.</li>
+      </ul>
       <p>
-        Given a target symbol and a Fowler intent name (plus any intent-specific
-        parameters — a new name for Rename, a new class name for Extract Class, and so
-        on), Kata executes the intent and returns a unified diff. Nothing is written to
-        disk yet.
-      </p>
-
-      <h3>request_ai_diff</h3>
-      <p>
-        The MCP counterpart of the right-click <strong>Ask AI</strong> flow. The agent
-        supplies a scoped prompt; Kata routes it through the AI CLI you configured in
-        Preferences and returns the diff. This is how Cursor's own agent can drive
-        Kata's AI diff loop.
-      </p>
-
-      <h3>apply_diff</h3>
-      <p>
-        Applies a unified diff (previously returned by <code>request_refactor</code> or
-        <code>request_ai_diff</code>) to the working tree, and updates the diagram
-        incrementally. Kata rechecks the policy and quality-delta banners before
-        writing.
+        Provenance is on by default. Kata writes one entry per applied change set;
+        <code>.kata/policy.yaml</code> at the solution root controls which change kinds
+        require a human review before <code>apply_change_set</code> succeeds and is
+        hot-reloaded.
       </p>
 
       <h2>Auth</h2>
       <p>
         Kata's MCP server accepts local connections only. There is no bearer token
         because there is no network exposure — anyone able to reach
-        <code>127.0.0.1</code> already has your user session. If that assumption breaks in
-        your environment (shared machine, container namespaces), close Kata before
-        stepping away.
+        <code>localhost:7345</code> already has your user session.
       </p>
-      <div class="warn">
-        Kata will refuse to start the MCP server if the machine is currently exposing
-        <code>127.0.0.1</code> to a remote origin (SSH port-forward, some VPN
-        configurations). If you rely on MCP for a headless workflow on such a machine,
-        this is intentional; open an issue if you need a way around it.
-      </div>
 
       <h2>Configure a client</h2>
 
       <h3>Claude Code</h3>
       <p>
-        Add Kata to <code>~/.config/claude-code/mcp.json</code>:
-      </p>
-      <pre>{
-  "mcpServers": {
-    "kata": {
-      "type": "streamable-http",
-      "endpointFile": "%LOCALAPPDATA%/Kata/mcp-endpoint.json"
-    }
-  }
-}</pre>
-      <p>
-        Claude Code auto-discovers the port and reconnects when Kata restarts on a
-        different one.
+        Add Kata to Claude Code's MCP config as a Streamable HTTP server pointing at
+        <code>http://localhost:7345/mcp</code>. Claude Code will pick up the ~80 tools
+        through the standard handshake.
       </p>
 
       <h3>Codex CLI</h3>
       <p>
-        Codex reads the same endpoint file. Add to <code>~/.codex/mcp.json</code>:
+        Codex reads a similar MCP block in its config. Same URL, same handshake.
       </p>
-      <pre>{
-  "servers": [
-    {
-      "name": "kata",
-      "transport": "streamable-http",
-      "discover": "%LOCALAPPDATA%/Kata/mcp-endpoint.json"
-    }
-  ]
-}</pre>
 
       <h3>Cursor</h3>
       <p>
-        In Cursor's settings, add an MCP server pointing at the endpoint file. Cursor's
-        agent will list Kata's tools alongside its own, and its refactoring suggestions
-        will route through <code>request_refactor</code> when Kata has a deterministic
-        rewriter for the intent, falling back to <code>request_ai_diff</code> otherwise.
+        In Cursor's settings, add an MCP server at
+        <code>http://localhost:7345/mcp</code>. Cursor's agent will list Kata's tools
+        alongside its own and route deterministic refactor asks through the
+        <code>propose_*</code> family.
       </p>
 
-      <h3>Custom / any MCP-compatible tool</h3>
+      <h3>Any MCP-compatible tool</h3>
       <p>
-        Read the endpoint from the JSON file above and open a Streamable HTTP MCP
-        connection. Any client that implements the MCP spec at protocol level will work —
-        Kata's tool schemas are exposed through the standard <code>list_tools</code>
-        handshake.
+        Open a Streamable HTTP MCP connection to
+        <code>http://localhost:7345/mcp</code>. Any client that implements the MCP
+        protocol will work — Kata's tool schemas come through <code>list_tools</code>.
       </p>
 
       <h2>Example round-trip</h2>
       <p>
-        A minimal agent script that finds the highest-severity smell, asks Kata for a
-        deterministic refactor, and applies the resulting diff:
+        A minimal agent script that finds a Long Function smell, proposes an Extract
+        Method refactor, and applies the resulting change set:
       </p>
-      <pre>const smells = await mcp.call("list_smells", { minSeverity: "warning" });
-const top = smells.sort((a, b) =&gt; b.severity - a.severity)[0];
+      <pre>const smells = await mcp.call("list_smells", {
+  categoryName: "Design",
+});
+const target = smells.find(s =&gt; s.name === "LongMethod");
 
-const options = await mcp.call("list_refactorings", { symbol: top.symbol });
-const chosen = options.find(o =&gt; o.name === "Extract Method")
-              ?? options[0];
-
-const diff = await mcp.call("request_refactor", {
-  symbol: top.symbol,
-  intent: chosen.name,
-  parameters: chosen.defaultParameters,
+await mcp.call("propose_extract_method", {
+  typeFullName: target.typeFullName,
+  memberSignature: target.memberSignature,
+  extractedName: "ExtractedHelper",
 });
 
-await mcp.call("apply_diff", { diff });</pre>
+const pending = await mcp.call("list_pending_changes", {});
+const changeSetId = pending[pending.length - 1].id;
+
+await mcp.call("apply_change_set", { changeSetId });</pre>
       <p>
-        The whole loop lives outside Kata — Kata just answers questions and produces
-        diffs.
+        Every step is explicit: propose lands a pending change set, list surfaces it,
+        apply writes it. The agent — or you, in the app — decides.
       </p>
 
       <h2>What crosses the MCP boundary</h2>
       <ul>
         <li>The <strong>agent sees</strong>: the smell list, target symbols by FQN and
-            file/line, the requested source snippets (only when it explicitly calls
-            <code>get_smell_detail</code> or <code>request_ai_diff</code>), and the
-            resulting diffs.</li>
-        <li>The <strong>agent does not see</strong>: Kata's internal type index, the full
-            source tree, Preferences, or any file it did not explicitly request through
-            the tool surface.</li>
+            member signature, requested source snippets (only when it explicitly calls
+            <code>get_smell_context</code>), and pending change sets it created.</li>
+        <li>The <strong>agent does not see</strong>: Kata's internal type index,
+            Preferences, source it did not request, or any change set not from its own
+            session unless it enumerates them.</li>
         <li>Kata never <em>pushes</em> data at the agent — every byte the agent receives
             is the result of a call it made.</li>
       </ul>
 
       <h2>Troubleshooting</h2>
 
-      <h3>Client can't find Kata's MCP endpoint</h3>
+      <h3>Client can't reach Kata</h3>
       <p>
-        Confirm Kata is running and check that
-        <code>%LOCALAPPDATA%\Kata\mcp-endpoint.json</code> exists. It is rewritten every
-        time Kata starts; a stale file after a crash resolves to a dead port.
+        Confirm Kata is running and that the URL matches the bind. The default is
+        <code>http://localhost:7345/mcp</code>; if you set <code>KATA_MCP_URLS</code>,
+        use that value instead.
       </p>
 
-      <h3>request_refactor returns "intent not applicable"</h3>
+      <h3>propose_* returns "intent not applicable"</h3>
       <p>
-        The intent's preconditions don't hold on the target symbol. Call
-        <code>list_refactorings</code> for that symbol to see what is available.</p>
+        The intent's preconditions don't hold on the target symbol. Some intents are
+        strict about member kind, hierarchy shape, or visibility — inspect the error
+        message and pick a compatible intent.
+      </p>
 
-      <h3>apply_diff reports "diff no longer applies"</h3>
+      <h3>apply_change_set is rejected</h3>
       <p>
-        The source moved between the diff being generated and the apply call. Regenerate
-        with a fresh <code>request_refactor</code> and try again.
+        The change kind requires a human review under
+        <code>.kata/policy.yaml</code>, or you're in the standalone
+        <code>kata-mcp.exe</code> host without <code>--allow-headless-apply</code>.
+        Either open the app to review, or opt in on the host command line.
       </p>
 
       <h2>Next steps</h2>
@@ -276,11 +278,11 @@ await mcp.call("apply_diff", { diff });</pre>
         </a></li>
         <li><a href="/docs/refactorings.html">
           <strong>Refactoring catalog →</strong>
-          <span>Which intent names to pass to request_refactor.</span>
+          <span>Which <code>propose_*</code> intents Kata publishes.</span>
         </a></li>
         <li><a href="/docs/smells.html">
           <strong>Code smells →</strong>
-          <span>Which categories list_smells will return.</span>
+          <span>Which categories <code>list_smells</code> will return.</span>
         </a></li>
         <li><a href="/docs/faq.html">
           <strong>FAQ →</strong>

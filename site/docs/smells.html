@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Code smells — Kata Docs</title>
-<meta name="description" content="The 114 code smell detectors Kata surfaces as 💩 badges — 22 Fowler classics, 39 performance, 17 security, 27 idiomatic (Wave R), and 9 derivatives — with threshold overrides and per-category filtering.">
+<meta name="description" content="The 114 code smell detectors Kata surfaces as 💩 badges — organised by facet (Design, Performance, Security, Reliability, Accessibility, Policy) with severity tiers, per-user thresholds, and a chip-based filter toolbar.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
 <link rel="canonical" href="https://kata.dhq-boiler.dev/docs/smells.html">
 <meta property="og:title" content="Code smells — Kata Docs">
-<meta property="og:description" content="114 code smell detectors: Fowler classics, performance, security, idiomatic. Grouped, filterable, tunable.">
+<meta property="og:description" content="114 detectors across six facets — Design, Performance, Security, Reliability, Accessibility, Policy — with severity tiers and a chip filter.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://kata.dhq-boiler.dev/docs/smells.html">
 <meta property="og:site_name" content="Kata">
@@ -66,160 +66,102 @@
       <p class="subtitle">
         Kata's smell index runs across every type Kata loaded and drops 💩 badges right on
         the class node — sometimes on the header (class-level smells), sometimes on a
-        specific member (method-level smells). Below is what the 114 detectors are looking
-        for, grouped by why they matter.
+        specific member (member-level smells). Below is what the 114 detectors cover,
+        grouped by facet, plus how thresholds and the filter toolbar behave.
       </p>
 
       <div class="outcomes">
         <h4>What you'll be able to do</h4>
         <ul>
-          <li>Read a 💩 badge and know which category it belongs to, and roughly why the
-              detector fired.</li>
-          <li>Filter the diagram to a single category using the smell toolbar (Fowler
-              only, Perf only, Security only).</li>
-          <li>Override the threshold for detectors that use one (Long Function, Large
-              Class, Data Class), per project or per type.</li>
+          <li>Read a 💩 badge and know which facet it belongs to.</li>
+          <li>Filter the diagram to a subset of facets or severity tiers using the smell
+              toolbar chips.</li>
+          <li>Override thresholds — globally per user — through
+              <strong>Preferences → Code Smell</strong>.</li>
           <li>Jump from a badge into the Fowler intent that most commonly fixes it.</li>
         </ul>
       </div>
 
       <h2>How badges appear on the diagram</h2>
       <ul>
-        <li><strong>Class-level smells</strong> — badge sits on the class header. Examples:
-            God Class, Data Class, Refused Bequest, Feature Envy (class-scoped).</li>
-        <li><strong>Method-level smells</strong> — badge sits next to the method row.
-            Examples: Long Function, Message Chains, Long Parameter List.</li>
-        <li><strong>Rainbow badge</strong> — a member that trips more than one detector
-            gets a rotating rainbow 💩 so it visibly distinguishes from a
-            single-smell one.</li>
+        <li><strong>Class-level smells</strong> — badge sits on the class header.
+            Examples: God Class, Data Class, Refused Bequest.</li>
+        <li><strong>Member-level smells</strong> — badge sits next to the member row.
+            Examples: Long Method, Message Chains, Long Parameter List.</li>
+        <li><strong>Rainbow badge</strong> — a member whose accumulated smell score
+            crosses the top tier (with a rarity cap in place so common smells don't
+            monopolise it) gets a rotating rainbow 💩 so it visibly distinguishes from an
+            ordinary badge.</li>
       </ul>
       <p>
         Hover a badge to see which detectors fired. Click it for the suggestion panel —
-        which Fowler refactoring typically resolves that smell, and the option to hand it
-        to your AI CLI.
+        which Fowler refactoring typically resolves that smell, and the option to hand
+        it to your AI CLI.
       </p>
 
-      <h2>Fowler classics (22)</h2>
+      <h2>Facets</h2>
       <p>
-        The catalogue from the first chapter of Fowler's <em>Refactoring</em>. Language
-        agnostic; run on every one of Kata's six adapters.
+        Kata's 114 detectors are grouped into six facets. Each facet is what you'll see
+        as a chip in the filter toolbar and as a category name in
+        <code>list_smells</code> over MCP.
       </p>
       <ul>
-        <li><strong>Bloaters</strong> — Long Method, Large Class, Long Parameter List,
-            Data Clumps, Primitive Obsession.</li>
-        <li><strong>Object-Orientation Abusers</strong> — Switch Statements (missing
-            polymorphism), Temporary Field, Refused Bequest, Alternative Classes with
-            Different Interfaces.</li>
-        <li><strong>Change Preventers</strong> — Divergent Change, Shotgun Surgery,
-            Parallel Inheritance Hierarchies.</li>
-        <li><strong>Dispensables</strong> — Comments (as a smell), Duplicate Code, Lazy
-            Class, Data Class, Dead Code, Speculative Generality.</li>
-        <li><strong>Couplers</strong> — Feature Envy, Inappropriate Intimacy, Message
-            Chains, Middle Man.</li>
-      </ul>
-      <p>
-        Every classic maps to at least one Fowler intent — see the
-        <a href="/docs/refactorings.html">Refactoring catalog</a>.
-      </p>
-
-      <h2>Performance smells (39)</h2>
-      <p>
-        Detectors that flag code patterns known to cost measurable performance at scale.
-        Split across four sub-waves; each detector has a deterministic rewriter so the
-        fix is a mechanical edit rather than an AI ask.
-      </p>
-      <ul>
-        <li><strong>Allocation &amp; boxing</strong> — needless boxing on hot paths,
-            LINQ materialization inside loops, string concatenation in a tight loop
-            (Java <code>StringBuilder</code>, C# interpolation), array-vs-<code>List</code>
-            over-allocation.</li>
-        <li><strong>Collection use</strong> — <code>Contains</code> on a list where a
-            set would win, <code>Count()</code> where <code>Any()</code> would do,
-            <code>ToList()</code> right before an <code>IEnumerable</code> parameter.</li>
-        <li><strong>Async / IO</strong> — sync-over-async
-            (<code>.Result</code> / <code>.Wait()</code>), missing
-            <code>ConfigureAwait</code>, blocking IO in a UI context, N+1 IO patterns.</li>
-        <li><strong>Reflection &amp; startup</strong> — reflection in a hot path,
-            per-call type resolution that could be cached, static initializer chains
-            that dominate startup.</li>
+        <li><strong>Design</strong> — the classical Fowler catalogue: God Class, Long
+            Method, Data Clumps, Feature Envy, Message Chains, Divergent Change,
+            Shotgun Surgery, and the rest.</li>
+        <li><strong>Performance</strong> — code patterns known to cost measurable
+            performance at scale (unnecessary allocation, sync-over-async, reflection on
+            a hot path, N+1 IO). Most Performance detectors ship with a deterministic
+            rewriter so the fix is mechanical.</li>
+        <li><strong>Security</strong> — concrete failure modes: unvalidated
+            deserialization, hardcoded secrets, weak hashes for password storage,
+            missing auth attributes, permissive CORS, and the like.</li>
+        <li><strong>Reliability</strong> — code that will fail at runtime for
+            preventable reasons: swallowed exceptions, unreachable branches, resource
+            leaks.</li>
+        <li><strong>Accessibility</strong> — a small facet focused on symbols whose
+            visibility contradicts the rest of the codebase's usage.</li>
+        <li><strong>Policy</strong> — detectors driven by
+            <code>.kata/policy.yaml</code> so a team can flag its own conventions.</li>
       </ul>
 
-      <h2>Security smells (17)</h2>
+      <h2>Severity tiers</h2>
       <p>
-        Detectors from Kata's security wave (waves 1-6 plus phase 2). Each one flags a
-        concrete failure mode with a matching hardening rewriter where the fix is
-        mechanical.
+        Every detector emits at one of three severity tiers:
+        <strong>Info</strong>, <strong>Warning</strong>, or <strong>Major</strong>. The
+        tier controls how visually loud the 💩 is on the diagram and gives the filter
+        toolbar a second axis. If you want to see only the top of the list, keep Major on
+        and turn Info off.
       </p>
-      <ul>
-        <li><strong>Input handling</strong> — SQL string concatenation, unvalidated
-            deserialization, path traversal via user-supplied filenames, command
-            injection through shell-out.</li>
-        <li><strong>Crypto &amp; secrets</strong> — hardcoded keys, MD5 / SHA-1 for
-            password storage, plaintext PII in logs, missing salt in password hashing.</li>
-        <li><strong>Web &amp; transport</strong> — missing CSRF token on state-changing
-            requests, cookie without <code>HttpOnly</code>, TLS certificate validation
-            disabled, permissive CORS.</li>
-        <li><strong>Access &amp; auth</strong> — controller action without an
-            <code>Authorize</code> attribute, insecure direct object reference,
-            over-broad access modifier on sensitive types.</li>
-      </ul>
-
-      <h2>Idiomatic / language-specific (27, "Wave R")</h2>
-      <p>
-        Detectors that fire because the code fights the grain of its language — code that
-        compiles and runs, but that any veteran reviewer would rewrite. Runs per language
-        because "the grain" is different in each.
-      </p>
-      <ul>
-        <li><strong>Java / Kotlin</strong> — missing <code>@Nullable</code> where the
-            method demonstrably returns null, Java-style getters in Kotlin, mutable
-            <code>var</code> where <code>val</code> would suffice.</li>
-        <li><strong>TypeScript</strong> — <code>any</code> escape hatches, union types
-            silently narrowing to <code>unknown</code>, promise created and dropped.</li>
-        <li><strong>Go</strong> — errors ignored via <code>_</code>, ineffectual assign,
-            missing godoc on exported symbol, receiver method on a value type where a
-            pointer method is called for.</li>
-        <li><strong>C# / C++</strong> — <code>async void</code> outside an event
-            handler, LINQ across a stream that could be a projection, virtual call in a
-            ctor.</li>
-      </ul>
-
-      <h2>Derivatives (9)</h2>
-      <p>
-        Detectors composed of two or more other detectors that share a common cause —
-        surfaced separately so the fix targets the shared cause rather than any one
-        symptom.
-      </p>
-      <ul>
-        <li>Composite God Class (Large Class + Feature Envy + Data Clumps on the same
-            type).</li>
-        <li>Composite Message Chain (Chain length &gt; 3 <em>and</em> both endpoints
-            outside the current class).</li>
-        <li>Composite Reflection Hotspot (reflection + hot-path + cache-miss on the same
-            call site).</li>
-      </ul>
 
       <h2>Threshold overrides</h2>
       <p>
-        Detectors with a numeric threshold (Long Function line count, Large Class member
-        count, Data Class field count) can be tuned:
+        Detectors with a numeric threshold (Long Method line count, Large Class member
+        count, Data Class field count) can be tuned from
+        <strong>Preferences → Code Smell</strong>. Changes are saved to
+        <code>%LOCALAPPDATA%\Kata\smell-settings.json</code> so they apply to every
+        project you open on that user account.
       </p>
-      <ol>
-        <li><strong>Global</strong> — <strong>Preferences → Smell Thresholds</strong>.
-            Applies to every project you open.</li>
-        <li><strong>Per project</strong> — a <code>.kata/smell-thresholds.json</code>
-            file at the solution root overrides the global values for that project.</li>
-        <li><strong>Per type</strong> — right-click a class → <strong>Override
-            threshold</strong> lets you exempt a specific type. Kata records the override
-            in the same JSON file so it survives reload.</li>
-      </ol>
+      <p>
+        Both Kata's in-app smell view and the standalone MCP host read the same file,
+        with a hot reload so the two stay in sync while both are open.
+      </p>
 
       <h2>Filter toolbar</h2>
       <p>
-        The toolbar above the canvas lets you narrow the badges to a single category —
-        Fowler, Perf, Security, Idiomatic, or Derivative. The active toggle lights blue
-        so you can tell which filter is on at a glance. Turning all filters off hides
-        every badge; turning them all on shows every fired detector.
+        The toolbar above the canvas has two chip rows:
+      </p>
+      <ul>
+        <li><strong>Facet chips</strong> — Design, Performance, Security, Reliability,
+            Policy. Toggle any subset on to narrow the badges to that facet or
+            combination. The <em>active</em> toggle lights blue so you can tell which
+            filters are on at a glance.</li>
+        <li><strong>Severity chips</strong> — Info, Warning, Major. Same behaviour on the
+            severity axis.</li>
+      </ul>
+      <p>
+        Filter state is saved to <code>%LOCALAPPDATA%\Kata\smell-filter.json</code> so
+        you return to the same view when you reopen the project.
       </p>
 
       <h2>Next steps</h2>
