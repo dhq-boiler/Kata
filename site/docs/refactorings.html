@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Refactoring catalog — Kata Docs</title>
+<meta name="description" content="The 30+ Fowler refactorings Kata drives from the diagram surface, grouped by Fowler category — Composing Methods, Moving Features, Organizing Data, Simplifying Conditionals, Making Method Calls Simpler, Generalization, and Big Refactorings.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/refactorings.html">
+<meta property="og:title" content="Refactoring catalog — Kata Docs">
+<meta property="og:description" content="30+ Fowler refactorings driven from the diagram, grouped by Fowler category.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/refactorings.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-refactor-dialog.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html">Getting Started</a></li>
+        <li><a href="/docs/faq.html">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html" class="current">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">Features</p>
+      <h1>The Fowler refactoring catalog Kata drives</h1>
+      <p class="subtitle">
+        Kata ships 30+ refactorings from Martin Fowler's <em>Refactoring</em> catalog,
+        every one invokable from the class node in the diagram and every one also exposed
+        over MCP so an external AI agent can drive it. Below is what's in the box, grouped
+        the way Fowler groups them.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll be able to do</h4>
+        <ul>
+          <li>Locate any Fowler intent Kata implements under the Fowler category you
+              already know it by.</li>
+          <li>Trigger a refactoring from a node — the same right-click that opens Rename
+              opens every other intent applicable to that node type.</li>
+          <li>Trigger the same refactoring from MCP so an external AI agent can drive
+              Kata without a human at the diagram.</li>
+          <li>Understand what Kata does <em>not</em> yet cover, and why.</li>
+        </ul>
+      </div>
+
+      <h2>How to invoke a refactoring</h2>
+      <ol>
+        <li><strong>From the diagram</strong>: right-click a class, member, or edge.
+            Kata only shows intents whose preconditions are met on that node — you won't
+            see Pull Up Method on a top-level class with no supertype.</li>
+        <li><strong>From a code smell</strong>: click a 💩 badge and Kata suggests the
+            Fowler intents that typically resolve that smell — Extract Method for Long
+            Function, Extract Class for God Class, Introduce Parameter Object for Data
+            Clumps, and so on.</li>
+        <li><strong>From MCP</strong>: an external agent calls the
+            <code>request_refactor</code> tool with the target symbol and intent name.
+            Kata returns a unified diff; the agent decides whether to apply. See the
+            <a href="/docs/mcp.html">MCP API</a> page for the schema.</li>
+      </ol>
+      <p>
+        Every intent returns a preview diff before it touches disk. Apply writes the
+        changes and updates the diagram incrementally.
+      </p>
+
+      <h2>Composing Methods</h2>
+      <p>
+        Breaking up long methods and cleaning up their internal shape.
+      </p>
+      <ul>
+        <li><strong>Extract Method</strong> — pull a coherent block into a new named
+            method. Kata infers parameters, return type, and access modifier from the
+            captured locals.</li>
+        <li><strong>Inline Method</strong> — collapse a trivial method back into its
+            callers.</li>
+        <li><strong>Replace Temp with Query</strong> — replace a local temporary with a
+            call to a query method.</li>
+        <li><strong>Introduce Explaining Variable</strong> — name a subexpression so a
+            complex condition or calculation reads as prose.</li>
+        <li><strong>Split Temporary Variable</strong> — give each responsibility of a
+            reused local its own name.</li>
+      </ul>
+
+      <h2>Moving Features Between Objects</h2>
+      <p>
+        Rehoming methods, fields, and whole classes so responsibilities sit where they
+        belong.
+      </p>
+      <ul>
+        <li><strong>Move Method</strong> — move a method to the class it most communicates
+            with. Kata surfaces this as a suggestion when it detects Feature Envy.</li>
+        <li><strong>Move Field</strong> — move a field to the class that reads it most.</li>
+        <li><strong>Extract Class</strong> — split a God Class along a natural seam. Kata
+            highlights the candidate seam from the smell index.</li>
+        <li><strong>Inline Class</strong> — merge a class that no longer earns its own
+            existence back into its main collaborator.</li>
+        <li><strong>Hide Delegate</strong> / <strong>Remove Middle Man</strong> — adjust
+            the exposure of chained calls (Message Chains smell).</li>
+      </ul>
+
+      <h2>Organizing Data</h2>
+      <p>
+        Turning primitive data and awkward exposure into typed, encapsulated structures.
+      </p>
+      <ul>
+        <li><strong>Encapsulate Field</strong> — wrap a public field in getter/setter.</li>
+        <li><strong>Replace Data Value with Object</strong> — promote a primitive that
+            carries meaning into its own type.</li>
+        <li><strong>Replace Magic Number with Symbolic Constant</strong> — name numeric
+            literals.</li>
+        <li><strong>Replace Type Code with Class</strong> /
+            <strong>with Subclasses</strong> /
+            <strong>with State-Strategy</strong> — three escalating fixes for the same
+            smell (an untyped tag field driving conditional logic).</li>
+        <li><strong>Encapsulate Collection</strong> — expose a collection through
+            add/remove/iterate rather than a mutable reference.</li>
+      </ul>
+
+      <h2>Simplifying Conditional Expressions</h2>
+      <p>
+        Reducing branching complexity — the Fowler category where a good refactor most
+        directly reads as a smaller function.
+      </p>
+      <ul>
+        <li><strong>Decompose Conditional</strong> — extract the condition and each
+            branch into named methods.</li>
+        <li><strong>Consolidate Conditional Expression</strong> — merge parallel checks
+            into one clause with an intent-revealing name.</li>
+        <li><strong>Replace Nested Conditional with Guard Clauses</strong> — turn
+            pyramid-of-doom into early returns.</li>
+        <li><strong>Replace Conditional with Polymorphism</strong> — the classical
+            escalation when the same switch appears in three places.</li>
+        <li><strong>Introduce Null Object</strong> — remove null-checks by giving null a
+            typed representative.</li>
+      </ul>
+
+      <h2>Making Method Calls Simpler</h2>
+      <p>
+        Signature-level surgery.
+      </p>
+      <ul>
+        <li><strong>Rename Method</strong> — the flagship intent; every reference in the
+            solution moves, including cross-language ones where Kata can resolve them.</li>
+        <li><strong>Add Parameter</strong> / <strong>Remove Parameter</strong> — with
+            call-site updates or defaults.</li>
+        <li><strong>Introduce Parameter Object</strong> — the fix for Data Clumps.</li>
+        <li><strong>Separate Query from Modifier</strong> — split a method that returns a
+            value <em>and</em> mutates state.</li>
+        <li><strong>Parameterize Method</strong> / <strong>Replace Parameter with
+            Explicit Methods</strong> — two directions on the same axis.</li>
+        <li><strong>Replace Constructor with Factory Method</strong> — for when
+            construction hides a choice.</li>
+      </ul>
+
+      <h2>Dealing with Generalization</h2>
+      <p>
+        Moving members up and down a type hierarchy, and pulling shared shape into
+        interfaces and superclasses.
+      </p>
+      <ul>
+        <li><strong>Pull Up Method</strong> / <strong>Pull Up Field</strong> — move a
+            member from all subclasses into their common supertype.</li>
+        <li><strong>Push Down Method</strong> / <strong>Push Down Field</strong> — the
+            inverse, when only some subclasses actually use it.</li>
+        <li><strong>Extract Superclass</strong> — surface commonality across sibling
+            classes into a new base.</li>
+        <li><strong>Extract Interface</strong> — carve the intent-revealing subset of a
+            class's public surface into an interface, so callers depend on the shape
+            rather than the class.</li>
+        <li><strong>Extract Subclass</strong> — split a class whose behavior forks along a
+            type-code axis.</li>
+        <li><strong>Collapse Hierarchy</strong> — merge a subclass and its parent when the
+            distinction no longer earns its place.</li>
+        <li><strong>Replace Inheritance with Delegation</strong> / <strong>Replace
+            Delegation with Inheritance</strong> — the two directions across the
+            classical <em>is-a</em> / <em>has-a</em> boundary.</li>
+      </ul>
+
+      <h2>Big Refactorings</h2>
+      <p>
+        The four multi-step campaigns from the last chapter of the book. These run over
+        many files, respect language boundaries, and preview the whole rewrite at once.
+      </p>
+      <ul>
+        <li><strong>Tease Apart Inheritance</strong> — split a hierarchy that's doing two
+            jobs (typically state <em>and</em> variant) into two orthogonal hierarchies.</li>
+        <li><strong>Convert Procedural Design to Objects</strong> — take a procedural
+            module and turn its data records into typed objects with behavior.</li>
+        <li><strong>Separate Domain from Presentation</strong> — pull business logic out
+            of a view class into a domain class.</li>
+        <li><strong>Extract Hierarchy</strong> — split a class carrying a
+            type-code-driven variance into a hierarchy of subclasses.</li>
+      </ul>
+
+      <h2>What Kata does not (yet) cover</h2>
+      <p>
+        Two Fowler categories are only partially in the box today:
+      </p>
+      <ul>
+        <li><strong>Body-level intents</strong> that need an in-editor range picker
+            (e.g. Extract Variable on an arbitrary subexpression) — waiting on the
+            code-viewer range UI.</li>
+        <li><strong>Some Simplifying Conditional</strong> intents that depend on the
+            same range UI (e.g. Consolidate Duplicate Conditional Fragments across
+            branches).</li>
+      </ul>
+      <p>
+        These are on the roadmap; Kata falls back to an AI diff apply when they come up
+        so you're not blocked in the meantime.
+      </p>
+
+      <h2>Next steps</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/smells.html">
+          <strong>Code smells →</strong>
+          <span>The 💩 badges that suggest which of the above to run.</span>
+        </a></li>
+        <li><a href="/docs/mcp.html">
+          <strong>MCP API →</strong>
+          <span>Call any of these from an external AI agent.</span>
+        </a></li>
+        <li><a href="/docs/getting-started.html">
+          <strong>Getting Started →</strong>
+          <span>Try Rename on your own project as a first step.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

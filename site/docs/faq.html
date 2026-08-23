@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FAQ — Kata Docs</title>
+<meta name="description" content="Answers to the questions people ask before installing Kata: Community vs Pro, AI cost, data privacy, updates, license portability, and platform support.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/faq.html">
+<meta property="og:title" content="FAQ — Kata Docs">
+<meta property="og:description" content="Community vs Pro, AI cost, data privacy, updates, license portability — quick answers before you install.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/faq.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-diagram.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html">Getting Started</a></li>
+        <li><a href="/docs/faq.html" class="current">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">FAQ</p>
+      <h1>Common questions</h1>
+      <p class="subtitle">
+        Answers to what people ask before installing — whether Community is enough for
+        your case, whether Kata sends your code anywhere, how updates and licensing work,
+        and how Kata fits next to your IDE's built-in refactorings.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll learn here</h4>
+        <ul>
+          <li>Whether Community covers your workflow, or when Pro pays off.</li>
+          <li>Where your code goes when Kata invokes your AI CLI, and where it does not.</li>
+          <li>How installation, updates, and license portability work day-to-day.</li>
+          <li>What platforms and languages Kata does — and does not — support today.</li>
+        </ul>
+      </div>
+
+      <h2>Licensing &amp; editions</h2>
+
+      <h3>Is Community really free for commercial use?</h3>
+      <p>
+        Community is licensed under
+        <a href="https://polyformproject.org/licenses/noncommercial/1.0.0/">PolyForm Noncommercial 1.0.0</a>,
+        which is <strong>free for noncommercial use</strong> (personal projects, education,
+        research, OSS). For commercial use, you need Kata Pro.
+      </p>
+
+      <h3>What does Kata Pro actually unlock?</h3>
+      <ul>
+        <li><strong>Commercial-use rights</strong> — the license difference above.</li>
+        <li><strong>Unlimited AI diff apply</strong> — Community is capped at 10 per month.</li>
+        <li>Early access to the upcoming <strong>Team Collab</strong> features.</li>
+      </ul>
+      <p>
+        Community and Pro share the same editor, diagram, all 30+ Fowler refactorings, and
+        all 114 code smells. See <a href="/pro">the Pro page</a> for pricing.
+      </p>
+
+      <h3>Can I move my Pro license between machines?</h3>
+      <p>
+        Yes. Open <strong>Preferences → Pro → Deactivate license</strong> on the old machine,
+        then activate on the new one. Deactivation releases the seat on the Lemon Squeezy
+        side.
+      </p>
+
+      <h2>AI cost &amp; data privacy</h2>
+
+      <h3>Do I pay Kata anything for AI requests?</h3>
+      <p>
+        No. Kata calls your own AI CLI — Claude Code, Codex, Cursor, or any MCP-compatible
+        tool. Your existing AI subscription covers all requests. Pro doesn't add a
+        per-request charge and Kata itself never proxies AI traffic through our servers.
+      </p>
+
+      <h3>Where does my code go?</h3>
+      <ul>
+        <li><strong>Local by default</strong>: the diagram, the smell index, and the
+            refactoring engine all run in-process on your machine. Nothing leaves.</li>
+        <li><strong>When you invoke an AI diff apply</strong>: Kata builds a scoped prompt
+            (the class or member the 💩 sits on, plus just enough surrounding context) and
+            hands it to <em>your</em> AI CLI. Whatever privacy terms your AI vendor offers
+            apply — Kata is not in the middle.</li>
+        <li>Kata never phones home with your source. It talks to GitHub only for update
+            checks, and to your license server only during activation.</li>
+      </ul>
+
+      <h3>Can I use Kata fully offline?</h3>
+      <p>
+        The editor and all 30+ Fowler refactorings run offline. The AI diff apply flow
+        requires whatever connectivity your chosen AI CLI needs. License activation is
+        online; once activated, Pro will keep running offline for the grace window
+        configured on the license.
+      </p>
+
+      <h2>Installation &amp; updates</h2>
+
+      <h3>Which Windows versions are supported?</h3>
+      <p>
+        Windows 10 (build 19041 / 20H1 or later) and Windows 11. The .NET 8 runtime is
+        bundled with the installer — you don't need to install anything else.
+      </p>
+
+      <h3>How do updates work?</h3>
+      <ul>
+        <li><strong>Setup installer</strong>: updates are delivered via
+            <a href="https://velopack.io">Velopack</a>. On startup Kata checks for a newer
+            release and offers to update in place.</li>
+        <li><strong>Portable ZIP</strong>: you re-download the newer ZIP and extract it
+            over the old folder.</li>
+      </ul>
+
+      <h3>Is there a macOS or Linux build?</h3>
+      <p>
+        Not today. Kata's editor is WPF-based, which is Windows-only. Following users on
+        WSL / VM / Parallels have reported the app runs there, but it is not a supported
+        configuration.
+      </p>
+
+      <h2>Compatibility &amp; scope</h2>
+
+      <h3>Which languages does Kata read?</h3>
+      <p>
+        Six as of v2.0.0 — <strong>C#, C++/CLI, Java, Kotlin, TypeScript, and Go</strong>.
+        Each has its own project loader, symbol resolver, and smell detectors, and you can
+        mix them in one solution (for example, a C# host with a C++/CLI native layer).
+      </p>
+
+      <h3>How large a solution can Kata open?</h3>
+      <p>
+        Verified on Visual Studio Code's <code>src/tsconfig.json</code> —
+        <strong>21,464 types</strong> indexed. When the whole graph is too big to lay out
+        at once, Kata's scale gate picks the largest namespace that fits under the layout
+        budget and lets you swap views from the namespace ComboBox. Every type is still
+        indexed and Ctrl+Clickable.
+      </p>
+
+      <h3>Does Kata replace my IDE's refactoring?</h3>
+      <p>
+        No — it complements it. IDE refactorings shine when you already know the change
+        you want. Kata shines when you want to <em>see</em> a codebase you've never
+        touched, spot smells across many files at once, and hand a scoped intent to an AI
+        agent that generates the change for you.
+      </p>
+
+      <h3>Where do I report a bug or request a feature?</h3>
+      <p>
+        Open an issue on
+        <a href="https://github.com/dhq-boiler/Kata/issues">github.com/dhq-boiler/Kata/issues</a>.
+        Community bug reports are welcome regardless of edition.
+      </p>
+
+      <h2>Still stuck?</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/getting-started.html">
+          <strong>Getting Started →</strong>
+          <span>Install → open a project → first refactor → first AI diff apply.</span>
+        </a></li>
+        <li><a href="/docs/ai-cli.html">
+          <strong>AI CLI setup →</strong>
+          <span>Wire Claude Code, Codex, Cursor, or your MCP-compatible tool.</span>
+        </a></li>
+        <li><a href="mailto:dhq_boiler@live.jp">
+          <strong>Email support →</strong>
+          <span>For licensing questions or anything the docs don't cover.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

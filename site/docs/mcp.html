@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MCP API — Kata Docs</title>
+<meta name="description" content="Kata exposes its smell index and Fowler refactoring catalog as MCP tools over Streamable HTTP, so any MCP-compatible AI agent can query, request, and apply refactors without a human at the diagram.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/mcp.html">
+<meta property="og:title" content="MCP API — Kata Docs">
+<meta property="og:description" content="Drive Kata's refactoring catalog and smell index from an external AI agent over MCP.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/mcp.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-diagram.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html">Getting Started</a></li>
+        <li><a href="/docs/faq.html">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html" class="current">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">AI integration</p>
+      <h1>Drive Kata from an external AI agent (MCP)</h1>
+      <p class="subtitle">
+        Kata runs an MCP server that publishes its smell index and Fowler refactoring
+        catalog as callable tools. Any MCP-compatible agent — Claude Code, Codex, Cursor,
+        or a custom one you built — can list smells, request a refactor, and receive a
+        unified diff, without touching your source files directly.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll be able to do</h4>
+        <ul>
+          <li>List the tools Kata publishes over MCP and know what each one returns.</li>
+          <li>Point an MCP-compatible client at your running Kata instance.</li>
+          <li>Trace a full round-trip: agent asks for smells → Kata replies → agent
+              picks one → Kata returns a diff → agent (or you) applies it.</li>
+          <li>Know what data crosses the MCP boundary and what stays local.</li>
+        </ul>
+      </div>
+
+      <h2>Transport</h2>
+      <p>
+        Kata's MCP server uses <strong>Streamable HTTP</strong> — the same transport
+        Claude Code, Codex, and Cursor use as MCP clients — bound to
+        <code>127.0.0.1</code> only. Nothing on the network can reach it; the CLI you
+        configure must run on the same machine as Kata.
+      </p>
+      <p>
+        Kata picks a free port at startup and writes the endpoint URL to
+        <code>%LOCALAPPDATA%\Kata\mcp-endpoint.json</code>. MCP clients that read that
+        file (Claude Code, Codex, Cursor) discover Kata automatically.
+      </p>
+
+      <h2>Tools Kata publishes</h2>
+      <p>
+        The current tool surface is intentionally small — enough that an agent can
+        <em>find</em> what to fix, <em>ask</em> Kata to fix it, and <em>see</em> the
+        result. The full JSON Schema for each is served over the MCP
+        <code>list_tools</code> handshake.
+      </p>
+
+      <h3>list_smells</h3>
+      <p>
+        Returns every 💩 badge currently on the diagram, with its category, severity,
+        target symbol (fully qualified name + file/line), and the Fowler intent Kata
+        would suggest.
+      </p>
+
+      <h3>get_smell_detail</h3>
+      <p>
+        Given a smell id from <code>list_smells</code>, returns the target symbol's
+        source verbatim plus enough surrounding context (callers, callees, dependent
+        types) to make a diff applyable.
+      </p>
+
+      <h3>list_refactorings</h3>
+      <p>
+        Returns the Fowler intents available on a given symbol — the same set that would
+        appear in the right-click menu on that node. Preconditions are checked
+        server-side, so an agent never gets Pull Up Method on a top-level class.
+      </p>
+
+      <h3>request_refactor</h3>
+      <p>
+        Given a target symbol and a Fowler intent name (plus any intent-specific
+        parameters — a new name for Rename, a new class name for Extract Class, and so
+        on), Kata executes the intent and returns a unified diff. Nothing is written to
+        disk yet.
+      </p>
+
+      <h3>request_ai_diff</h3>
+      <p>
+        The MCP counterpart of the right-click <strong>Ask AI</strong> flow. The agent
+        supplies a scoped prompt; Kata routes it through the AI CLI you configured in
+        Preferences and returns the diff. This is how Cursor's own agent can drive
+        Kata's AI diff loop.
+      </p>
+
+      <h3>apply_diff</h3>
+      <p>
+        Applies a unified diff (previously returned by <code>request_refactor</code> or
+        <code>request_ai_diff</code>) to the working tree, and updates the diagram
+        incrementally. Kata rechecks the policy and quality-delta banners before
+        writing.
+      </p>
+
+      <h2>Auth</h2>
+      <p>
+        Kata's MCP server accepts local connections only. There is no bearer token
+        because there is no network exposure — anyone able to reach
+        <code>127.0.0.1</code> already has your user session. If that assumption breaks in
+        your environment (shared machine, container namespaces), close Kata before
+        stepping away.
+      </p>
+      <div class="warn">
+        Kata will refuse to start the MCP server if the machine is currently exposing
+        <code>127.0.0.1</code> to a remote origin (SSH port-forward, some VPN
+        configurations). If you rely on MCP for a headless workflow on such a machine,
+        this is intentional; open an issue if you need a way around it.
+      </div>
+
+      <h2>Configure a client</h2>
+
+      <h3>Claude Code</h3>
+      <p>
+        Add Kata to <code>~/.config/claude-code/mcp.json</code>:
+      </p>
+      <pre>{
+  "mcpServers": {
+    "kata": {
+      "type": "streamable-http",
+      "endpointFile": "%LOCALAPPDATA%/Kata/mcp-endpoint.json"
+    }
+  }
+}</pre>
+      <p>
+        Claude Code auto-discovers the port and reconnects when Kata restarts on a
+        different one.
+      </p>
+
+      <h3>Codex CLI</h3>
+      <p>
+        Codex reads the same endpoint file. Add to <code>~/.codex/mcp.json</code>:
+      </p>
+      <pre>{
+  "servers": [
+    {
+      "name": "kata",
+      "transport": "streamable-http",
+      "discover": "%LOCALAPPDATA%/Kata/mcp-endpoint.json"
+    }
+  ]
+}</pre>
+
+      <h3>Cursor</h3>
+      <p>
+        In Cursor's settings, add an MCP server pointing at the endpoint file. Cursor's
+        agent will list Kata's tools alongside its own, and its refactoring suggestions
+        will route through <code>request_refactor</code> when Kata has a deterministic
+        rewriter for the intent, falling back to <code>request_ai_diff</code> otherwise.
+      </p>
+
+      <h3>Custom / any MCP-compatible tool</h3>
+      <p>
+        Read the endpoint from the JSON file above and open a Streamable HTTP MCP
+        connection. Any client that implements the MCP spec at protocol level will work —
+        Kata's tool schemas are exposed through the standard <code>list_tools</code>
+        handshake.
+      </p>
+
+      <h2>Example round-trip</h2>
+      <p>
+        A minimal agent script that finds the highest-severity smell, asks Kata for a
+        deterministic refactor, and applies the resulting diff:
+      </p>
+      <pre>const smells = await mcp.call("list_smells", { minSeverity: "warning" });
+const top = smells.sort((a, b) =&gt; b.severity - a.severity)[0];
+
+const options = await mcp.call("list_refactorings", { symbol: top.symbol });
+const chosen = options.find(o =&gt; o.name === "Extract Method")
+              ?? options[0];
+
+const diff = await mcp.call("request_refactor", {
+  symbol: top.symbol,
+  intent: chosen.name,
+  parameters: chosen.defaultParameters,
+});
+
+await mcp.call("apply_diff", { diff });</pre>
+      <p>
+        The whole loop lives outside Kata — Kata just answers questions and produces
+        diffs.
+      </p>
+
+      <h2>What crosses the MCP boundary</h2>
+      <ul>
+        <li>The <strong>agent sees</strong>: the smell list, target symbols by FQN and
+            file/line, the requested source snippets (only when it explicitly calls
+            <code>get_smell_detail</code> or <code>request_ai_diff</code>), and the
+            resulting diffs.</li>
+        <li>The <strong>agent does not see</strong>: Kata's internal type index, the full
+            source tree, Preferences, or any file it did not explicitly request through
+            the tool surface.</li>
+        <li>Kata never <em>pushes</em> data at the agent — every byte the agent receives
+            is the result of a call it made.</li>
+      </ul>
+
+      <h2>Troubleshooting</h2>
+
+      <h3>Client can't find Kata's MCP endpoint</h3>
+      <p>
+        Confirm Kata is running and check that
+        <code>%LOCALAPPDATA%\Kata\mcp-endpoint.json</code> exists. It is rewritten every
+        time Kata starts; a stale file after a crash resolves to a dead port.
+      </p>
+
+      <h3>request_refactor returns "intent not applicable"</h3>
+      <p>
+        The intent's preconditions don't hold on the target symbol. Call
+        <code>list_refactorings</code> for that symbol to see what is available.</p>
+
+      <h3>apply_diff reports "diff no longer applies"</h3>
+      <p>
+        The source moved between the diff being generated and the apply call. Regenerate
+        with a fresh <code>request_refactor</code> and try again.
+      </p>
+
+      <h2>Next steps</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/ai-cli.html">
+          <strong>AI CLI setup →</strong>
+          <span>The other half of the loop — Kata driving your CLI.</span>
+        </a></li>
+        <li><a href="/docs/refactorings.html">
+          <strong>Refactoring catalog →</strong>
+          <span>Which intent names to pass to request_refactor.</span>
+        </a></li>
+        <li><a href="/docs/smells.html">
+          <strong>Code smells →</strong>
+          <span>Which categories list_smells will return.</span>
+        </a></li>
+        <li><a href="/docs/faq.html">
+          <strong>FAQ →</strong>
+          <span>Data privacy and licensing questions.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI CLI setup — Kata Docs</title>
+<meta name="description" content="Wire Kata to your own AI CLI — Claude Code, Codex, Cursor, or any MCP-compatible tool. Configure the executable path, verify the round-trip, and understand what data leaves your machine.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/ai-cli.html">
+<meta property="og:title" content="AI CLI setup — Kata Docs">
+<meta property="og:description" content="Wire Kata to your own AI CLI — Claude Code, Codex, Cursor, or any MCP-compatible tool.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/ai-cli.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-ai-diff.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html">Getting Started</a></li>
+        <li><a href="/docs/faq.html">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html" class="current">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">AI integration</p>
+      <h1>Wire Kata to your AI CLI</h1>
+      <p class="subtitle">
+        Kata never asks for its own AI API key. You point it at a local CLI you already
+        use — Claude Code, Codex, Cursor, or any MCP-compatible tool — and Kata drives it
+        on your behalf, with a scoped prompt built from the diagram surface. Your
+        subscription pays. Your privacy terms apply. Kata is not in the middle.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll be able to do</h4>
+        <ul>
+          <li>Recognize which AI CLIs Kata can drive and which transport each one uses.</li>
+          <li>Configure <strong>Preferences → AI CLI</strong> with the executable path,
+              extra arguments, and timeout.</li>
+          <li>Run a round-trip test so you know the wiring works before you rely on it in
+              a real refactor.</li>
+          <li>Diagnose the three failure modes people hit — path wrong, CLI not signed in,
+              MCP transport blocked.</li>
+        </ul>
+      </div>
+
+      <h2>Supported CLIs</h2>
+      <p>
+        Kata talks to CLIs in two ways: as a <strong>shell-out</strong> that returns a
+        unified diff, and over <strong>MCP</strong> (Streamable HTTP) so the CLI can call
+        back into Kata for symbol resolution and smell context.
+      </p>
+      <ul>
+        <li><strong>Claude Code</strong> — shell-out and MCP. Uses your Claude.ai / API
+            subscription.</li>
+        <li><strong>Codex CLI</strong> (OpenAI) — shell-out. Uses your OpenAI
+            subscription.</li>
+        <li><strong>Cursor</strong> — via its CLI / MCP interface. Uses your Cursor
+            subscription.</li>
+        <li><strong>Any MCP-compatible tool</strong> — as long as it can act as an MCP
+            client and read a scoped prompt on stdin, Kata will drive it.</li>
+      </ul>
+      <div class="note">
+        Kata itself is the MCP <em>server</em>. The CLI you configure is the MCP
+        <em>client</em>. This is the opposite of how MCP is often introduced — the
+        motivation is that Kata owns the diagram and the smell index, so the tools worth
+        exposing (find smells, request refactor, apply diff) live on Kata's side.
+      </div>
+
+      <h2>Configure Preferences → AI CLI</h2>
+      <p>
+        Open <strong>Preferences → AI CLI</strong> and fill in three fields per CLI:
+      </p>
+      <ol>
+        <li><strong>Executable path</strong> — the full path to the CLI binary. On
+            Windows this is typically <code>C:\Users\&lt;you&gt;\AppData\Local\Programs\&lt;cli&gt;\bin\&lt;cli&gt;.exe</code>
+            or wherever your installer put it. If the CLI is on your <code>PATH</code>,
+            the executable name alone works.</li>
+        <li><strong>Extra arguments</strong> — anything you want prepended, such as
+            <code>--model claude-opus-4-7</code> for Claude Code. Kata appends the
+            scoped prompt after your arguments.</li>
+        <li><strong>Timeout</strong> — how long Kata will wait for the CLI to return a
+            diff before giving up. Default 120s; raise it for large refactors.</li>
+      </ol>
+      <p>
+        The prompt Kata builds includes: the target class or member, the smell (or the
+        Fowler intent) you asked for, just enough surrounding context to make the diff
+        applyable, and an instruction to return a unified diff — nothing else. This
+        scoping is why the round-trip is fast and why the diff usually applies cleanly.
+      </p>
+
+      <h2>Verify the round-trip</h2>
+      <ol>
+        <li>Still on <strong>Preferences → AI CLI</strong>, click <strong>Test
+            connection</strong>. Kata sends a trivial prompt to the CLI ("return an empty
+            diff") and reports the round-trip time.</li>
+        <li>If it fails, the log panel underneath shows exactly what Kata invoked and what
+            came back — stdout, stderr, exit code. Ninety percent of first-time failures
+            are one of the three cases in the next section.</li>
+        <li>Close Preferences and try
+            <strong>Right-click a 💩 badge → Ask AI</strong> on any smelly node. You
+            should see a unified diff arrive in the AI diff preview dialog within a few
+            seconds.</li>
+      </ol>
+
+      <h2>Data flow — what leaves your machine</h2>
+      <p>
+        When you invoke an AI diff apply, Kata writes a JSON prompt to the CLI's stdin
+        (or the MCP transport, depending on the CLI). That prompt contains:
+      </p>
+      <ul>
+        <li>The <strong>target class or member's source</strong>, verbatim.</li>
+        <li>The <strong>surrounding context Kata deems necessary</strong> — usually
+            immediate callers and callees, plus any types the target depends on.</li>
+        <li>The <strong>smell name</strong> or <strong>Fowler intent</strong> you invoked.</li>
+        <li>An instruction to return a <strong>unified diff</strong> and nothing else.</li>
+      </ul>
+      <p>
+        Once the CLI receives the prompt, wherever it sends it is governed by
+        <em>your</em> agreement with the CLI vendor — Kata is not in the middle. If the
+        CLI runs a local model (some Cursor setups, some MCP-compatible tools), nothing
+        leaves the machine at all.
+      </p>
+
+      <h2>Troubleshooting</h2>
+
+      <h3>"Executable not found"</h3>
+      <p>
+        The path in Preferences doesn't resolve. Check that the file exists at that path
+        from a fresh shell. If the CLI installs into a versioned directory, note that the
+        path changes when the CLI updates.
+      </p>
+
+      <h3>CLI runs but returns "not signed in"</h3>
+      <p>
+        Each CLI has its own auth flow. Run the CLI once from a normal terminal with its
+        login command (<code>claude login</code>, <code>codex login</code>, etc.) so it
+        can cache credentials. Kata inherits the same credential store.
+      </p>
+
+      <h3>Round-trip works once, then times out</h3>
+      <p>
+        Usually the CLI is asking for interactive confirmation (a permission prompt,
+        rate-limit acknowledgment) that a non-interactive stdin cannot answer. Pass the
+        CLI's non-interactive flag through <strong>Extra arguments</strong> — for Claude
+        Code that's <code>--no-interactive</code>; for Codex, <code>--auto-approve</code>.
+      </p>
+
+      <h3>"MCP transport blocked"</h3>
+      <p>
+        MCP over Streamable HTTP needs a local port. If your firewall is aggressive, allow
+        <code>Kata.App.exe</code> to listen on localhost. This is only relevant if the CLI
+        you configured uses MCP; shell-out CLIs are unaffected.
+      </p>
+
+      <h2>Next steps</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/getting-started.html">
+          <strong>Back to Getting Started →</strong>
+          <span>Finish the walkthrough with your first AI diff apply.</span>
+        </a></li>
+        <li><a href="/docs/mcp.html">
+          <strong>MCP API →</strong>
+          <span>Endpoint schema for driving Kata from an external agent.</span>
+        </a></li>
+        <li><a href="/docs/smells.html">
+          <strong>Code smells →</strong>
+          <span>The 💩 badges that feed AI diff apply — what each one means.</span>
+        </a></li>
+        <li><a href="/docs/faq.html">
+          <strong>FAQ →</strong>
+          <span>Data privacy, AI cost, and licensing questions.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

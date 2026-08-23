@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Code smells — Kata Docs</title>
+<meta name="description" content="The 114 code smell detectors Kata surfaces as 💩 badges — 22 Fowler classics, 39 performance, 17 security, 27 idiomatic (Wave R), and 9 derivatives — with threshold overrides and per-category filtering.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/smells.html">
+<meta property="og:title" content="Code smells — Kata Docs">
+<meta property="og:description" content="114 code smell detectors: Fowler classics, performance, security, idiomatic. Grouped, filterable, tunable.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/smells.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-smell-badge.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html">Getting Started</a></li>
+        <li><a href="/docs/faq.html">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html" class="current">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">Features</p>
+      <h1>The 114 code smells Kata detects</h1>
+      <p class="subtitle">
+        Kata's smell index runs across every type Kata loaded and drops 💩 badges right on
+        the class node — sometimes on the header (class-level smells), sometimes on a
+        specific member (method-level smells). Below is what the 114 detectors are looking
+        for, grouped by why they matter.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll be able to do</h4>
+        <ul>
+          <li>Read a 💩 badge and know which category it belongs to, and roughly why the
+              detector fired.</li>
+          <li>Filter the diagram to a single category using the smell toolbar (Fowler
+              only, Perf only, Security only).</li>
+          <li>Override the threshold for detectors that use one (Long Function, Large
+              Class, Data Class), per project or per type.</li>
+          <li>Jump from a badge into the Fowler intent that most commonly fixes it.</li>
+        </ul>
+      </div>
+
+      <h2>How badges appear on the diagram</h2>
+      <ul>
+        <li><strong>Class-level smells</strong> — badge sits on the class header. Examples:
+            God Class, Data Class, Refused Bequest, Feature Envy (class-scoped).</li>
+        <li><strong>Method-level smells</strong> — badge sits next to the method row.
+            Examples: Long Function, Message Chains, Long Parameter List.</li>
+        <li><strong>Rainbow badge</strong> — a member that trips more than one detector
+            gets a rotating rainbow 💩 so it visibly distinguishes from a
+            single-smell one.</li>
+      </ul>
+      <p>
+        Hover a badge to see which detectors fired. Click it for the suggestion panel —
+        which Fowler refactoring typically resolves that smell, and the option to hand it
+        to your AI CLI.
+      </p>
+
+      <h2>Fowler classics (22)</h2>
+      <p>
+        The catalogue from the first chapter of Fowler's <em>Refactoring</em>. Language
+        agnostic; run on every one of Kata's six adapters.
+      </p>
+      <ul>
+        <li><strong>Bloaters</strong> — Long Method, Large Class, Long Parameter List,
+            Data Clumps, Primitive Obsession.</li>
+        <li><strong>Object-Orientation Abusers</strong> — Switch Statements (missing
+            polymorphism), Temporary Field, Refused Bequest, Alternative Classes with
+            Different Interfaces.</li>
+        <li><strong>Change Preventers</strong> — Divergent Change, Shotgun Surgery,
+            Parallel Inheritance Hierarchies.</li>
+        <li><strong>Dispensables</strong> — Comments (as a smell), Duplicate Code, Lazy
+            Class, Data Class, Dead Code, Speculative Generality.</li>
+        <li><strong>Couplers</strong> — Feature Envy, Inappropriate Intimacy, Message
+            Chains, Middle Man.</li>
+      </ul>
+      <p>
+        Every classic maps to at least one Fowler intent — see the
+        <a href="/docs/refactorings.html">Refactoring catalog</a>.
+      </p>
+
+      <h2>Performance smells (39)</h2>
+      <p>
+        Detectors that flag code patterns known to cost measurable performance at scale.
+        Split across four sub-waves; each detector has a deterministic rewriter so the
+        fix is a mechanical edit rather than an AI ask.
+      </p>
+      <ul>
+        <li><strong>Allocation &amp; boxing</strong> — needless boxing on hot paths,
+            LINQ materialization inside loops, string concatenation in a tight loop
+            (Java <code>StringBuilder</code>, C# interpolation), array-vs-<code>List</code>
+            over-allocation.</li>
+        <li><strong>Collection use</strong> — <code>Contains</code> on a list where a
+            set would win, <code>Count()</code> where <code>Any()</code> would do,
+            <code>ToList()</code> right before an <code>IEnumerable</code> parameter.</li>
+        <li><strong>Async / IO</strong> — sync-over-async
+            (<code>.Result</code> / <code>.Wait()</code>), missing
+            <code>ConfigureAwait</code>, blocking IO in a UI context, N+1 IO patterns.</li>
+        <li><strong>Reflection &amp; startup</strong> — reflection in a hot path,
+            per-call type resolution that could be cached, static initializer chains
+            that dominate startup.</li>
+      </ul>
+
+      <h2>Security smells (17)</h2>
+      <p>
+        Detectors from Kata's security wave (waves 1-6 plus phase 2). Each one flags a
+        concrete failure mode with a matching hardening rewriter where the fix is
+        mechanical.
+      </p>
+      <ul>
+        <li><strong>Input handling</strong> — SQL string concatenation, unvalidated
+            deserialization, path traversal via user-supplied filenames, command
+            injection through shell-out.</li>
+        <li><strong>Crypto &amp; secrets</strong> — hardcoded keys, MD5 / SHA-1 for
+            password storage, plaintext PII in logs, missing salt in password hashing.</li>
+        <li><strong>Web &amp; transport</strong> — missing CSRF token on state-changing
+            requests, cookie without <code>HttpOnly</code>, TLS certificate validation
+            disabled, permissive CORS.</li>
+        <li><strong>Access &amp; auth</strong> — controller action without an
+            <code>Authorize</code> attribute, insecure direct object reference,
+            over-broad access modifier on sensitive types.</li>
+      </ul>
+
+      <h2>Idiomatic / language-specific (27, "Wave R")</h2>
+      <p>
+        Detectors that fire because the code fights the grain of its language — code that
+        compiles and runs, but that any veteran reviewer would rewrite. Runs per language
+        because "the grain" is different in each.
+      </p>
+      <ul>
+        <li><strong>Java / Kotlin</strong> — missing <code>@Nullable</code> where the
+            method demonstrably returns null, Java-style getters in Kotlin, mutable
+            <code>var</code> where <code>val</code> would suffice.</li>
+        <li><strong>TypeScript</strong> — <code>any</code> escape hatches, union types
+            silently narrowing to <code>unknown</code>, promise created and dropped.</li>
+        <li><strong>Go</strong> — errors ignored via <code>_</code>, ineffectual assign,
+            missing godoc on exported symbol, receiver method on a value type where a
+            pointer method is called for.</li>
+        <li><strong>C# / C++</strong> — <code>async void</code> outside an event
+            handler, LINQ across a stream that could be a projection, virtual call in a
+            ctor.</li>
+      </ul>
+
+      <h2>Derivatives (9)</h2>
+      <p>
+        Detectors composed of two or more other detectors that share a common cause —
+        surfaced separately so the fix targets the shared cause rather than any one
+        symptom.
+      </p>
+      <ul>
+        <li>Composite God Class (Large Class + Feature Envy + Data Clumps on the same
+            type).</li>
+        <li>Composite Message Chain (Chain length &gt; 3 <em>and</em> both endpoints
+            outside the current class).</li>
+        <li>Composite Reflection Hotspot (reflection + hot-path + cache-miss on the same
+            call site).</li>
+      </ul>
+
+      <h2>Threshold overrides</h2>
+      <p>
+        Detectors with a numeric threshold (Long Function line count, Large Class member
+        count, Data Class field count) can be tuned:
+      </p>
+      <ol>
+        <li><strong>Global</strong> — <strong>Preferences → Smell Thresholds</strong>.
+            Applies to every project you open.</li>
+        <li><strong>Per project</strong> — a <code>.kata/smell-thresholds.json</code>
+            file at the solution root overrides the global values for that project.</li>
+        <li><strong>Per type</strong> — right-click a class → <strong>Override
+            threshold</strong> lets you exempt a specific type. Kata records the override
+            in the same JSON file so it survives reload.</li>
+      </ol>
+
+      <h2>Filter toolbar</h2>
+      <p>
+        The toolbar above the canvas lets you narrow the badges to a single category —
+        Fowler, Perf, Security, Idiomatic, or Derivative. The active toggle lights blue
+        so you can tell which filter is on at a glance. Turning all filters off hides
+        every badge; turning them all on shows every fired detector.
+      </p>
+
+      <h2>Next steps</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/refactorings.html">
+          <strong>Refactoring catalog →</strong>
+          <span>The Fowler intents each smell suggests.</span>
+        </a></li>
+        <li><a href="/docs/ai-cli.html">
+          <strong>AI CLI setup →</strong>
+          <span>Hand a 💩 to your AI CLI when there's no mechanical fix.</span>
+        </a></li>
+        <li><a href="/docs/mcp.html">
+          <strong>MCP API →</strong>
+          <span>Query the smell index from an external agent.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
