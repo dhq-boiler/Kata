@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Getting Started — Kata Docs</title>
+<meta name="description" content="Install Kata, open a real project (.sln, Maven, tsconfig, go.mod), navigate the class diagram, run your first refactor, and run your first AI diff apply — end to end.">
+<meta name="theme-color" content="#232323">
+<link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://kata.dhq-boiler.dev/docs/getting-started.html">
+<meta property="og:title" content="Getting Started — Kata Docs">
+<meta property="og:description" content="Install Kata, open a real project, and run your first refactor and AI diff apply — end to end.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kata.dhq-boiler.dev/docs/getting-started.html">
+<meta property="og:site_name" content="Kata">
+<meta property="og:image" content="https://kata.dhq-boiler.dev/assets/kata-diagram.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/kata-icon.svg" alt="">
+      Kata
+    </a>
+    <nav>
+      <a href="/docs/getting-started.html">Docs</a>
+      <a href="/pro">Pro</a>
+      <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+      <a href="https://github.com/dhq-boiler/Kata/releases">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="docs-shell">
+
+    <aside class="docs-sidebar">
+      <h4>Overview</h4>
+      <ul>
+        <li><a href="/docs/getting-started.html" class="current">Getting Started</a></li>
+        <li><a href="/docs/faq.html">FAQ</a></li>
+      </ul>
+      <h4>Features</h4>
+      <ul>
+        <li><a href="/docs/refactorings.html">Refactoring catalog</a></li>
+        <li><a href="/docs/smells.html">Code smells</a></li>
+      </ul>
+      <h4>AI integration</h4>
+      <ul>
+        <li><a href="/docs/ai-cli.html">AI CLI setup</a></li>
+        <li><a href="/docs/mcp.html">MCP API</a></li>
+      </ul>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/pro">Pro edition</a></li>
+        <li><a href="https://github.com/dhq-boiler/Kata">GitHub repo</a></li>
+      </ul>
+    </aside>
+
+    <article class="docs-main">
+
+      <p class="kicker">Getting Started</p>
+      <h1>Get Kata running on your codebase</h1>
+      <p class="subtitle">
+        A one-sitting walkthrough from a fresh install to a first refactor driven by your
+        AI CLI. Everything below runs on the free Community edition — no Pro license
+        needed to complete the tour.
+      </p>
+
+      <div class="outcomes">
+        <h4>What you'll be able to do</h4>
+        <ul>
+          <li>Install Kata Community (installer or portable ZIP) on Windows.</li>
+          <li>Open a real project — <code>.sln</code>, <code>.slnx</code>, Maven / Gradle,
+              <code>tsconfig.json</code>, or <code>go.mod</code> — and see it rendered as an
+              interactive class diagram.</li>
+          <li>Navigate the diagram — pan, zoom, and Ctrl+Click a member to jump to its
+              source across language boundaries.</li>
+          <li>Run your first Fowler refactoring (Rename) from the diagram, preview the
+              diff, and apply it back to the code.</li>
+          <li>Hand a 💩 code-smell badge to your own AI CLI, review the returned diff, and
+              apply it — all without leaving the diagram.</li>
+        </ul>
+      </div>
+
+      <h2>1. Install Kata</h2>
+      <p>
+        Kata Community is a Windows desktop app distributed through GitHub Releases. Two
+        download shapes are available and both are free.
+      </p>
+
+      <h3>Setup installer (recommended)</h3>
+      <ul>
+        <li>Grab <a href="https://github.com/dhq-boiler/Kata/releases/latest/download/Kata-win-Setup.exe">Kata-win-Setup.exe</a>
+            from the latest release.</li>
+        <li>Run it. The installer places Kata under your local app data and registers it
+            in the Start menu.</li>
+        <li>Updates are handled by Velopack — when a new release lands, Kata offers to
+            update itself in place.</li>
+      </ul>
+
+      <h3>Portable ZIP</h3>
+      <ul>
+        <li>Grab <code>Kata-win-Portable.zip</code> from the same release and extract it
+            anywhere.</li>
+        <li>Run <code>Kata.App.exe</code> from the extracted folder. Nothing is written
+            outside that folder — good for USB / restricted machines.</li>
+        <li>Updates require re-downloading the newer ZIP.</li>
+      </ul>
+
+      <div class="note">
+        <strong>System requirements:</strong> Windows 10 (build 19041+) or Windows 11.
+        The .NET 8 runtime is bundled — you do not need to install anything else.
+      </div>
+
+      <h2>2. Open your first project</h2>
+      <p>
+        Launch Kata and choose <strong>File → Open Solution</strong>. Kata's project loader
+        will pick the right adapter based on the file you point it at:
+      </p>
+      <ul>
+        <li><strong>C# / C++/CLI</strong> — <code>.sln</code> or <code>.slnx</code></li>
+        <li><strong>Java</strong> — Maven <code>pom.xml</code> or Gradle
+            <code>build.gradle</code> / <code>settings.gradle</code></li>
+        <li><strong>Kotlin</strong> — Gradle Kotlin DSL
+            (<code>build.gradle.kts</code> / <code>settings.gradle.kts</code>)</li>
+        <li><strong>TypeScript</strong> — <code>tsconfig.json</code></li>
+        <li><strong>Go</strong> — <code>go.mod</code></li>
+      </ul>
+      <p>
+        Once loaded, Kata builds a symbol index, groups types by namespace / package, and
+        renders the diagram. On large solutions (thousands of types) the scale gate picks
+        the largest namespace that fits under the layout budget as the entry view — swap
+        namespaces from the ComboBox above the canvas to explore the rest.
+      </p>
+      <div class="note">
+        First load of a large solution runs the full indexer, so it takes a moment.
+        Subsequent reloads are incremental and typically complete in under a second.
+      </div>
+
+      <h2>3. Navigate the diagram</h2>
+      <ul>
+        <li><strong>Pan</strong> — right-drag or middle-drag the empty canvas.</li>
+        <li><strong>Zoom</strong> — mouse wheel over the canvas.</li>
+        <li><strong>Select a class</strong> — click its header. The Code Viewer pane docks
+            on the right and follows your selection.</li>
+        <li><strong>Ctrl+Click a member</strong> — jumps to the definition. This works
+            across language boundaries: C# ↔ C++/CLI, TypeScript type ↔ implementation,
+            Kotlin ↔ Java.</li>
+        <li><strong>Namespace ComboBox</strong> (top of the canvas) — switch the visible
+            namespace when the solution is too big to lay out whole.</li>
+      </ul>
+
+      <h2>4. Do your first refactor</h2>
+      <p>
+        The simplest Fowler intent to try first is <strong>Rename</strong>.
+      </p>
+      <ol>
+        <li>Right-click any class or member in the diagram and choose
+            <strong>Rename</strong>.</li>
+        <li>Type the new name in the dialog. Kata resolves every reference across the
+            solution — including cross-language ones where applicable — and shows how many
+            call sites will change.</li>
+        <li>Click <strong>Preview</strong>. Kata surfaces a unified diff of every file it
+            will edit.</li>
+        <li>Click <strong>Apply</strong>. Kata writes the changes to disk and updates the
+            diagram incrementally — no full reload.</li>
+      </ol>
+      <p>
+        The same pattern works for every Fowler intent Kata ships — Extract Method /
+        Interface / Superclass, Move Method, Convert Procedural to Objects, and 25+ more.
+        See the <a href="/docs/refactorings.html">Refactoring catalog</a> for the full list.
+      </p>
+
+      <h2>5. Do your first AI diff apply</h2>
+      <p>
+        This is where Kata's AI-native workflow shines: instead of copy-pasting classes
+        into a chat, you hand the AI a scoped intent from the diagram surface.
+      </p>
+      <ol>
+        <li>Point Kata at your own AI CLI once —
+            <strong>Preferences → AI CLI</strong>. Kata supports Claude Code, Codex, Cursor,
+            and any MCP-compatible tool. Full setup details are on the
+            <a href="/docs/ai-cli.html">AI CLI setup</a> page.</li>
+        <li>Find a 💩 smell badge on any node in the diagram. Right-click it and choose
+            <strong>Ask AI</strong>.</li>
+        <li>Kata builds a scoped prompt containing the class, the smell, and just enough
+            surrounding context, then invokes your local CLI. No API charge — you're using
+            your own subscription.</li>
+        <li>Review the returned <strong>unified diff</strong>. Two banners above the diff
+            show the policy check (nothing dangerous slipped in?) and the quality delta
+            (does this actually reduce the smell?).</li>
+        <li>Click <strong>Apply</strong>. The diagram updates incrementally, the 💩
+            recomputes, and you see whether the fix took.</li>
+      </ol>
+      <div class="warn">
+        Community edition includes 10 AI diff applies per month. Pro removes the cap —
+        see <a href="/pro">Kata Pro</a>.
+      </div>
+
+      <h2>Next steps</h2>
+      <ul class="next-steps">
+        <li><a href="/docs/ai-cli.html">
+          <strong>AI CLI setup →</strong>
+          <span>Wire Claude Code, Codex, Cursor, or your MCP-compatible tool.</span>
+        </a></li>
+        <li><a href="/docs/refactorings.html">
+          <strong>Refactoring catalog →</strong>
+          <span>All 30+ Fowler intents Kata drives from the diagram.</span>
+        </a></li>
+        <li><a href="/docs/smells.html">
+          <strong>Code smells →</strong>
+          <span>The 114 detectors that put 💩 badges on your diagram.</span>
+        </a></li>
+        <li><a href="/docs/mcp.html">
+          <strong>MCP API →</strong>
+          <span>Drive Kata refactorings from an external AI agent.</span>
+        </a></li>
+        <li><a href="/docs/faq.html">
+          <strong>FAQ →</strong>
+          <span>Pro vs Community, licensing, data privacy, updates.</span>
+        </a></li>
+      </ul>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Kata © 2026 dhq_boiler</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/dhq-boiler/Kata">GitHub</a>
+    <a href="https://github.com/dhq-boiler/Kata/blob/main/LICENSE">License (PolyForm NC)</a>
+    <a href="mailto:dhq_boiler@live.jp">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
