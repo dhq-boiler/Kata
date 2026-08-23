@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kata — AI-collaborative UML class diagram editor for real codebases</title>
-<meta name="description" content="Kata reads your real project — C#, C++/CLI, Java, Kotlin, TypeScript, and Go — renders it as an interactive class diagram, detects 114 code smells, and hands each one to your own Claude Code or Codex CLI as a scoped refactor. Scales to 21,000+ type solutions. Community edition is free and open-source.">
+<meta name="description" content="Kata reads your real project — C#, C++/CLI, Java, Kotlin, TypeScript, and Go — renders it as an interactive class diagram, detects 114 code smells, and hands each one to your own AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible tool) as a scoped refactor. Scales to 21,000+ type solutions. Community edition is free and open-source.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
@@ -31,7 +31,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Kata",
-  "description": "AI-collaborative UML class diagram editor for real codebases. Reads .sln / .slnx / Maven / Gradle / tsconfig / go.mod across six languages, renders an interactive class diagram, detects 114 code smells, and drives 30+ Fowler refactorings — including AI-diff apply through your own Claude Code or Codex CLI. Scales to 21,000+ type solutions.",
+  "description": "AI-collaborative UML class diagram editor for real codebases. Reads .sln / .slnx / Maven / Gradle / tsconfig / go.mod across six languages, renders an interactive class diagram, detects 114 code smells, and drives 30+ Fowler refactorings — including AI-diff apply through your own AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible tool). Scales to 21,000+ type solutions.",
   "url": "https://kata.dhq-boiler.dev/",
   "image": "https://kata.dhq-boiler.dev/assets/kata-diagram.png",
   "applicationCategory": "DeveloperApplication",
@@ -98,12 +98,13 @@
 
 <section class="hero">
   <div class="wrap">
-    <h1>Point Claude at your codebase.<br>Not a fragment of it.</h1>
+    <h1>Point your AI at your codebase.<br>Not a fragment of it.</h1>
     <p class="lead">
       Kata reads your real solution — up to 21,000+ types across six languages — as a live
-      class diagram. Spot the smells, hand each one to your own Claude Code or Codex CLI as a
-      scoped refactor, preview the diff, apply from the diagram. The source moves. No
-      copy-paste roundtrip, no context you have to reconstruct by hand.
+      class diagram. Spot the smells, hand each one to your own AI CLI (Claude Code, Codex,
+      Cursor, or any MCP-compatible tool) as a scoped refactor, preview the diff, apply from
+      the diagram. The source moves. No copy-paste roundtrip, no context you have to
+      reconstruct by hand.
     </p>
     <ul class="proof-strip">
       <li><strong>6</strong> languages</li>
@@ -159,15 +160,15 @@
       </div>
       <div class="feature">
         <h3>Ask AI, preview the diff, apply from the diagram</h3>
-        <p>Right-click a 💩 → hand it to Claude / Codex with the surrounding context already
+        <p>Right-click a 💩 → hand it to your AI CLI with the surrounding context already
           scoped → get a unified diff → check the policy and quality-delta banners → apply.
           The diagram updates incrementally, no full sln reload.</p>
       </div>
       <div class="feature">
         <h3>Your AI subscription — no middleman fee</h3>
-        <p>Kata never adds an API charge on top. It invokes your local
-          Claude Code / Codex CLI, so you keep control of the model, the cost, and which
-          bytes of your code leave the machine.</p>
+        <p>Kata never adds an API charge on top. It invokes your local AI CLI —
+          Claude Code, Codex, Cursor, or any MCP-compatible tool — so you keep control of
+          the model, the cost, and which bytes of your code leave the machine.</p>
       </div>
       <div class="feature">
         <h3>Runs at real-codebase scale</h3>
@@ -216,8 +217,8 @@
         <figcaption><strong>Refactor dialogs</strong> — Rename, Extract Interface / Superclass / Class, Add Ghost Type, and 25+ more, driven from the diagram surface.</figcaption>
       </figure>
       <figure>
-        <img src="/assets/kata-ai-diff.png" alt="Kata AI diff preview dialog — Claude-generated unified diff for MainWindowViewModel.cs, with policy check and quality delta banners above the diff and Apply / Reject / Export buttons below." loading="lazy">
-        <figcaption><strong>AI diff preview</strong> — click a 💩, ask Claude or Codex, get a real diff with policy check and quality delta before you apply.</figcaption>
+        <img src="/assets/kata-ai-diff.png" alt="Kata AI diff preview dialog — AI-generated unified diff for MainWindowViewModel.cs, with policy check and quality delta banners above the diff and Apply / Reject / Export buttons below." loading="lazy">
+        <figcaption><strong>AI diff preview</strong> — click a 💩, ask your AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible tool), get a real diff with policy check and quality delta before you apply.</figcaption>
       </figure>
       <figure>
         <img src="/assets/kata-code-viewer.png" alt="Kata with the code viewer pane docked to the right, showing a member's source with breadcrumb and Find References button." loading="lazy">
