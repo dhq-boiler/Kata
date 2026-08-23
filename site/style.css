@@ -122,6 +122,29 @@ footer.site .spacer { flex: 1; }
   justify-content: center;
   flex-wrap: wrap;
 }
+.hero .proof-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 14px;
+  margin: 0 auto 32px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.88rem;
+  max-width: 780px;
+}
+.hero .proof-strip li {
+  padding: 5px 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.hero .proof-strip li strong {
+  color: var(--text);
+  font-weight: 700;
+}
 .hero-shot {
   margin: 48px auto 0;
   max-width: 100%;

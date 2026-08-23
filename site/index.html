@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kata — AI-collaborative UML class diagram editor for real codebases</title>
-<meta name="description" content="Kata reads your real project — C#, C++/CLI, Java, and TypeScript — renders it as an interactive class diagram, detects smells, and drives Fowler-catalog refactorings with AI assistance. Scales to 20k-type solutions. Community edition is free and open-source.">
+<meta name="description" content="Kata reads your real project — C#, C++/CLI, Java, Kotlin, TypeScript, and Go — renders it as an interactive class diagram, detects 114 code smells, and hands each one to your own Claude Code or Codex CLI as a scoped refactor. Scales to 21,000+ type solutions. Community edition is free and open-source.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
@@ -31,7 +31,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Kata",
-  "description": "AI-collaborative UML class diagram editor for real codebases. Reads .sln / .slnx / Maven / Gradle / tsconfig, renders an interactive class diagram, detects 24 Fowler code smells, and drives 30+ Fowler refactorings — including AI-diff apply through your own Claude Code or Codex CLI.",
+  "description": "AI-collaborative UML class diagram editor for real codebases. Reads .sln / .slnx / Maven / Gradle / tsconfig / go.mod across six languages, renders an interactive class diagram, detects 114 code smells, and drives 30+ Fowler refactorings — including AI-diff apply through your own Claude Code or Codex CLI. Scales to 21,000+ type solutions.",
   "url": "https://kata.dhq-boiler.dev/",
   "image": "https://kata.dhq-boiler.dev/assets/kata-diagram.png",
   "applicationCategory": "DeveloperApplication",
@@ -98,13 +98,20 @@
 
 <section class="hero">
   <div class="wrap">
-    <h1>UML class diagrams that <em>are</em> the code.</h1>
+    <h1>Point Claude at your codebase.<br>Not a fragment of it.</h1>
     <p class="lead">
-      Kata reads your solution directly, renders it as an interactive class diagram,
-      detects code smells, and drives whole refactorings — Fowler catalog plus your own
-      AI-assisted intents — right from the diagram surface. Changes flow back into the
-      source, so the diagram stays a live view of the code, not a static picture.
+      Kata reads your real solution — up to 21,000+ types across six languages — as a live
+      class diagram. Spot the smells, hand each one to your own Claude Code or Codex CLI as a
+      scoped refactor, preview the diff, apply from the diagram. The source moves. No
+      copy-paste roundtrip, no context you have to reconstruct by hand.
     </p>
+    <ul class="proof-strip">
+      <li><strong>6</strong> languages</li>
+      <li><strong>21k+</strong> types indexed</li>
+      <li><strong>30+</strong> Fowler refactorings</li>
+      <li><strong>114</strong> code smells</li>
+      <li>Your AI subscription · <strong>no middleman fee</strong></li>
+    </ul>
     <div class="ctas">
       <a class="btn primary" href="https://github.com/dhq-boiler/Kata/releases/latest/download/Kata-win-Setup.exe">Download Kata for Windows</a>
       <a class="btn secondary" href="/pro">Get Kata Pro →</a>
@@ -118,49 +125,56 @@
 
 <section>
   <div class="wrap">
-    <h2>What it does</h2>
+    <h2>What Kata changes about your day</h2>
     <div class="feature-grid">
       <div class="feature">
-        <h3>Live class diagram</h3>
-        <p>Opens a real <code>.sln</code> or <code>.slnx</code> — no
-          hand-drawn boxes. Sugiyama layout, namespace clusters, MSAGL rectilinear
-          edges with proper extends/implements labels.</p>
+        <h3>Read a codebase you've never touched</h3>
+        <p>Open a real <code>.sln</code>, Maven / Gradle project, <code>tsconfig.json</code>,
+          or <code>go.mod</code> and get an interactive map — Sugiyama layout, namespace
+          clusters, extends / implements edges. You navigate the code before you read it.</p>
       </div>
       <div class="feature">
-        <h3>Cross-language Ctrl+Click</h3>
-        <p>Jumps from a member name to its definition across C# ↔ C++/CLI
-          boundaries. Custom C++/CLI parser + Roslyn hybrid resolver.</p>
+        <h3>Follow a call across language boundaries</h3>
+        <p>Ctrl+Click a member and jump to its definition — even across C# ↔ C++/CLI,
+          TypeScript ↔ types, and Kotlin ↔ Java. Custom parsers per language plus a Roslyn
+          hybrid resolver stitch the graph together.</p>
       </div>
       <div class="feature">
-        <h3>Four languages, one diagram</h3>
-        <p>C# (Roslyn), C++/CLI (custom parser), Java, and TypeScript —
-          each with its own project loader, symbol resolver, and smell
-          detectors. Mix them in one solution and Kata lays them out
-          together.</p>
+        <h3>Six languages, one diagram</h3>
+        <p>C# (Roslyn), C++/CLI (custom parser), Java, Kotlin, TypeScript, and Go — each with
+          its own project loader, symbol resolver, and smell detectors. Mix them in one
+          solution and Kata lays them out together.</p>
       </div>
       <div class="feature">
-        <h3>Fowler refactoring catalog</h3>
-        <p>Extract Method / Interface / Superclass / Hierarchy, Rename,
-          Move Method, Convert Procedural to Objects — over 30 refactorings,
-          each surfaced on the diagram <em>and</em> callable via MCP so external
-          AI agents can drive them.</p>
+        <h3>Refactor from the diagram surface</h3>
+        <p>Extract Method / Interface / Superclass / Hierarchy, Rename, Move Method, Convert
+          Procedural to Objects — over 30 Fowler intents, invoked on the node you're looking
+          at. The same intents are exposed over MCP so external AI agents can drive them.</p>
       </div>
       <div class="feature">
-        <h3>Code smell analyzer</h3>
-        <p>24 Fowler smells — Large Class, Long Function, Data Clumps,
-          Feature Envy, Message Chains, and friends — badged as
-          💩 right on the class node.</p>
+        <h3>See the smells before you dig</h3>
+        <p>114 smell detectors — Fowler classics (God Class, Long Function, Feature Envy,
+          Message Chains) plus performance, security, and idiomatic wave R checks — surface
+          as 💩 badges right on the class node so you know where to look.</p>
       </div>
       <div class="feature">
-        <h3>AI diff apply</h3>
-        <p>Right-click a smell → ask Claude / Codex → get a unified diff →
-          preview → apply. The diagram adapter updates incrementally, no
-          full sln reload.</p>
+        <h3>Ask AI, preview the diff, apply from the diagram</h3>
+        <p>Right-click a 💩 → hand it to Claude / Codex with the surrounding context already
+          scoped → get a unified diff → check the policy and quality-delta banners → apply.
+          The diagram updates incrementally, no full sln reload.</p>
       </div>
       <div class="feature">
-        <h3>Uses your own AI subscription</h3>
-        <p>No API fee on top of the app. Kata invokes your local
-          Claude Code / Codex CLI. You control the model and the cost.</p>
+        <h3>Your AI subscription — no middleman fee</h3>
+        <p>Kata never adds an API charge on top. It invokes your local
+          Claude Code / Codex CLI, so you keep control of the model, the cost, and which
+          bytes of your code leave the machine.</p>
+      </div>
+      <div class="feature">
+        <h3>Runs at real-codebase scale</h3>
+        <p>Verified on VSCode's <code>src/tsconfig.json</code> — 21,464 types indexed, cold
+          render 12.5&nbsp;s, incremental reloads under a second. When the whole graph is too
+          big to lay out, Kata's scale gate picks the largest namespace that fits and lets
+          you swap views from the top ComboBox.</p>
       </div>
     </div>
   </div>
