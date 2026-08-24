@@ -74,21 +74,29 @@ useful form of contribution right now.
 
 ## Community vs Pro
 
-|                    | **Community** (this repo) | **Pro** ([kata.dhq-boiler.dev/pro](https://kata.dhq-boiler.dev/pro)) |
-| :----------------- | :------------------------ | :------------------------------------------------------------------- |
-| License            | PolyForm NC (source-available, free for noncommercial use) | Commercial (proprietary plugin) |
-| Editor / diagram   | ✅ full                   | ✅ same base                                                         |
-| Refactorings       | ✅ Fowler catalog         | ✅ + Team Collab (planned)                                           |
-| Code smell badges  | ✅ 24 smells              | ✅ same                                                              |
-| MCP server         | ✅ full 75+ tools         | ✅ same                                                              |
-| AI diff apply      | ✅ **10 uses / month**    | ✅ unlimited                                                         |
-| License upgrade    | —                          | Drop `Kata.App.Pro.dll` next to `Kata.App.exe` + enter key           |
-| Pricing            | Free                       | $49 buyout / $150 seat·yr / $290 Business seat·yr                    |
+|                                      | **Community** (this repo)                                    | **Pro** ([kata.dhq-boiler.dev/pro](https://kata.dhq-boiler.dev/pro)) |
+| :----------------------------------- | :----------------------------------------------------------- | :------------------------------------------------------------------- |
+| License                              | PolyForm NC (source-available, free for noncommercial use)   | Commercial (proprietary plugin)                                       |
+| Editor / class diagram / smell badges (114) | ✅ full viewer                                        | ✅ same base                                                         |
+| MCP server — read-only tools         | ✅ list / get / view smells / policy / perf                  | ✅ same                                                              |
+| View proposed refactors (diff preview) | ✅                                                         | ✅                                                                   |
+| **Apply refactors** (30+ Fowler)     | ★ 14-day free trial, then view-only                          | ✅ unlimited                                                         |
+| **Cross-language find refs / rename** | ★ 14-day free trial, then view-only                         | ✅ unlimited                                                         |
+| **AI diff apply** (bring your own AI CLI) | ★ 14-day free trial, then view-only                     | ✅ unlimited                                                         |
+| **Governance report export**         | ★ 14-day free trial, then view-only                          | ✅ unlimited                                                         |
+| License upgrade                      | —                                                            | Paste key in Preferences → Pro; Pro DLL auto-downloads via Pro channel |
+| Pricing                              | Free                                                         | $49 buyout / $150 seat·yr / $290 Business seat·yr                    |
+
+★ The **14-day free trial** starts on the first Pro feature use — no signup, no
+card, no manual install. Everything Pro does works identically during the trial.
+After the trial, Community stays a full viewer forever. Upgrade any time to
+keep applying.
 
 Community is the same binary customers install; Pro is a small plugin DLL that
-the Community loader picks up when a valid license key is present. There is
-no separate installer. AI cost is on the user's own Claude / Codex subscription
-either way — the Community monthly cap is a *value* gate, not a cost gate.
+Kata auto-downloads from the license-verified Pro channel
+(`kata.dhq-boiler.dev/pro-updates/`) once a valid Pro license key is present.
+There is no separate installer, no manual DLL drop. AI cost is on the user's
+own Claude / Codex subscription either way — Pro adds no per-request markup.
 
 ## Building
 

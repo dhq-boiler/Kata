@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kata Pro — Unlimited AI-assisted refactoring for real codebases</title>
-<meta name="description" content="Kata Pro unlocks the monthly AI cap in Kata Community and grants commercial-use rights. $49 buyout for Individual, $150/seat/year Team, $290/seat/year Business.">
+<meta name="description" content="Kata Pro unlocks apply refactor + AI diff + cross-language rename + governance report on top of the free viewer. Every Pro feature starts with a 14-day free trial — no signup, no card. $49 buyout for Individual, $150/seat/year Team, $290/seat/year Business.">
 <meta name="theme-color" content="#232323">
 <link rel="icon" type="image/svg+xml" href="/kata-icon.svg">
 <link rel="stylesheet" href="/style.css">
@@ -29,7 +29,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Kata Pro",
-  "description": "Kata Pro unlocks the monthly AI cap in Kata Community and grants commercial-use rights. Loaded as a plugin DLL on top of Community. No per-request AI markup — uses your own AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible tool).",
+  "description": "Kata Pro unlocks apply refactor + AI diff apply + cross-language find refs / rename + governance report on top of the free viewer. Auto-delivered as a plugin DLL via the license-verified Pro channel (kata.dhq-boiler.dev). 14-day free trial for every Pro feature — no signup, no card. No per-request AI markup — uses your own AI CLI (Claude Code, Codex, Cursor, or any MCP-compatible tool).",
   "url": "https://kata.dhq-boiler.dev/pro",
   "image": "https://kata.dhq-boiler.dev/assets/kata-ai-diff.png",
   "category": "DeveloperApplication",
@@ -101,8 +101,9 @@
   <div class="wrap">
     <h1>Kata Pro</h1>
     <p class="lead">
-      Unlock unlimited AI-assisted refactoring in Kata, plus commercial-use rights and
-      early access to the upcoming Team Collab features. One-time buyout or annual seat.
+      Unlock apply refactor, AI diff apply, cross-language find refs / rename, and
+      governance report export on top of the free viewer. Every Pro feature starts with a
+      <strong>14-day free trial</strong> — no signup, no card. One-time buyout or annual seat.
       Your own AI CLI subscription pays the AI cost — Pro has no per-request markup.
     </p>
     <div class="ctas">
@@ -125,13 +126,38 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>AI diff apply</strong></td>
-          <td>10 uses per month</td>
+          <td>Editor / class diagram / smell badges (114 detectors)</td>
+          <td class="yes">Full viewer</td>
+          <td class="yes">Same base</td>
+        </tr>
+        <tr>
+          <td>View proposed refactors (diff preview only)</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+        </tr>
+        <tr>
+          <td><strong>Apply refactors</strong> (30+ Fowler)</td>
+          <td>★ 14-day free trial, then view-only</td>
+          <td class="yes">Unlimited</td>
+        </tr>
+        <tr>
+          <td><strong>Cross-language find refs / rename</strong></td>
+          <td>★ 14-day free trial, then view-only</td>
+          <td class="yes">Unlimited</td>
+        </tr>
+        <tr>
+          <td><strong>AI diff apply</strong> (bring your own AI CLI)</td>
+          <td>★ 14-day free trial, then view-only</td>
+          <td class="yes">Unlimited</td>
+        </tr>
+        <tr>
+          <td><strong>Governance report export</strong></td>
+          <td>★ 14-day free trial, then view-only</td>
           <td class="yes">Unlimited</td>
         </tr>
         <tr>
           <td><strong>AI Puppet Mode</strong> (MCP-driven UI takeover)</td>
-          <td class="no">Change sets only — no UI takeover</td>
+          <td>★ 14-day free trial, then view-only</td>
           <td class="yes">Full: dialogs auto-open, params typewriter-fill, OK auto-click</td>
         </tr>
         <tr>
@@ -145,11 +171,6 @@
           <td class="yes">Permitted</td>
         </tr>
         <tr>
-          <td>Editor / diagram / refactorings / smell badges</td>
-          <td class="yes">Full</td>
-          <td class="yes">Same base</td>
-        </tr>
-        <tr>
           <td>License</td>
           <td>PolyForm Noncommercial (source-available)</td>
           <td>Proprietary plugin</td>
@@ -157,10 +178,11 @@
       </tbody>
     </table>
     <div class="callout">
-      Pro is a small plugin DLL that loads on top of Community. You install
-      Kata Community once, drop <code>Kata.App.Pro.dll</code> next to
-      <code>Kata.App.exe</code>, and enter your key in Preferences → Pro.
-      No separate installer, no re-download.
+      Pro is a small plugin DLL that Kata auto-downloads from the license-verified
+      Pro channel (<code>kata.dhq-boiler.dev/pro-updates/</code>) once you paste your
+      key in Preferences → Pro. No manual DLL drop, no separate installer. The 14-day
+      free trial gives you the same Pro-DLL experience with zero setup — it only asks
+      you to buy once the trial ends.
     </div>
   </div>
 </section>
@@ -221,19 +243,21 @@
     <h2>How activation works</h2>
     <div class="steps">
       <div class="step">
+        <h3>Try first</h3>
+        <p>Install Kata Community, use any Pro feature — the 14-day free trial
+          starts automatically. No signup, no card. Everything Pro does works
+          identically during the trial.</p>
+      </div>
+      <div class="step">
         <h3>Purchase</h3>
         <p>Complete checkout on Lemon Squeezy. You'll receive an email with
-          your license key and a link to <code>Kata.App.Pro.dll</code>.</p>
+          your license key (a single <code>KATA-PRO-…</code> string).</p>
       </div>
       <div class="step">
-        <h3>Drop the DLL</h3>
-        <p>Place <code>Kata.App.Pro.dll</code> in the same folder as
-          <code>Kata.App.exe</code> (Community edition). No installer.</p>
-      </div>
-      <div class="step">
-        <h3>Enter key + restart</h3>
-        <p>Open Preferences → Pro, paste your key, save, and restart Kata.
-          The Pro loader picks up the plugin on startup.</p>
+        <h3>Paste key</h3>
+        <p>Open Preferences → Pro, paste your key, click <em>Verify &amp; Activate</em>.
+          Kata auto-downloads <code>Kata.App.Pro.dll</code> from the license-verified
+          Pro channel on next launch — no manual DLL drop.</p>
       </div>
     </div>
   </div>
@@ -246,8 +270,10 @@
       <div class="feature">
         <h3>Do I need to buy Pro to use Kata?</h3>
         <p>No. Kata Community is free and open-source (PolyForm Noncommercial)
-          and has the full editor, refactoring catalog, and smell analyzer.
-          Pro removes the monthly AI cap and grants commercial-use rights.</p>
+          and stays a full viewer forever — editor, class diagram, 114 smell detectors,
+          diff preview. Every Pro feature (apply refactor, AI diff, cross-language
+          rename, governance report) starts with a <strong>14-day free trial</strong> —
+          no signup, no card. After the trial, upgrade to keep applying.</p>
       </div>
       <div class="feature">
         <h3>Do I pay for AI on top of the license?</h3>
@@ -262,9 +288,10 @@
       </div>
       <div class="feature">
         <h3>What if I go offline?</h3>
-        <p>The Pro plugin caches your validation for 7 days without any network
-          check and up to 30 days with a warning. Beyond 30 days offline, you
-          need to reconnect once to revalidate.</p>
+        <p>The license key is Ed25519-signed and verified locally — no network
+          check needed to use Pro features once the key is on disk. Only the
+          initial Pro DLL download and updates need internet (verified through
+          the license-authenticated Pro channel).</p>
       </div>
       <div class="feature">
         <h3>Refunds?</h3>
