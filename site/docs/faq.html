@@ -130,15 +130,16 @@
             hands it to <em>your</em> AI CLI. Whatever privacy terms your AI vendor offers
             apply — Kata is not in the middle.</li>
         <li>Kata never phones home with your source. It talks to GitHub only for update
-            checks, and to your license server only during activation.</li>
+            checks, and to the license server for activation and periodic license-status checks.</li>
       </ul>
 
       <h3>Can I use Kata fully offline?</h3>
       <p>
         The editor and all 30+ Fowler refactorings run offline. The AI diff apply flow
         requires whatever connectivity your chosen AI CLI needs. License activation is
-        online; once activated, Pro will keep running offline for the grace window
-        configured on the license.
+        online. In Kata 2.1.11 and later, signed Pro licenses are checked while connected.
+        Pro works offline for up to seven days after the last successful check, capped
+        by the license expiry. A full refund revokes access; partial refunds do not.
       </p>
 
       <h2>Installation &amp; updates</h2>
